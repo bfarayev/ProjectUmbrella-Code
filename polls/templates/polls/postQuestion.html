@@ -1,0 +1,47 @@
+<html>
+<head>
+<script type="text/javascript">
+function empty() {
+    var q,c1,c2,c3;
+
+    // Get the value of the input field with id="numb"
+    q = document.getElementById("Question").value;
+    c1= document.getElementById("Choice1").value;
+    c2= document.getElementById("Choice2").value;
+    c3= document.getElementById("Choice3").value;
+    // If x is Not a Number or less than one or greater than 10
+    //
+    try {
+        if(q==''||c1==''||c2==''||c3=='')
+     {
+        alert("plz fill all blacks")
+        return false
+
+    } else {
+        return true
+    }}
+    catch(err){
+        message.innerHTML="Input is "+err;
+    }
+}
+</script>
+
+</head>
+<body>
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+    <form method="post" name="postQuestion" action="{% url 'polls:postQ' %}"
+          >
+        {% csrf_token %}
+        The Question:
+        <input type="text" name="Question" id="Question"><br>
+        The Choices 1:
+        <input type="text" name="Choice1" id="Choice1"><br>
+        The Choices 2:
+        <input type="text" name="Choice2" id="Choice2"><br>
+        The Choices 3:
+        <input type="text" name="Choice3" id="Choice3"><br>
+
+        <input type="submit" onclick="return empty()" value="submit" name="submit">
+    </form>
+</body>
+</html>
