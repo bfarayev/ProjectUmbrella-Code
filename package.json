@@ -1,0 +1,24 @@
+{
+  "name": "project-umbrella-code",
+  "version": "1.0.0",
+  "description": "A web app for posting geo-tagged messages",
+  "main": "index.js",
+  "dependencies": {
+    "bower": "^1.7.9",
+    "bootstrap": "^3.3.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bfarayev/ProjectUmbrella-Code.git"
+  },
+  "author": "austyn guo <austynguo@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bfarayev/ProjectUmbrella-Code/issues"
+  },
+  "homepage": "https://github.com/bfarayev/ProjectUmbrella-Code#readme"
+}
