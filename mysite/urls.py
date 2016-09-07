@@ -21,6 +21,7 @@ urlpatterns = [
     #url(r'^$', views.applist.as_view(),name='applist'),
     url(r'^polls/', include('polls.urls')),
     url(r'^admin/', admin.site.urls),
-    url(r'^posts/',include('posts.urls')),
+    url(r'^posts/', include('posts.urls')),
+    url(r'^', include('umbrella.urls')) # Runs the umbrella app from the root web directory
   #  url(r'^accounts/', include('registration.backends.hmac.urls')),
 ]
