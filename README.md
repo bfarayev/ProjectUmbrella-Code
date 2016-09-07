@@ -7,9 +7,10 @@
 	- [Steps to get started:](#steps-to-get-started)
 	- [Register a 'Superuser' account](#register-a-superuser-account)
 - [Umbrella application](#umbrella-application)
-- [Node Package Manager (npm)](#node-package-manager-npm)
-	- [Dependencies & `packages.json`](#dependencies-packagesjson)
+	- [Node Package Manager (npm)](#node-package-manager-npm)
+		- [Dependencies & `packages.json`](#dependencies-packagesjson)
 	- [Bootstrap](#bootstrap)
+	- [Postgresql Set up](#postgresql-set-up)
 
 <!-- /TOC -->
 
@@ -33,7 +34,7 @@ You will probably need a superuser account on the django admin panel at some poi
 # Umbrella application
 Currently the Umbrella app points to the root of the webserver e.g. on localhost it is `127.0.0.1:8000`. You should be greeted by the index page (index.html duh).
 
-# Node Package Manager (npm)
+## Node Package Manager (npm)
 We'll be using npm to manage packages and dependencies e.g. Bootstrap - hich is what we will use to style our HTML with.
 It uses a `packages.json` file to keep track of package versions used, much the same as the `requirements.txt` file that is used by Python to keep track of package versioning to ensure consistency.
 
@@ -44,8 +45,11 @@ sudo apt-get install npm
 
 Navigate to the `ProjectUmbrella-Code` root directory and run `npm install` and npm will install the dependencies from the `packages.json` file.
 
-## Dependencies & `packages.json`
-Not going to re-invent the wheel, here is the [npm documentation on dependencies](https://docs.npmjs.com/getting-started/using-a-package.json)
+### Dependencies & `packages.json`
+Not going to re-invent the wheel, here is the npm documentation on [getting started with `package.json`](https://docs.npmjs.com/getting-started/using-a-package.json) and more detailed stuff on specifying dependencies [here](https://docs.npmjs.com/files/package.json)
 
 ## Bootstrap
 Bootstrap has some really good demos/examples that can be found [here](http://getbootstrap.com/css/)
+
+## Postgresql Set up
+Haven't done this yet, been looking here to start off with: https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04
