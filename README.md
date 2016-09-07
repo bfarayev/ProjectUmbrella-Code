@@ -42,6 +42,7 @@ To download `npm` on Ubuntu:
 ```
 sudo apt-get install npm
 ```
+On Mac: [Visit this article](http://blog.teamtreehouse.com/install-node-js-npm-mac)
 
 Navigate to the `ProjectUmbrella-Code` root directory and run `npm install` and npm will install the dependencies from the `packages.json` file.
 
