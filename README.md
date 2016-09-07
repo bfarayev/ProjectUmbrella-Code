@@ -8,7 +8,8 @@
 	- [Register a 'Superuser' account](#register-a-superuser-account)
 - [Umbrella application](#umbrella-application)
 - [Node Package Manager (npm)](#node-package-manager-npm)
-	- [Adding dependencies to `packages.json`](#adding-dependencies-to-packagesjson)
+	- [Dependencies & `packages.json`](#dependencies-packagesjson)
+	- [Bootstrap](#bootstrap)
 
 <!-- /TOC -->
 
@@ -43,5 +44,8 @@ sudo apt-get install npm
 
 Navigate to the `ProjectUmbrella-Code` root directory and run `npm install` and npm will install the dependencies from the `packages.json` file.
 
-## Adding dependencies to `packages.json`
-This section to be added (TBA) or alternatively just google it ;)
+## Dependencies & `packages.json`
+Not going to re-invent the wheel, here is the [npm documentation on dependencies](https://docs.npmjs.com/getting-started/using-a-package.json)
+
+## Bootstrap
+Bootstrap has some really good demos/examples that can be found [here](http://getbootstrap.com/css/)
