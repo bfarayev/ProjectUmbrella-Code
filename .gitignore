@@ -94,3 +94,6 @@ ENV/
 
 # Databases
 *.sqlite3
+
+# npm node_modules folder
+node_modules/
