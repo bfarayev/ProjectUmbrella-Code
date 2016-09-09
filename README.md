@@ -54,3 +54,8 @@ Bootstrap has some really good demos/examples that can be found [here](http://ge
 
 ## Postgresql Set up
 Haven't done this yet, been looking here to start off with: https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04
+
+## GeoDjango
+Just leaving some GeoDjango links here that might be helpful:
+- http://invisibleroads.com/tutorials/geodjango-googlemaps-build.html
+- https://docs.djangoproject.com/en/1.10/ref/contrib/gis/tutorial/
