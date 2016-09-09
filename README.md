@@ -11,6 +11,7 @@
 		- [Dependencies & `packages.json`](#dependencies-packagesjson)
 	- [Bootstrap](#bootstrap)
 	- [Postgresql Set up](#postgresql-set-up)
+	- [GeoDjango](#geodjango)
 
 <!-- /TOC -->
 
@@ -36,7 +37,7 @@ Currently the Umbrella app points to the root of the webserver e.g. on localhost
 
 ## Node Package Manager (npm)
 We'll be using npm to manage packages and dependencies e.g. Bootstrap - hich is what we will use to style our HTML with.
-It uses a `packages.json` file to keep track of package versions used, much the same as the `requirements.txt` file that is used by Python to keep track of package versioning to ensure consistency.
+It uses a `packages.json` file to keep track of package versions used, much the same as the `requirements.txt` file that is used by Python to keep track of package versioning to ensure consistency ([more info here](https://pip.readthedocs.io/en/1.1/requirements.html)).
 
 To download `npm` on Ubuntu:
 ```
