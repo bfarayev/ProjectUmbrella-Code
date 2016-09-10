@@ -65,3 +65,41 @@ https://docs.djangoproject.com/en/1.10/ref/contrib/gis/tutorial/
 
 For MAC someone finished the `Postgresql Set up`, download `postgis`
 here:http://postgis.net/install/
+
+## Steps for Postgresql
+following http://www.marinamele.com/taskbuster-django-tutorial/install-and-configure-posgresql-for-django#create-database
+1. Once you have the `DATABASE_NAME`, `DATABASE_USER`, `DATABASE_PASSWORD` of Postgresql.
+2. root to your virtual-environment, added to `postactivate`, it should be in `your-virtual-environment/bin`:
+```
+export DATABASE_NAME='Your-data-base-name'
+export DATABASE_USER='Your-user-name'
+export DATABASE_PASSWORD='Your-user-password'
+```
+3. reactivate your virtual-environment
+
+## Steps for GeoDjango tutorial
+1. Installing `postgis` in http://postgis.net/install/
+2. following the suggestion in the postgis install page, run `psql` in terminal, run following code:
+```
+CREATE EXTENSION postgis;
+CREATE EXTENSION postgis_topology;
+CREATE EXTENSION fuzzystrmatch;
+CREATE EXTENSION postgis_tiger_geocoder;
+ALTER EXTENSION postgis
+ UPDATE TO "2.2.2";
+ALTER EXTENSION postgis_topology
+ UPDATE TO "2.2.2";
+ALTER EXTENSION postgis_tiger_geocoder
+ UPDATE TO "2.2.2";
+```
+3. try to `brew` following
+```
+$ brew install gdal
+$ brew install libgeoip
+```
+4. It should work then.
+
+## Googlemap view
+1. `python3 manage.py runserver`
+2. open `localhost:8000`
+3. move mouse to `Get Started`, click `View map`, remember to allow it to locate your position. (google map based on javascript, almost dead here)
