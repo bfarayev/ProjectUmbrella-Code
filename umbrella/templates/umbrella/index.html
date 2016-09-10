@@ -1,5 +1,5 @@
 {% extends 'umbrella/base.html' %}
-
+{% load customize_tab %}
 {% block content %}
     <!-- Page Content -->
     <div class="container">
@@ -12,6 +12,7 @@
                 <ul class="list-unstyled">
                     <li>Bootstrap v3.3.7</li>
                     <li>jQuery v3.1.0</li>
+                    <li>Database info: {% get_db_info %}</li>
                 </ul>
             </div>
         </div>
