@@ -62,3 +62,6 @@ For MAC, have a look at:http://www.marinamele.com/taskbuster-django-tutorial/ins
 Just leaving some GeoDjango links here that might be helpful:
 http://invisibleroads.com/tutorials/geodjango-googlemaps-build.html
 https://docs.djangoproject.com/en/1.10/ref/contrib/gis/tutorial/
+
+For MAC someone finished the `Postgresql Set up`, download `postgis`
+here:http://postgis.net/install/
