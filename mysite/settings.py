@@ -31,14 +31,12 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'polls.apps.PollsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'posts',
     'umbrella'
 ]
 
@@ -131,5 +129,5 @@ STATIC_URL = '/static/'
 # Extra places for collect static to find static files
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "node_modules"), # Add node_modules folder
-    os.path.join(BASE_DIR, "static") # Add reference to 'static' folder
+    os.path.join(BASE_DIR, "staticfiles") # Add 'staticfiles' folder which contains static files such as css/js and images
 ]
