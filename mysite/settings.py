@@ -130,5 +130,6 @@ STATIC_URL = '/static/'
 
 # Extra places for collect static to find static files
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "node_modules") # Add node_modules folder
+    os.path.join(BASE_DIR, "node_modules"), # Add node_modules folder
+    os.path.join(BASE_DIR, "static") # Add reference to 'static' folder
 ]
