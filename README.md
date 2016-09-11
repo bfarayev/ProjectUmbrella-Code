@@ -13,7 +13,7 @@
 	- [Postgresql Set up](#postgresql-set-up)
 	- [GeoDjango](#geodjango)
 	- [Git Team Workflow](#git-team-workflow)
- +		- [Reviewing a PR](#reviewing-a-pr)
+		- [Reviewing a PR](#reviewing-a-pr)
 
 <!-- /TOC -->
 
