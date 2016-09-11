@@ -13,6 +13,7 @@
 	- [Postgresql Set up](#postgresql-set-up)
 	- [GeoDjango](#geodjango)
 	- [Git Team Workflow](#git-team-workflow)
+		- [Reviewing a PR](#reviewing-a-pr)
 
 <!-- /TOC -->
 
@@ -65,25 +66,28 @@ http://invisibleroads.com/tutorials/geodjango-googlemaps-build.html
 https://docs.djangoproject.com/en/1.10/ref/contrib/gis/tutorial/
 
 ## Git Team Workflow
-When working as a team, following a common workflow is essential. [Feature-branch-workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow/) is very powerful method where team members work on their feature branches, create pull requests and let others review their code before it's pushed to production. 
-Rule of thumb:
+When working as a team, following a common workflow is essential. [Feature-branch-workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow/) is a very powerful method where team members work on their feature branches, create pull requests and let others review their code before it's pushed to production.
 
-- Merge often. Take small feature to work on. It's not easy to review 1000 lines of code. 
+Rules of thumb:
+
+- Merge often. Take small feature to work on. It's not easy to review 1000 lines of code.
 - Choose informative branch names like `feature/PostGIS-Integration`,`fix/Database-Error`, `fix/Unit-Tests` etc.
 - Don't merge your own PR (Pull Request). Let others review yours.
-- Add useful description to your PRs. Make others work easy by doing this. Cuz time is important. If you find something, add it to your PR description.
-- `develop` branch is our default base branch. 
+- Add useful descriptions to your PRs. Make others work easy by doing this. Time is important. If you find something, add it to your PR description.
+- `develop` branch is our default base branch.
 
 Simple example on how this workflow should look like in practice:
 
-- Bob wants to integrate PostGIS. 
-- He does `git checkout -b {branch_name}` - which is the same as `git branch {branch_name}` & `git checkout {branch_name}`
-- He does his work, and thinks it’s in a good shape to push to remote and create a PR and let others review it. So, `git push origin {branch_name}` 
+- Bob wants to integrate PostGIS.
+- He does `git checkout -b {branch_name}` which is the same as
+ 	- `git branch {branch_name}` - Creates new branch called "branch_name"
+	- `git checkout {branch_name}` - Checkout branch named "branch_name"
+- He does his work, and thinks it’s in a good shape to push to remote and create a PR and let others review it. So, `git push origin {branch_name}`
 - Then he opens GitHub -> Clicks `New pull request` -> (Base should be and will be `develop` by default. Compare should be your `{branch_name}`) -> Adds some description and submits it.
 - Now all team members can review and merge his code.
 
 ### Reviewing a PR
 
-Sometimes you might want to fix something in someone else's branch. You should use `git fetch` command to copy the remote branch to your local and work on it. 
+Sometimes you might want to fix something in someone else's branch. You should use `git fetch` command to copy the remote branch to your local and work on it.
 
 It should look like `git fetch origin branch-name:branch-name` & `git checkout branch-name`. Then do your changes on `branch-name`, make commits and push it to `git push origin branch-name`.
