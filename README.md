@@ -11,7 +11,12 @@
 		- [Dependencies & `packages.json`](#dependencies-packagesjson)
 	- [Bootstrap](#bootstrap)
 	- [Postgresql Set up](#postgresql-set-up)
-	- [GeoDjango](#geodjango)
+	- [GeoDjango Tutorials](#geodjango-tutorials)
+	- [Integrating Postgresql](#integrating-postgresql)
+	- [Steps for GeoDjango tutorial](#steps-for-geodjango-tutorial)
+		- [Mac instructions](#mac-instructions)
+		- [Ubuntu instructions](#ubuntu-instructions)
+	- [Googlemap view](#googlemap-view)
 	- [Git Team Workflow](#git-team-workflow)
 		- [Reviewing a PR](#reviewing-a-pr)
 
@@ -72,16 +77,15 @@ Some GeoDjango links here that might be helpful:
 
 ## Integrating Postgresql
 
-Please have a look at this before you start: 
+Please have a look at this before you start:
 
 * [Tutorial for Mac Users](http://www.marinamele.com/taskbuster-django-tutorial/install-and-configure-posgresql-for-django#create-database)
 * [Tutorial for Linux Users](https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04)
 
-Summary of what steps explained above (for Mac Users): 
+Summary of what steps explained above (for Mac Users):
 
 1. Create a Postgres database in PgAdmin3. We need three fields for the next step: `database-name`, `username`, `password` of Postgresql. `username` is the _owner_ and `password` is the _owner_'s passowrd. You may want to keep it simple and use `postgres/ postgres` for that.
 2. In your root folder, do `$ vi $VIRTUAL_ENV/bin/postactivate` and add this:
-
 ```
 export DATABASE_NAME='database-name'
 export DATABASE_USER='username'
@@ -89,7 +93,6 @@ export DATABASE_PASSWORD='password'
 ```
 
 3. Now do `$ vi $VIRTUAL_ENV/bin/predeactivate ` and add:
-
 ```
 unset DATABASE_NAME
 unset DATABASE_USER
@@ -99,17 +102,17 @@ unset DATABASE_PASSWORD
 4. Restart (reactivate) your virtual env by `deactivate` and `workon` commands.  
 
 5. To see the Postgres integration, do:
-
 `python3 manage.py check` and then
 `python3 manage.py migrate`
 
-6. If 5 worked without errors then you have Postgres integrated successfully! If not, don't waste time and flag it on Slack!
+6. You will most likely have gotten an error in step 5, if the stack trace mentions `postgis` then complete the next section and then retry step 5. Remember if you need help, ask for it.
 
 
 ## Steps for GeoDjango tutorial
+### Mac instructions
+1. Install `postgis v2.2` in following the instructions in [this link](http://postgis.net/install/)
 
-1. Install `postgis` in following the instructions in [this link](http://postgis.net/install/)
-2. following the suggestion in the postgis install page, run `psql` in terminal, run following code:
+2. Following the suggestion in the postgis install page, run `psql` as psql superuser in terminal, run following code:
 ```
 CREATE EXTENSION postgis;
 CREATE EXTENSION postgis_topology;
@@ -122,12 +125,23 @@ ALTER EXTENSION postgis_topology
 ALTER EXTENSION postgis_tiger_geocoder
  UPDATE TO "2.2.2";
 ```
-3. try to `brew` following
+3. Try to `brew` following
 ```
 $ brew install gdal
 $ brew install libgeoip
 ```
 4. Done
+
+### Ubuntu instructions
+1. Install `postgis` via: `sudo apt-get install postgresql-9.5-postgis-2.2`
+2. Run:
+```
+CREATE EXTENSION postgis;
+CREATE EXTENSION postgis_topology;
+CREATE EXTENSION fuzzystrmatch;
+CREATE EXTENSION postgis_tiger_geocoder;
+```
+3. Done
 
 ## Googlemap view
 1. `python3 manage.py runserver`
@@ -159,4 +173,4 @@ Simple example on how this workflow should look like in practice:
 
 Sometimes you might want to fix something in someone else's branch. You should use `git fetch` command to copy the remote branch to your local and work on it.
 
-It should look like `git fetch origin branch-name:branch-name` & `git checkout branch-name
+It should look like `git fetch origin branch-name:branch-name` & `git checkout branch-name`
