@@ -21,10 +21,11 @@
 2. Run a local server via `python manage.py runserver`
   - Note 1: On Ubuntu you may have to specify python3 explicitly: `python3 manage.py runserver`
   - Note 2: You can tell the server to run on a port different to the default (which is Port 8000) by using: `python manage.py runserver 8080`
-3. Current valid directories include:
-  - url = `localhost:8000` for the umbrella application
-  - url = `localhost:8000/polls` for polls application
-  - url = `localhost:8000/admin`  for administration
+3. Current valid views include:
+  - `localhost:8000/`
+  - `localhost:8000/googlemaps.html`
+  - `localhost:8000/signin.html`
+  - `localhost:8000/admin`
 
 
 ## Register a 'Superuser' account
@@ -51,34 +52,61 @@ Navigate to the `ProjectUmbrella-Code` root directory and run `npm install` and 
 Not going to re-invent the wheel, here is the npm documentation on [getting started with `package.json`](https://docs.npmjs.com/getting-started/using-a-package.json) and more detailed stuff on specifying dependencies [here](https://docs.npmjs.com/files/package.json)
 
 ## Bootstrap
-Bootstrap has some really good demos/examples that can be found [here](http://getbootstrap.com/css/)
+Make sure you installed Bootstap at this stage. In root folder run `npm install` if you haven't done it already. B
+
+ootstrap has some really good demos/examples that can be found [in this link](http://getbootstrap.com/css/)
 
 ## Postgresql Set up
 Haven't done this yet, been looking here to start off with: https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04
 
 For MAC, have a look at:http://www.marinamele.com/taskbuster-django-tutorial/install-and-configure-posgresql-for-django#create-database
 
-## GeoDjango
-Just leaving some GeoDjango links here that might be helpful:
-http://invisibleroads.com/tutorials/geodjango-googlemaps-build.html
-https://docs.djangoproject.com/en/1.10/ref/contrib/gis/tutorial/
+## GeoDjango Tutorials
 
-For MAC someone finished the `Postgresql Set up`, download `postgis`
-here:http://postgis.net/install/
+Some GeoDjango links here that might be helpful:
 
-## Steps for Postgresql
-following http://www.marinamele.com/taskbuster-django-tutorial/install-and-configure-posgresql-for-django#create-database
-1. Once you have the `DATABASE_NAME`, `DATABASE_USER`, `DATABASE_PASSWORD` of Postgresql.
-2. root to your virtual-environment, added to `postactivate`, it should be in `your-virtual-environment/bin`:
+* [Tutorial 1](http://invisibleroads.com/tutorials/geodjango-googlemaps-build.html)
+* [Tutorial 2](https://docs.djangoproject.com/en/1.10/ref/contrib/gis/tutorial/)
+
+## Integrating Postgresql
+
+Please have a look at this before you start: 
+
+* [Tutorial for Mac Users](http://www.marinamele.com/taskbuster-django-tutorial/install-and-configure-posgresql-for-django#create-database)
+* [Tutorial for Linux Users](https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04)
+
+Summary of what steps explained above (for Mac Users): 
+
+1. Create a Postgres database in PgAdmin3. We need three fields for the next step: `database-name`, `username`, `password` of Postgresql. `username` is the _owner_ and `password` is the _owner_'s passowrd. You may want to keep it simple and use `postgres/ postgres` for that.
+2. In your root folder, do `$ vi $VIRTUAL_ENV/bin/postactivate` and add this:
+
 ```
-export DATABASE_NAME='Your-data-base-name'
-export DATABASE_USER='Your-user-name'
-export DATABASE_PASSWORD='Your-user-password'
+export DATABASE_NAME='database-name'
+export DATABASE_USER='username'
+export DATABASE_PASSWORD='password'
 ```
-3. reactivate your virtual-environment
+
+3. Now do `$ vi $VIRTUAL_ENV/bin/predeactivate ` and add:
+
+```
+unset DATABASE_NAME
+unset DATABASE_USER
+unset DATABASE_PASSWORD
+```
+
+4. Restart (reactivate) your virtual env by `deactivate` and `workon` commands.  
+
+5. To see the Postgres integration, do:
+
+`python3 manage.py check` and then
+`python3 manage.py migrate`
+
+6. If 5 worked without errors then you have Postgres integrated successfully! If not, don't waste time and flag it on Slack!
+
 
 ## Steps for GeoDjango tutorial
-1. Installing `postgis` in http://postgis.net/install/
+
+1. Install `postgis` in following the instructions in [this link](http://postgis.net/install/)
 2. following the suggestion in the postgis install page, run `psql` in terminal, run following code:
 ```
 CREATE EXTENSION postgis;
@@ -97,7 +125,7 @@ ALTER EXTENSION postgis_tiger_geocoder
 $ brew install gdal
 $ brew install libgeoip
 ```
-4. It should work then.
+4. Done
 
 ## Googlemap view
 1. `python3 manage.py runserver`
