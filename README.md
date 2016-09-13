@@ -10,13 +10,11 @@
 	- [Node Package Manager (npm)](#node-package-manager-npm)
 		- [Dependencies & `packages.json`](#dependencies-packagesjson)
 	- [Bootstrap](#bootstrap)
-	- [Postgresql Set up](#postgresql-set-up)
-	- [GeoDjango Tutorials](#geodjango-tutorials)
 	- [Integrating Postgresql](#integrating-postgresql)
-	- [Steps for GeoDjango tutorial](#steps-for-geodjango-tutorial)
+	- [PostGIS installation](#postgis-installation)
 		- [Mac instructions](#mac-instructions)
 		- [Ubuntu instructions](#ubuntu-instructions)
-	- [Googlemap view](#googlemap-view)
+	- [GeoDjango Tutorials](#geodjango-tutorials)
 	- [Git Team Workflow](#git-team-workflow)
 		- [Reviewing a PR](#reviewing-a-pr)
 
@@ -28,12 +26,12 @@
 2. Run a local server via `python manage.py runserver`
   - Note 1: On Ubuntu you may have to specify python3 explicitly: `python3 manage.py runserver`
   - Note 2: You can tell the server to run on a port different to the default (which is Port 8000) by using: `python manage.py runserver 8080`
-3. Current valid views include:
+3. If you get errors, make sure your Postgresql database has been set up correctly as per [here](#postgresql-set-up)
+4. Current valid views include:
   - `localhost:8000/`
-  - `localhost:8000/googlemaps.html`
-  - `localhost:8000/signin.html`
-  - `localhost:8000/admin`
-
+	- `localhost:8000/admin/`
+  - `localhost:8000/googlemaps/` - has a locate current location feature
+  - `localhost:8000/signin/`
 
 ## Register a 'Superuser' account
 You will probably need a superuser account on the django admin panel at some point so:
@@ -63,24 +61,13 @@ Make sure you installed Bootstap at this stage. In root folder run `npm install`
 
 ootstrap has some really good demos/examples that can be found [in this link](http://getbootstrap.com/css/)
 
-## Postgresql Set up
-Haven't done this yet, been looking here to start off with: https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04
 
-For MAC, have a look at:http://www.marinamele.com/taskbuster-django-tutorial/install-and-configure-posgresql-for-django#create-database
-
-## GeoDjango Tutorials
-
-Some GeoDjango links here that might be helpful:
-
-* [Tutorial 1](http://invisibleroads.com/tutorials/geodjango-googlemaps-build.html)
-* [Tutorial 2](https://docs.djangoproject.com/en/1.10/ref/contrib/gis/tutorial/)
 
 ## Integrating Postgresql
-
 Please have a look at this before you start:
 
 * [Tutorial for Mac Users](http://www.marinamele.com/taskbuster-django-tutorial/install-and-configure-posgresql-for-django#create-database)
-* [Tutorial for Linux Users](https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04)
+* [Tutorial for Ubuntu Users](https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04)
 
 Summary of what steps explained above (for Mac Users):
 
@@ -111,7 +98,7 @@ unset DATABASE_PASSWORD
 6. You will most likely have gotten an error in step 5, if the stack trace mentions `postgis` then complete the next section and then retry step 5. Remember if you need help, ask for it.
 
 
-## Steps for GeoDjango tutorial
+## PostGIS installation
 ### Mac instructions
 1. Install `postgis v2.2` in following the instructions in [this link](http://postgis.net/install/)
 
@@ -146,10 +133,12 @@ CREATE EXTENSION postgis_tiger_geocoder;
 ```
 3. Done
 
-## Googlemap view
-1. `python3 manage.py runserver`
-2. Open `localhost:8000`
-3. Move mouse to `Get Started`, click `View map`, remember to allow it to locate your position. (google map based on javascript, almost dead here)
+## GeoDjango Tutorials
+
+Some GeoDjango links here that might be helpful:
+
+* [Tutorial 1](http://invisibleroads.com/tutorials/geodjango-googlemaps-build.html)
+* [Tutorial 2](https://docs.djangoproject.com/en/1.10/ref/contrib/gis/tutorial/)
 
 ## Git Team Workflow
 When working as a team, following a common workflow is essential. [Feature-branch-workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow/) is a very powerful method where team members work on their feature branches, create pull requests and let others review their code before it's pushed to production.
