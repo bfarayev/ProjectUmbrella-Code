@@ -7,5 +7,8 @@ def index(request):
 def signin(request):
     return render(request, 'umbrella/signin.html')
 
+def register(request):
+    return render(request, 'umbrella/register.html')
+
 def googlemap(request):
     return render(request, 'umbrella/googlemap.html')
