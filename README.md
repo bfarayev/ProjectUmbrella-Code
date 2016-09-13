@@ -86,6 +86,7 @@ Summary of what steps explained above (for Mac Users):
 
 1. Create a Postgres database in PgAdmin3. We need three fields for the next step: `database-name`, `username`, `password` of Postgresql. `username` is the _owner_ and `password` is the _owner_'s passowrd. You may want to keep it simple and use `postgres/ postgres` for that.
 2. In your root folder, do `$ vi $VIRTUAL_ENV/bin/postactivate` and add this:
+
 ```
 export DATABASE_NAME='database-name'
 export DATABASE_USER='username'
@@ -93,6 +94,7 @@ export DATABASE_PASSWORD='password'
 ```
 
 3. Now do `$ vi $VIRTUAL_ENV/bin/predeactivate ` and add:
+
 ```
 unset DATABASE_NAME
 unset DATABASE_USER
@@ -102,6 +104,7 @@ unset DATABASE_PASSWORD
 4. Restart (reactivate) your virtual env by `deactivate` and `workon` commands.  
 
 5. To see the Postgres integration, do:
+
 `python3 manage.py check` and then
 `python3 manage.py migrate`
 
