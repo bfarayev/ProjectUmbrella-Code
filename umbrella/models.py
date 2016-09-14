@@ -29,9 +29,9 @@ class Post(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     @classmethod
-    def create(cls):
+    def create(cls, position):
         # Create a post with default location values
-        _location = Location()
+        _location = Location(latitude=position[0], longitude=position[1])
         _location.save()
 
         # Create a category and set it "Uncategorized"
