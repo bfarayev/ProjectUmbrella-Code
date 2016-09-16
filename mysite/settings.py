@@ -86,11 +86,22 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 if 'TRAVIS' in os.environ:
     DATABASES = {
         'default': {
-            'ENGINE': 'django.contrib.gis.db.backends.postgis',
-            'NAME': get_env_variable('umbrella_db'),
-            'USER': get_env_variable('postgres'),
-            'PASSWORD': get_env_variable('postgres'),
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'travisci',
+            'USER': 'postgres',
+            'PASSWORD': '',
             'HOST': 'localhost',
+            'PORT': '',
+        }
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.contrib.gis.db.backends.postgis',
+            'NAME': get_env_variable('DATABASE_NAME'),
+            'USER': get_env_variable('DATABASE_USER'),
+            'PASSWORD': get_env_variable('DATABASE_PASSWORD'),
+            'HOST': '',
             'PORT': '',
         }
     }
