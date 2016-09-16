@@ -70,12 +70,23 @@
                         var infowindow = new google.maps.InfoWindow({
                             content: postContent
                         });
-
+                        // Double click icon can close the content
+                        var counter = 0;
                         marker.addListener('click', function() {
-                            infowindow.open(marker.get('map'), marker);
+                            if (counter == 0) {
+                                infowindow.open(marker.get('map'), marker);
+                                counter=+1;
+                            } else {
+                                counter = 0;
+                                infowindow.close(marker.get('map'), marker);
+                            }
                         });
                     }
-
+                    {#something might be useful#}
+                    {% comment %}
+                    map.setZoom(8);
+                    map.setCenter(marker.getPosition());
+                    {% endcomment %}
                     // Data for the markers consisting of a name, a LatLng and a zIndex for the
                     // order in which these markers should display on top of each other.
                    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
