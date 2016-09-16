@@ -9,8 +9,7 @@ env:
     - DJANGO=1.10.1
 
 before_install:
-    - export DJANGO_SETTINGS_MODULE=your_project.settings
-    - export PYTHONPATH=$HOME/builds/your_github_username/your_repo
+    - export DJANGO_SETTINGS_MODULE=mysite.settings
     - export PIP_USE_MIRRORS=true
 
 install:
@@ -22,6 +21,7 @@ before_script:
 
 script:
     - python3 manage.py runserver
+    - python manage.py syncdb --noinput
 
 notifications:
     slack: elec9616:HDzpNGrHAb8emioJ6TKPDgCD
