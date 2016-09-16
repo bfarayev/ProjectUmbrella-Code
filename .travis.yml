@@ -21,4 +21,7 @@ before_script:
     - psql -c "CREATE DATABASE umbrella_db;" -U postgres
 
 script:
-    - python manage.py runserver
+    - python3 manage.py runserver
+
+notifications:
+    slack: elec9616:HDzpNGrHAb8emioJ6TKPDgCD
