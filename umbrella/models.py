@@ -44,4 +44,3 @@ class Post(models.Model):
         post.location = _location
         post.content = "Sample Post Content"
         post.save()
-

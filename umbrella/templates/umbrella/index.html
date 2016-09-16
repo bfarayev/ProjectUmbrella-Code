@@ -13,15 +13,6 @@
                     <li>jQuery v3.1.0</li>
                     <li>Database info: {% get_db_info %}</li>
                 </ul>
-                {% if post_list %}
-                    <ul class="list-unstyled">
-                        {% for post in post_list%}
-                            <li> {{ post.content }} </li>
-                        {% endfor %}
-                    </ul>
-                {% else %}
-                    <p>No posts are available.</p>
-                {% endif %}
             </div>
         </div>
         <!-- /.row -->
