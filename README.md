@@ -10,8 +10,13 @@
 	- [Node Package Manager (npm)](#node-package-manager-npm)
 		- [Dependencies & `packages.json`](#dependencies-packagesjson)
 	- [Bootstrap](#bootstrap)
-	- [Postgresql Set up](#postgresql-set-up)
-	- [GeoDjango](#geodjango)
+	- [Integrating Postgresql](#integrating-postgresql)
+	- [PostGIS installation](#postgis-installation)
+		- [Mac instructions](#mac-instructions)
+		- [Ubuntu instructions](#ubuntu-instructions)
+	- [GeoDjango Tutorials](#geodjango-tutorials)
+	- [Git Team Workflow](#git-team-workflow)
+		- [Reviewing a PR](#reviewing-a-pr)
 
 <!-- /TOC -->
 
@@ -21,11 +26,12 @@
 2. Run a local server via `python manage.py runserver`
   - Note 1: On Ubuntu you may have to specify python3 explicitly: `python3 manage.py runserver`
   - Note 2: You can tell the server to run on a port different to the default (which is Port 8000) by using: `python manage.py runserver 8080`
-3. Current valid directories include:
-  - url = `localhost:8000` for the umbrella application
-  - url = `localhost:8000/polls` for polls application
-  - url = `localhost:8000/admin`  for administration
-
+3. If you get errors, make sure your Postgresql database has been set up correctly as per [here](#postgresql-set-up)
+4. Current valid views include:
+  - `localhost:8000/`
+	- `localhost:8000/admin/`
+  - `localhost:8000/googlemaps/` - has a locate current location feature
+  - `localhost:8000/signin/`
 
 ## Register a 'Superuser' account
 You will probably need a superuser account on the django admin panel at some point so:
@@ -51,14 +57,112 @@ Navigate to the `ProjectUmbrella-Code` root directory and run `npm install` and 
 Not going to re-invent the wheel, here is the npm documentation on [getting started with `package.json`](https://docs.npmjs.com/getting-started/using-a-package.json) and more detailed stuff on specifying dependencies [here](https://docs.npmjs.com/files/package.json)
 
 ## Bootstrap
-Bootstrap has some really good demos/examples that can be found [here](http://getbootstrap.com/css/)
+Make sure you installed Bootstap at this stage. In root folder run `npm install` if you haven't done it already. B
 
-## Postgresql Set up
-Haven't done this yet, been looking here to start off with: https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04
+ootstrap has some really good demos/examples that can be found [in this link](http://getbootstrap.com/css/)
 
-For MAC, have a look at:http://www.marinamele.com/taskbuster-django-tutorial/install-and-configure-posgresql-for-django#create-database
 
-## GeoDjango
-Just leaving some GeoDjango links here that might be helpful:
-http://invisibleroads.com/tutorials/geodjango-googlemaps-build.html
-https://docs.djangoproject.com/en/1.10/ref/contrib/gis/tutorial/
+
+## Integrating Postgresql
+Please have a look at this before you start:
+
+* [Tutorial for Mac Users](http://www.marinamele.com/taskbuster-django-tutorial/install-and-configure-posgresql-for-django#create-database)
+* [Tutorial for Ubuntu Users](https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04)
+
+Summary of what steps explained above (for Mac Users):
+
+1. Create a Postgres database in PgAdmin3. We need three fields for the next step: `database-name`, `username`, `password` of Postgresql. `username` is the _owner_ and `password` is the _owner_'s passowrd. You may want to keep it simple and use `postgres/ postgres` for that.
+2. In your root folder, do `$ vi $VIRTUAL_ENV/bin/postactivate` and add this:
+
+```
+export DATABASE_NAME='database-name'
+export DATABASE_USER='username'
+export DATABASE_PASSWORD='password'
+```
+
+3. Now do `$ vi $VIRTUAL_ENV/bin/predeactivate ` and add:
+
+```
+unset DATABASE_NAME
+unset DATABASE_USER
+unset DATABASE_PASSWORD
+```
+
+4. Restart (reactivate) your virtual env by `deactivate` and `workon` commands.  
+
+5. To see the Postgres integration, do:
+
+`python3 manage.py check` and then
+`python3 manage.py migrate`
+
+6. You will most likely have gotten an error in step 5, if the stack trace mentions `postgis` then complete the next section and then retry step 5. Remember if you need help, ask for it.
+
+
+## PostGIS installation
+### Mac instructions
+1. Install `postgis v2.2` in following the instructions in [this link](http://postgis.net/install/)
+
+2. Following the suggestion in the postgis install page, run `psql` as psql superuser in terminal, run following code:
+```
+CREATE EXTENSION postgis;
+CREATE EXTENSION postgis_topology;
+CREATE EXTENSION fuzzystrmatch;
+CREATE EXTENSION postgis_tiger_geocoder;
+ALTER EXTENSION postgis
+ UPDATE TO "2.2.2";
+ALTER EXTENSION postgis_topology
+ UPDATE TO "2.2.2";
+ALTER EXTENSION postgis_tiger_geocoder
+ UPDATE TO "2.2.2";
+```
+3. Try to `brew` following
+```
+$ brew install gdal
+$ brew install libgeoip
+```
+4. Done
+
+### Ubuntu instructions
+1. Install `postgis` via: `sudo apt-get install postgresql-9.5-postgis-2.2`
+2. Run `sudo -u postgres psql` and copy the following:
+```
+CREATE EXTENSION postgis;
+CREATE EXTENSION postgis_topology;
+CREATE EXTENSION fuzzystrmatch;
+CREATE EXTENSION postgis_tiger_geocoder;
+```
+3. Done
+
+## GeoDjango Tutorials
+
+Some GeoDjango links here that might be helpful:
+
+* [Tutorial 1](http://invisibleroads.com/tutorials/geodjango-googlemaps-build.html)
+* [Tutorial 2](https://docs.djangoproject.com/en/1.10/ref/contrib/gis/tutorial/)
+
+## Git Team Workflow
+When working as a team, following a common workflow is essential. [Feature-branch-workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow/) is a very powerful method where team members work on their feature branches, create pull requests and let others review their code before it's pushed to production.
+
+Rules of thumb:
+
+- Merge often. Take small feature to work on. It's not easy to review 1000 lines of code.
+- Choose informative branch names like `feature/PostGIS-Integration`,`fix/Database-Error`, `fix/Unit-Tests` etc.
+- Don't merge your own PR (Pull Request). Let others review yours.
+- Add useful descriptions to your PRs. Make others work easy by doing this. Time is important. If you find something, add it to your PR description.
+- `develop` branch is our default base branch.
+
+Simple example on how this workflow should look like in practice:
+
+- Bob wants to integrate PostGIS.
+- He does `git checkout -b {branch_name}` which is the same as
+ 	- `git branch {branch_name}` - Creates new branch called "branch_name"
+	- `git checkout {branch_name}` - Checkout branch named "branch_name"
+- He does his work, and thinks it’s in a good shape to push to remote and create a PR and let others review it. So, `git push origin {branch_name}`
+- Then he opens GitHub -> Clicks `New pull request` -> (Base should be and will be `develop` by default. Compare should be your `{branch_name}`) -> Adds some description and submits it.
+- Now all team members can review and merge his code.
+
+### Reviewing a PR
+
+Sometimes you might want to fix something in someone else's branch. You should use `git fetch` command to copy the remote branch to your local and work on it.
+
+It should look like `git fetch origin branch-name:branch-name` & `git checkout branch-name`
