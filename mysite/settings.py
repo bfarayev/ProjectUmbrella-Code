@@ -86,7 +86,7 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 if 'TRAVIS' in os.environ:
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'ENGINE': 'django.contrib.gis.db.backends.postgis',
             'NAME': 'umbrella_db',
             'USER': 'postgres',
             'PASSWORD': '',
