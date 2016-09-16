@@ -8,12 +8,20 @@
             <div class="col-lg-12 text-center">
                 <h1>Welcome to Project Umbrella</h1>
                 <h2>Please leave this landing page here for now.</h2>
-
                 <ul class="list-unstyled">
                     <li>Bootstrap v3.3.7</li>
                     <li>jQuery v3.1.0</li>
                     <li>Database info: {% get_db_info %}</li>
                 </ul>
+                {% if post_list %}
+                    <ul class="list-unstyled">
+                        {% for post in post_list%}
+                            <li> {{ post.content }} </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No posts are available.</p>
+                {% endif %}
             </div>
         </div>
         <!-- /.row -->
