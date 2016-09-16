@@ -19,9 +19,9 @@ install:
   - pip install -q -r requirements.txt
 
 before_script:
-  - mysql -e 'create database umbrella_db;'
-  - python manage.py syncdb --noinput
+  - psql -c 'create database umbrella_db;' -U postgres
+  - python3 manage.py syncdb --noinput
 
 #command to run the test suite
 script:
-  - python manage.py test
+  - python3 manage.py test

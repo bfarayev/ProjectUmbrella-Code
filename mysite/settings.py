@@ -83,16 +83,17 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 
 # postgresql DATABASE setting
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': get_env_variable('DATABASE_NAME'),
-        'USER': get_env_variable('DATABASE_USER'),
-        'PASSWORD': get_env_variable('DATABASE_PASSWORD'),
-        'HOST': '',
-        'PORT': '',
+if 'TRAVIS' in os.environ:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.contrib.gis.db.backends.postgis',
+            'NAME': get_env_variable('DATABASE_NAME'),
+            'USER': get_env_variable('DATABASE_USER'),
+            'PASSWORD': get_env_variable('DATABASE_PASSWORD'),
+            'HOST': '',
+            'PORT': '',
+        }
     }
-}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
