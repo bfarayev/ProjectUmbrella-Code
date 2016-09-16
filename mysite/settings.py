@@ -83,6 +83,7 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 
 # postgresql DATABASE setting
+# You might need to change your HOST under else. Don't change TRAVIS settings please
 if 'TRAVIS' in os.environ:
     DATABASES = {
         'default': {
