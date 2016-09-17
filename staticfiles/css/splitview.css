@@ -2,12 +2,13 @@ body, html {
     margin: 0;
     overflow: hidden;
     height:100%;
+    /*padding-top: 65px;*/
 }
 
 @media (min-width: 768px){
     #left {
         /*position: absolute;*/
-        /*top: 0px;*/
+        /*top: 50px;*/
         /*bottom: 0;*/
         left: 0;
         width: 75%;
@@ -16,12 +17,17 @@ body, html {
 
     #right {
         /*position: absolute;*/
-        top: 0;
+        top: 20px;
         bottom: 0;
         right: 0;
         overflow-y: scroll;
         width: 25%;
         word-wrap: break-word;
+    }
+
+    #map {
+        /*Below code sets height accounting for the 50px deep navbar*/
+        height: calc(100% - 50px);
     }
 }
 
@@ -32,20 +38,20 @@ and (max-device-width : 480px) {
     /* Styles */
     #left {
         height: 40%;
+        /*top: 50px;*/
     }
 
     #right {
         height: 60%;
+        top: 20px;
         overflow-y: scroll;
         word-wrap: break-word;
     }
-}
 
-/*@media (max-width: 768px){*/
-    /*#left {*/
-        /*height: 200px;*/
-    /*}*/
-/*}*/
+    #map {
+        height: 100%;
+    }
+}
 
 #left {
     /*background-color: #FC6E51;*/
@@ -57,14 +63,4 @@ and (max-device-width : 480px) {
     height:100%;
     /*background-color: #4FC1E9;*/
     /*text-align: center;*/
-}
-
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
-#map {
-    /*Below code sets height accounting for the 50px deep navbar*/
-    height: calc(100% - 50px);
 }
