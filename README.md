@@ -97,6 +97,17 @@ unset DATABASE_PASSWORD
 
 6. You will most likely have gotten an error in step 5, if the stack trace mentions `postgis` then complete the next section and then retry step 5. Remember if you need help, ask for it.
 
+### Cleaning up your Postgresql DB
+Sometimes you might run into database errors, e.g. when a certain column in a table doesn't exist and `python3 manage.py migrate` doesn't seem to fix it.
+
+What you can try is to drop your database:
+```
+sudo -u postgres psql
+drop database <your_database_name>;
+create database <your_database_name> with owner <user_you_use_in_django>;
+\q
+```
+and run `python3 manage.py migrate` & `python3 manage.py runserver` again.
 
 ## PostGIS installation
 ### Mac instructions
