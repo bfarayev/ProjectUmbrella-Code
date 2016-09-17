@@ -23,7 +23,6 @@ def createFivePosts(request):
     # TODO: for testing google-map-implementation, delete this and related url in urls.py when complete.
     position_1 = [-33.888584, 151.1851586]
     title_1 = 'Category A'
-    post_1_title = 'HELP! I do not have umbrella'
     content_1 = "I'm in the PNR building, does anyone have a umbrella, HELP me!!!!"
     descrip_1 = 'This is Category A'
     _location_1 = Location(latitude=position_1[0], longitude=position_1[1])
@@ -33,7 +32,6 @@ def createFivePosts(request):
 
     position_2 = [-33.888584, 152.1851586]
     title_2 = "Category B"
-    post_2_title = "I'm hungry"
     content_2 = "I'm so hungry, does anyone can share me a pancake?..." \
                 "blah la bhla bhal bh al bha lb hal bh al bh al bha lhb"
     descrip_2 = 'This is Category B'
@@ -44,7 +42,6 @@ def createFivePosts(request):
 
     position_3 = [-33.888584, 150.1851586]
     title_3 = "Category C"
-    post_3_title = 'Table tennis!!!'
     content_3 = "Amazing competition with your friends! hands up and join us!! :)"
     descrip_3 = 'This is Category C'
     _location_3 = Location(latitude=position_3[0], longitude=position_3[1])
@@ -54,7 +51,6 @@ def createFivePosts(request):
 
     position_4 = [-32.888584, 151.1851586]
     title_4 = "Category D"
-    post_4_title = 'Testing, testing'
     content_4 = "I just want to have a long content to test thee..." \
                 "text feild 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"
     descrip_4 = "This is Category D"
@@ -65,7 +61,6 @@ def createFivePosts(request):
 
     position_5 = [-34.888584, 151.1851586]
     title_5 = "Category E"
-    post_5_title = 'make noise'
     content_5 = "Ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh~~~AhhAhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh~~~hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh~~~Ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh~~~Ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh~~~Ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh~~~Ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh~~~"
     descrip_5 = "This is Category E"
     _location_5 = Location(latitude=position_5[0], longitude=position_5[1])
@@ -75,7 +70,6 @@ def createFivePosts(request):
 
     post_1 = Post()
     post_1.content = content_1
-    post_1.post_title = post_1_title
     post_1.save()
     post_1.location = _location_1
     post_1.category.add(_category_1)
@@ -83,7 +77,6 @@ def createFivePosts(request):
 
     post_2 = Post()
     post_2.content = content_2
-    post_2.post_title= post_2_title
     post_2.save()
     post_2.location = _location_2
     post_2.category.add(_category_2)
@@ -91,7 +84,6 @@ def createFivePosts(request):
 
     post_3 = Post()
     post_3.content = content_3
-    post_3.post_title= post_3_title
     post_3.save()
     post_3.location = _location_3
     post_3.category.add(_category_3)
@@ -99,7 +91,6 @@ def createFivePosts(request):
 
     post_4 = Post()
     post_4.content = content_4
-    post_4.post_title= post_4_title
     post_4.save()
     post_4.location = _location_4
     post_4.category.add(_category_4)
@@ -107,7 +98,6 @@ def createFivePosts(request):
 
     post_5 = Post()
     post_5.content = content_5
-    post_5.post_title= post_5_title
     post_5.save()
     post_5.location = _location_5
     post_5.category.add(_category_5)
