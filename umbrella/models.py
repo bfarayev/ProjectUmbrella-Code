@@ -26,7 +26,6 @@ class Location(models.Model):
 
 # Create the Posts class
 class Post(models.Model):
-    post_title = models.CharField(max_length=40, null=True)
     content = models.TextField(max_length=200)
     category = models.ManyToManyField(Category, blank=True)
     location = models.ForeignKey(Location, null=True, blank=True)

@@ -120,30 +120,17 @@
                     </div>
                     <div class="row">
                         <h2>Around you</h2>
-                        <div class="panel-group" id="PostLists" role="tablist" aria-multiselectable="true">
+                        <div class="list-group">
                             {% for post in post_list %}
-                                <div class="panel panel-default">
-                                    <div class="panel-heading" role="tab" id="{{ post.location_id|add:"2"}}">
-                                        <h4 class="panel-title">
-                                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#PostLists"
-                                               href="#{{ post.location_id|add:"4"}}" aria-expanded="false" aria-controls=
-                                                       "{{ post.location_id|add:"4"}}">
-                                                {{ post.post_title }}
-                                            </a>
-                                        </h4>
-                                    </div>
-                                    <div id="{{ post.location_id|add:"4"}}" class="panel-collapse collapse" role="tabpanel"
-                                         aria-labelledby="{{ post.location_id|add:"2"}}">
-                                        <div class="list-group">
-                                            <a href="javascript:sidebarClick({{ post.location.latitude }},
+                                <a href="javascript:sidebarClick({{ post.location.latitude }},
 {{ post.location.longitude }})" class="list-group-item">
-                                               <p class="list-group-item-text">{{ post.content }}</p> </a>
-                                        </div>
-                                    </div>
-                                </div>
+                                    <h4 class="list-group-item-heading">
+                                        posted on {{ post.timestamp|date:"m/d P"}}
+                                    </h4>
+                                    <p class="list-group-item-text">{{ post.content|truncatechars:120 }}</p>
+                                </a>
                             {% endfor %}
                         </div>
-
                     </div>
                 </div>
             </div>
