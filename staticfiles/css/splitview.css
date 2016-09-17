@@ -23,6 +23,7 @@ body, html {
         overflow-y: scroll;
         width: 25%;
         word-wrap: break-word;
+        height:100%;
     }
 
     #map {
@@ -60,8 +61,7 @@ and (max-device-width : 480px) {
 }
 
 #right {
-    height:100%;
     /*background-color: #4FC1E9;*/
     /*text-align: center;*/
-    padding-bottom: 60px;"
+    padding-bottom: 60px;
 }
