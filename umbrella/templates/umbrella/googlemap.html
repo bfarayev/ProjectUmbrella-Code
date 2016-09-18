@@ -47,7 +47,7 @@
 {#                                    '</div>'+#}
 {#                                    '<h4 id="postTitle" class="postTitle">{{ post.post_title }}</h4>'+#}
                                     '<div id="bodyContent"  style="word-wrap: break-word";>'+
-                                    '<strong>myusername</strong><br/><span class="text-muted" data-toggle="tooltip" data-placement="top" title="Posted at {{ post.timestamp|date:"P jS N"}}">commented 5 days ago</span>'+
+                                    '<strong>myusername</strong><br/><span class="text-muted" data-toggle="tooltip" data-placement="top" title="Posted at {{ post.timestamp|date:"P jS N"}}">commented {{ post.timestamp|timesince }} ago</span>'+
                                     '<p class="well well-sm">{{ post.content}}</p>'+
 {#                                    '</div>'+#}
                                     '</div>';
