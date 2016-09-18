@@ -43,13 +43,10 @@
                         {% for post in post_list%}
                             var post_location= { lat: {{ post.location.latitude }}, lng: {{ post.location.longitude }} };
                             var postContent = '<div id="content">'+
-{#                                    '<div id="siteNotice">'+#}
-{#                                    '</div>'+#}
-{#                                    '<h4 id="postTitle" class="postTitle">{{ post.post_title }}</h4>'+#}
                                     '<div id="bodyContent"  style="word-wrap: break-word";>'+
+                                    '<img class="img-circle" src="{% static "images/profile-img.png" %}" alt="Generic placeholder image" width="28" height="28">'+
                                     '<strong>myusername</strong><br/><span class="text-muted" data-toggle="tooltip" data-placement="top" title="Posted at {{ post.timestamp|date:"P jS N"}}">commented {{ post.timestamp|timesince }} ago</span>'+
                                     '<p class="well well-sm">{{ post.content}}</p>'+
-{#                                    '</div>'+#}
                                     '</div>';
                             addMarker(post_location, image, postContent);
                         {% endfor %}
