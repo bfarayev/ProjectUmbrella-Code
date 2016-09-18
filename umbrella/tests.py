@@ -1,3 +1,9 @@
-from django.test import TestCase
+from django.test import Client
+import unittest
 
-# Create your tests here.
+class UmbrellaTestCases(unittest.TestCase):
+    def test_index(self):
+        """Simplest test: Check if homepage is up"""
+        c = Client()
+        response = c.get('/')
+        self.assertEqual(response.status_code, 200)
