@@ -30,7 +30,7 @@ def createFivePosts(request):
     _category_1 = Category(title=title_1, description=descrip_1)
     _category_1.save()
 
-    position_2 = [-33.888584, 152.1851586]
+    position_2 = [-33.888584, 151.2851586]
     title_2 = "Category B"
     content_2 = "I'm so hungry, does anyone can share me a pancake?..." \
                 "blah la bhla bhal bh al bha lb hal bh al bh al bha lhb"
@@ -40,7 +40,7 @@ def createFivePosts(request):
     _category_2 = Category(title=title_2, description=descrip_2)
     _category_2.save()
 
-    position_3 = [-33.888584, 150.1851586]
+    position_3 = [-33.888584, 151.0851586]
     title_3 = "Category C"
     content_3 = "Amazing competition with your friends! hands up and join us!! :)"
     descrip_3 = 'This is Category C'
@@ -49,7 +49,7 @@ def createFivePosts(request):
     _category_3 = Category(title=title_3, description=descrip_3)
     _category_3.save()
 
-    position_4 = [-32.888584, 151.1851586]
+    position_4 = [-33.788584, 151.1851586]
     title_4 = "Category D"
     content_4 = "I just want to have a long content to test thee..." \
                 "text feild 123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"
@@ -59,7 +59,7 @@ def createFivePosts(request):
     _category_4 = Category(title=title_4, description=descrip_4)
     _category_4.save()
 
-    position_5 = [-34.888584, 151.1851586]
+    position_5 = [-33.988584, 151.1851586]
     title_5 = "Category E"
     content_5 = "Ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh~~~AhhAhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh~~~hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh~~~Ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh~~~Ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh~~~Ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh~~~Ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh~~~"
     descrip_5 = "This is Category E"
