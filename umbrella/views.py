@@ -1,16 +1,52 @@
 from django.shortcuts import render
 from .models import *
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.admin import User
+from django.contrib.auth import authenticate, login, logout
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 
-# TODO: implement viewProfile
-def viewProfile(request):
-    profile = 1
-    context = {'profile': profile}
-    return render(request, 'umbrella/viewProfile.html', context)
+# TODO: Log out
+def logoutView(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('umbrella:index'))
 
 
+# TODO: Authenticating users
+def _is_valid_email(email):
+    from django.core.validators import validate_email
+    from django.core.exceptions import ValidationError
+    try:
+        validate_email(email)
+        return True
+    except ValidationError:
+        return False
+
+
+def authenticateUser(request):
+    userEmail = request.POST['inputEmail']
+    userPass = request.POST['inputPassword']
+    if _is_valid_email(userEmail):
+        try:
+            username = User.objects.filter(email=userEmail).values_list('username', flat=True)
+        except User.DoesNotExist:
+            username = None
+
+    kwargs = {'username': username, 'password': userPass}
+    user = authenticate(**kwargs)
+
+    if user is not None:
+        login(request, user)
+        # Redirect to userProfile for testing
+        return HttpResponseRedirect(reverse('umbrella:index'))
+    else:
+        # Redirect to signin.html
+        return HttpResponseRedirect(reverse('umbrella:signin'))
+
+
+def view_profile(request):
+    return render(request, 'umbrella/viewProfile.html')
 
 
 def createUser(request):
@@ -28,6 +64,7 @@ def createUser(request):
     user.save()
     return HttpResponseRedirect(reverse('umbrella:index'))
 
+
 def index(request):
     latest_post_list = Post.objects.all()
     context = {'post_list': latest_post_list}
@@ -37,8 +74,10 @@ def index(request):
 def signin(request):
     return render(request, 'umbrella/signin.html')
 
+
 def register(request):
     return render(request, 'umbrella/register.html')
+
 
 def googlemap(request):
     latest_post_list = Post.objects.all()

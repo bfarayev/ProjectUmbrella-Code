@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 
 
-
 # Create Category class
 class Category(models.Model):
     title = models.CharField(max_length=40)
@@ -15,6 +14,7 @@ class Category(models.Model):
     def __str__(self):
         return self.title
 
+
 # Create Location class
 class Location(models.Model):
     latitude = models.FloatField(default=-33.888584)
@@ -22,6 +22,7 @@ class Location(models.Model):
 
     def __str__(self):
         return str([self.latitude, self.longitude])
+
 
 # Create the Posts class
 class Post(models.Model):
