@@ -1,8 +1,20 @@
 from django.shortcuts import render
 from .models import *
+from django.contrib.auth.models import User
+from django.http import HttpResponseRedirect, HttpResponse
+from django.urls import reverse
 
+def createUser(request):
+    userName = request.POST['display_name']
+    userPass = request.POST['password']
+    userMail = request.POST['email']
 
-# Create your views here.
+    user = User.objects.create_user(userName,
+                                    userMail,
+                                    userPass)
+    user.save()
+    return HttpResponseRedirect(reverse('umbrella:index'))
+
 def index(request):
     latest_post_list = Post.objects.all()
     context = {'post_list': latest_post_list}
@@ -106,3 +118,4 @@ def createFivePosts(request):
     post_5.save()
 
     return render(request, 'umbrella/index.html')
+
