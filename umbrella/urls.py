@@ -11,5 +11,6 @@ urlpatterns = [
     url(r'^register/', views.register, name='register'),
     url(r'^googlemap/',views.googlemap,name='googlemap'),
     url(r'^createposts/', views.createFivePosts, name='createFivePosts'),
-    url(r'^createUser/', views.createUser, name='createUser')
+    url(r'^createUser/', views.createUser, name='createUser'),
+    url(r'^viewProfile/', views.viewProfile, name='viewProfile')
 ]

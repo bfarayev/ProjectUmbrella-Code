@@ -1,17 +1,30 @@
 from django.shortcuts import render
 from .models import *
-from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
+from django.contrib.auth.admin import User
+
+# TODO: implement viewProfile
+def viewProfile(request):
+    profile = 1
+    context = {'profile': profile}
+    return render(request, 'umbrella/viewProfile.html', context)
+
+
+
 
 def createUser(request):
     userName = request.POST['display_name']
     userPass = request.POST['password']
     userMail = request.POST['email']
+    # TODO: add first_name and last_name into User
+    userFirstName = request.POST['first_name']
+    userLastName= request.POST['last_name']
 
     user = User.objects.create_user(userName,
-                                    userMail,
-                                    userPass)
+                             userMail,
+                             userPass
+                             )
     user.save()
     return HttpResponseRedirect(reverse('umbrella:index'))
 
