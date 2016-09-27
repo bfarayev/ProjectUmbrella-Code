@@ -84,6 +84,25 @@ def googlemap(request):
     context = {'post_list': latest_post_list}
     return render(request, 'umbrella/googlemap.html',context)
 
+def createNewPost(request):
+    postLatitude = request.POST['newPostLat']
+    potsLongitude = request.POST['newPostLong']
+    title = 'Placeholder Title'
+    content = request.POST['newPostContent']
+    description = 'Placeholder Description'
+    _location_ = Location(latitude=postLatitude, longitude=potsLongitude)
+    _location_.save()
+    _category_ = Category(title=title, description=description)
+    _category_.save()
+
+    newPost = Post()
+    newPost.content = content
+    newPost.save()
+    newPost.location = _location_
+    newPost.category.add(_category_)
+    newPost.save()
+
+    return HttpResponseRedirect(reverse('umbrella:googlemap'))
 
 def createFivePosts(request):
     # TODO: for testing google-map-implementation, delete this and related url in urls.py when complete.

@@ -32,6 +32,8 @@
                                 infoWindow.setPosition(pos);
                                 infoWindow.setContent('You are currently here!');
                                 // map.setCenter(pos);
+                                document.getElementById('latitude').value = pos.lat;
+                                document.getElementById('longitude').value = pos.lng;
                             }, function() {
                                 handleLocationError(true, infoWindow, map.getCenter());
                             });
@@ -117,6 +119,21 @@
                             </span>
                         </div>
                     </div>
+                    {% if user.is_authenticated %}
+                    <div class="row">
+                        <form action= "{% url 'umbrella:createNewPost' %}" method="POST" name="CreatePostForm">
+                            <div class="form-group">
+                                {% csrf_token %}
+                                <br>
+                                <textarea class="form-control" name="newPostContent" rows="3" placeholder="What's on your mind? Tell the world!"></textarea>
+                                <br>
+                                <input id="latitude" type="hidden" name="newPostLat" value="">
+                                <input id="longitude" type="hidden" name="newPostLong" value="">
+                                <button type="submit" class="btn btn-default pull-right">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                    {% endif %}
                     <div class="row">
                         <h2>Around you</h2>
                         <div class="list-group">

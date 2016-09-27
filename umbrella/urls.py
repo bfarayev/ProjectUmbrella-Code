@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^register/', views.register, name='register'),
     url(r'^googlemap/',views.googlemap, name='googlemap'),
     url(r'^createposts/', views.createFivePosts, name='createFivePosts'),
+    url(r'^createNewPost/', views.createNewPost, name='createNewPost'),
     url(r'^createUser/', views.createUser, name='createUser'),
     url(r'^viewProfile/', views.view_profile, name='view_profile'),
     url(r'^authenticateUser/', views.authenticateUser, name='authenticateUser'),
