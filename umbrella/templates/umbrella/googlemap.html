@@ -47,7 +47,7 @@
                             var postContent = '<div id="content">'+
                                     '<div id="bodyContent"  style="word-wrap: break-word";>'+
                                     '<img class="img-circle" src="{% static "images/profile-img.png" %}" alt="Generic placeholder image" width="28" height="28">'+
-                                    '<strong>myusername</strong><br/><span class="text-muted" data-toggle="tooltip" data-placement="top" title="Posted at {{ post.timestamp|date:"P jS N"}}">commented {{ post.timestamp|timesince }} ago</span>'+
+                                    '<strong>{{ post.user.username }}</strong><br/><span class="text-muted" data-toggle="tooltip" data-placement="top" title="Posted at {{ post.timestamp|date:"P jS N"}}">commented {{ post.timestamp|timesince }} ago</span>'+
                                     '<p class="well well-sm">{{ post.content}}</p>'+
                                     '</div>';
                             addMarker(post_location, image, postContent);
@@ -127,8 +127,8 @@
                                 <br>
                                 <textarea class="form-control" name="newPostContent" rows="3" placeholder="What's on your mind? Tell the world!"></textarea>
                                 <br>
-                                <input id="latitude" type="hidden" name="newPostLat" value="">
-                                <input id="longitude" type="hidden" name="newPostLong" value="">
+                                <input id="latitude" type="hidden" name="newPostLat" value="-33.8886">
+                                <input id="longitude" type="hidden" name="newPostLong" value="151.1873">
                                 <button type="submit" class="btn btn-default pull-right">Submit</button>
                             </div>
                         </form>
@@ -149,7 +149,7 @@
                                     <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
                                         <div class="bubble">
                                             <div class="">
-                                                <strong>myusername</strong>
+                                                <strong>{{ post.user.username }}</strong>
                                                 <span class="text-muted" data-toggle="tooltip" data-placement="top" title="Posted at {{ post.timestamp|date:"P jS N"}}">commented {{ post.timestamp|timesince }} ago</span>
                                             </div>
                                             <div class="">

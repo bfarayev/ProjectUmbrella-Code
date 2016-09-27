@@ -90,15 +90,17 @@ def createNewPost(request):
     title = 'Placeholder Title'
     content = request.POST['newPostContent']
     description = 'Placeholder Description'
-    _location_ = Location(latitude=postLatitude, longitude=potsLongitude)
+    _location_ = Location(latitude=float(postLatitude), longitude=float(potsLongitude))
     _location_.save()
     _category_ = Category(title=title, description=description)
     _category_.save()
+    _user_ = request.user
 
     newPost = Post()
     newPost.content = content
     newPost.save()
     newPost.location = _location_
+    newPost.user = _user_
     newPost.category.add(_category_)
     newPost.save()
 
