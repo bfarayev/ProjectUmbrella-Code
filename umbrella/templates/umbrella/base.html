@@ -1,6 +1,4 @@
 {% load static %}
-{% include "umbrella/register.html" %}
-{% include "umbrella/signin.html" %}
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -50,14 +48,14 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/admin/" ><span class="glyphicon glyphicon-wrench"></span> Admin</a></li>
-                    <li><a href="#" data-toggle="modal" data-target="#gridSystemModal" ><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                    <li><a href="#" data-toggle="modal" data-target="#login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    <li><a href="/admin/"><span class="glyphicon glyphicon-wrench"></span> Admin</a></li>
+                    <li><a href="/register/"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    <li><a href="/signin/"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                 </ul>
             </div> <!--/.nav-collapse -->
         </div>
     </nav>
-    <div style="padding-top: 10px;"></div>
+    <div style="padding-top: 50px;"></div>
     {% block content %}{% endblock %}
 
     <!-- Bootstrap core JavaScript
