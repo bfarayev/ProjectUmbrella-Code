@@ -80,7 +80,7 @@ def register(request):
 
 
 def googlemap(request):
-    latest_post_list = Post.objects.all()
+    latest_post_list = Post.objects.all().order_by('-timestamp')
     context = {'post_list': latest_post_list}
     return render(request, 'umbrella/googlemap.html',context)
 
