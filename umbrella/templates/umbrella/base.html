@@ -1,4 +1,6 @@
 {% load static %}
+{% include 'umbrella/signin.html' %}
+{% include 'umbrella/register.html' %}
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -55,8 +57,8 @@
                     </ul>
                 {% else %}
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="/register/"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                        <li><a href="/signin/"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#signin"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                     </ul>
                 {% endif %}
             </div> <!--/.nav-collapse -->
