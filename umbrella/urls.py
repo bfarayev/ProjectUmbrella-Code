@@ -9,6 +9,10 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^signin/', views.signin, name='signin'),
     url(r'^register/', views.register, name='register'),
-    url(r'^googlemap/',views.googlemap,name='googlemap'),
-    url(r'^createposts/', views.createFivePosts, name='createFivePosts')
+    url(r'^googlemap/',views.googlemap, name='googlemap'),
+    url(r'^createposts/', views.createFivePosts, name='createFivePosts'),
+    url(r'^createUser/', views.createUser, name='createUser'),
+    url(r'^viewProfile/', views.view_profile, name='view_profile'),
+    url(r'^authenticateUser/', views.authenticateUser, name='authenticateUser'),
+    url(r'^logout/', views.logoutView, name='logout')
 ]
