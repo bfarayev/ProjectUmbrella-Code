@@ -13,5 +13,6 @@ urlpatterns = [
     url(r'^createposts/', views.createFivePosts, name='createFivePosts'),
     url(r'^createUser/', views.createUser, name='createUser'),
     url(r'^viewProfile/', views.view_profile, name='view_profile'),
-    url(r'^authenticateUser/', views.authenticateUser, name='authenticateUser')
+    url(r'^authenticateUser/', views.authenticateUser, name='authenticateUser'),
+    url(r'^logout/', views.logoutView, name='logout')
 ]
