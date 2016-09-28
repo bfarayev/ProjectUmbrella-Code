@@ -118,6 +118,11 @@ def createSampleData(request):
     _location_1.save()
     _category_1 = Category(title=title_1, description=descrip_1)
     _category_1.save()
+    user_1 = User.objects.create_user('Louis',
+                                      'Louis@gmail.com',
+                                      '123456'
+                                      )
+    user_1.save()
 
     position_2 = [-33.886867, 151.187496]
     title_2 = "Category B"
@@ -127,6 +132,11 @@ def createSampleData(request):
     _location_2.save()
     _category_2 = Category(title=title_2, description=descrip_2)
     _category_2.save()
+    user_2 = User.objects.create_user('Aguo',
+                                      'Aguo@gmail.com',
+                                      '123456'
+                                      )
+    user_2.save()
 
     position_3 = [-33.889639, 151.190629]
     title_3 = "Category C"
@@ -136,6 +146,11 @@ def createSampleData(request):
     _location_3.save()
     _category_3 = Category(title=title_3, description=descrip_3)
     _category_3.save()
+    user_3 = User.objects.create_user('Kai',
+                                      'Kai@gmail.com',
+                                      '123456'
+                                      )
+    user_3.save()
 
     position_4 = [-33.887348, 151.191745]
     title_4 = "Category D"
@@ -145,6 +160,11 @@ def createSampleData(request):
     _location_4.save()
     _category_4 = Category(title=title_4, description=descrip_4)
     _category_4.save()
+    user_4 = User.objects.create_user('bakhtiyar',
+                                      'bakhtiyar@gmail.com',
+                                      '123456'
+                                      )
+    user_4.save()
 
     position_5 = [-33.888373, 151.193440]
     title_5 = "Category E"
@@ -154,12 +174,18 @@ def createSampleData(request):
     _location_5.save()
     _category_5 = Category(title=title_5, description=descrip_5)
     _category_5.save()
+    user_5 = User.objects.create_user('alexandru',
+                                      'alexandru@gmail.com',
+                                      '123456'
+                                      )
+    user_5.save()
 
     post_1 = Post()
     post_1.content = content_1
     post_1.save()
     post_1.location = _location_1
     post_1.category.add(_category_1)
+    post_1.user = user_1
     post_1.save()
 
     post_2 = Post()
@@ -167,6 +193,7 @@ def createSampleData(request):
     post_2.save()
     post_2.location = _location_2
     post_2.category.add(_category_2)
+    post_2.user = user_2
     post_2.save()
 
     post_3 = Post()
@@ -174,6 +201,7 @@ def createSampleData(request):
     post_3.save()
     post_3.location = _location_3
     post_3.category.add(_category_3)
+    post_3.user = user_3
     post_3.save()
 
     post_4 = Post()
@@ -181,6 +209,7 @@ def createSampleData(request):
     post_4.save()
     post_4.location = _location_4
     post_4.category.add(_category_4)
+    post_4.user = user_4
     post_4.save()
 
     post_5 = Post()
@@ -188,6 +217,7 @@ def createSampleData(request):
     post_5.save()
     post_5.location = _location_5
     post_5.category.add(_category_5)
+    post_5.user = user_5
     post_5.save()
 
     return render(request, 'umbrella/index.html')
