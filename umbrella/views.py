@@ -118,8 +118,8 @@ def createSampleData(request):
     _location_1.save()
     _category_1 = Category(title=title_1, description=descrip_1)
     _category_1.save()
-    user_1 = User.objects.create_user('Louis',
-                                      'Louis@gmail.com',
+    user_1 = User.objects.create_user('louis',
+                                      'louis@gmail.com',
                                       '123456'
                                       )
     user_1.save()
@@ -132,9 +132,9 @@ def createSampleData(request):
     _location_2.save()
     _category_2 = Category(title=title_2, description=descrip_2)
     _category_2.save()
-    user_2 = User.objects.create_user('Aguo',
-                                      'Aguo@gmail.com',
-                                      '123456'
+    user_2 = User.objects.create_user('aguo',
+                                      'austynguo@gmail.com',
+                                      'asdf1234'
                                       )
     user_2.save()
 
@@ -146,8 +146,8 @@ def createSampleData(request):
     _location_3.save()
     _category_3 = Category(title=title_3, description=descrip_3)
     _category_3.save()
-    user_3 = User.objects.create_user('Kai',
-                                      'Kai@gmail.com',
+    user_3 = User.objects.create_user('kai',
+                                      'kai@gmail.com',
                                       '123456'
                                       )
     user_3.save()
