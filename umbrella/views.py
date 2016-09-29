@@ -4,8 +4,6 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.admin import User
 from django.contrib.auth import authenticate, login, logout
-from django.core.validators import validate_email
-from django.core.exceptions import ValidationError
 
 # TODO: Log out
 def logoutView(request):
