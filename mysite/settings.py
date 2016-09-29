@@ -155,3 +155,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "node_modules"), # Add node_modules folder
     os.path.join(BASE_DIR, "staticfiles") # Add 'staticfiles' folder which contains static files such as css/js and images
 ]
+
+# The directory that will collect all static files, to be served by NGINX
+# (Copy files to the static root with `./manage.py collectstatic`)
+STATIC_ROOT = os.path.join(get_env_variable('HOME'), 'staticroot')
