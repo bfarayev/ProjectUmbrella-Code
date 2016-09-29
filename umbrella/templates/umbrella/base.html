@@ -1,4 +1,6 @@
 {% load static %}
+{% include 'umbrella/signin.html' %}
+{% include 'umbrella/register.html' %}
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -47,15 +49,22 @@
                         </ul>
                     </li>
                 </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/admin/"><span class="glyphicon glyphicon-wrench"></span> Admin</a></li>
-                    <li><a href="/register/"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                    <li><a href="/signin/"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                </ul>
+                {% if user.is_authenticated %}
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/admin/"><span class="glyphicon glyphicon-wrench"></span> Admin</a></li>
+                        <li><a href="/viewProfile/"><span class="glyphicon glyphicon-user"></span> View Profile</a></li>
+                        <li><a href="{% url 'umbrella:logout' %}"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+                    </ul>
+                {% else %}
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#" data-toggle="modal" data-target="#register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#signin"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    </ul>
+                {% endif %}
             </div> <!--/.nav-collapse -->
         </div>
     </nav>
-    <div style="padding-top: 50px;"></div>
+    <div style="padding-top: 10px;"></div>
     {% block content %}{% endblock %}
 
     <!-- Bootstrap core JavaScript

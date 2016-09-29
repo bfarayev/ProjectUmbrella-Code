@@ -19,7 +19,7 @@
                     function initMap() {
                         map = new google.maps.Map(document.getElementById('map'), {
                             center: {lat: -33.8886, lng: 151.1873},
-                            zoom: 12
+                            zoom: 14
                         });
                         var infoWindow = new google.maps.InfoWindow({map: map});
                         // Try HTML5 geolocation. NOTE: Requires HTTPS to work.
@@ -32,6 +32,8 @@
                                 infoWindow.setPosition(pos);
                                 infoWindow.setContent('You are currently here!');
                                 // map.setCenter(pos);
+                                document.getElementById('latitude').value = pos.lat;
+                                document.getElementById('longitude').value = pos.lng;
                             }, function() {
                                 handleLocationError(true, infoWindow, map.getCenter());
                             });
@@ -45,7 +47,7 @@
                             var postContent = '<div id="content">'+
                                     '<div id="bodyContent"  style="word-wrap: break-word";>'+
                                     '<img class="img-circle" src="{% static "images/profile-img.png" %}" alt="Generic placeholder image" width="28" height="28">'+
-                                    '<strong>myusername</strong><br/><span class="text-muted" data-toggle="tooltip" data-placement="top" title="Posted at {{ post.timestamp|date:"P jS N"}}">commented {{ post.timestamp|timesince }} ago</span>'+
+                                    '<strong>{{ post.user.username }}</strong><br/><span class="text-muted" data-toggle="tooltip" data-placement="top" title="Posted at {{ post.timestamp|date:"P jS N"}}">commented {{ post.timestamp|timesince }} ago</span>'+
                                     '<p class="well well-sm">{{ post.content}}</p>'+
                                     '</div>';
                             addMarker(post_location, image, postContent);
@@ -90,7 +92,7 @@
                             lng: lng
                         };
                         map.setCenter(pos);
-                        map.setZoom(14);
+                        map.setZoom(18);
                     }
                     // Data for the markers consisting of a name, a LatLng and a zIndex for the
                     // order in which these markers should display on top of each other.
@@ -117,6 +119,21 @@
                             </span>
                         </div>
                     </div>
+                    {% if user.is_authenticated %}
+                    <div class="row">
+                        <form action= "{% url 'umbrella:createNewPost' %}" method="POST" name="CreatePostForm">
+                            <div class="form-group">
+                                {% csrf_token %}
+                                <br>
+                                <textarea class="form-control" name="newPostContent" rows="3" placeholder="What's on your mind? Tell the world!"></textarea>
+                                <br>
+                                <input id="latitude" type="hidden" name="newPostLat" value="-33.8886">
+                                <input id="longitude" type="hidden" name="newPostLong" value="151.1873">
+                                <button type="submit" class="btn btn-default pull-right">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                    {% endif %}
                     <div class="row">
                         <h2>Around you</h2>
                         <div class="list-group">
@@ -132,7 +149,7 @@
                                     <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
                                         <div class="bubble">
                                             <div class="">
-                                                <strong>myusername</strong>
+                                                <strong>{{ post.user.username }}</strong>
                                                 <span class="text-muted" data-toggle="tooltip" data-placement="top" title="Posted at {{ post.timestamp|date:"P jS N"}}">commented {{ post.timestamp|timesince }} ago</span>
                                             </div>
                                             <div class="">
