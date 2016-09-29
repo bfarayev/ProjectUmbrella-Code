@@ -1,10 +1,10 @@
 import unittest
 
 from django.test import Client
-from umbrella.models import Category
+
 from umbrella.models import Location
-from umbrella.models import Post, User
-from umbrella.views import createNewPost
+from umbrella.models import User
+
 
 class UmbrellaTestCases(unittest.TestCase):
     def createUser(self, username, passwd, email):
