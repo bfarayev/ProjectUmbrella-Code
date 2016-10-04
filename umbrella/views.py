@@ -1,11 +1,11 @@
-from django.shortcuts import render
-from .models import *
-from django.http import HttpResponseRedirect
-from django.urls import reverse
-from django.contrib.auth.admin import User
 from django.contrib.auth import authenticate, login, logout
-from django.core.validators import validate_email
-from django.core.exceptions import ValidationError
+from django.contrib.auth.admin import User
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+from django.urls import reverse
+
+from .models import *
+
 
 # TODO: Log out
 def logoutView(request):

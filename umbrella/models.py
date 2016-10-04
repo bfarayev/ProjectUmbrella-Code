@@ -1,8 +1,7 @@
 #from django.db import models
 # FIXME: How about following one?
-from django.contrib.gis.db import models
 from django.contrib.auth.models import User
-from django.contrib.postgres.fields import ArrayField
+from django.contrib.gis.db import models
 
 
 # Create Category class
