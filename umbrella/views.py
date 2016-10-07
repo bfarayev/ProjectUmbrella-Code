@@ -4,7 +4,6 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from registration.forms import RegistrationForm
 
 from .models import *
 
@@ -13,18 +12,22 @@ from .models import *
 
 # procedure to handle updating the information in the user model
 def updateUserProfile(request):
-    args = {}
 
     if request.method == 'POST':
-        form = UpdateProfile(request.POST, instance=request.user)
-        form.actual_user = request.user
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('update_profile_success'))
+        #form = UpdateProfile(request.POST, instance=request.user)
+        #form.actual_user = request.user
+        #if form.is_valid():
+        #    form.save()
+        #    return HttpResponseRedirect(reverse('update_profile_success'))
+        new_user_email = request.POST['email']
+        new_user_pass = request.POST['password']
+        actual_user = request.user
+        actual_user.email = new_user_email
+        actual_user.save()
+        print("about to redirect to view prof")
+        return HttpResponseRedirect('index')
     else:
-        form = UpdateProfile()
-
-    args['form'] = form
+        print(request.method)
 
     return render(request, 'umbrella/updateUserProfile.html')
 
@@ -140,7 +143,7 @@ def createNewPost(request):
 
 from django import forms
 
-
+'''
 class UpdateProfile(forms.ModelForm):
     username = forms.CharField(required=True)
     email = forms.EmailField(required=True)
@@ -167,7 +170,7 @@ class UpdateProfile(forms.ModelForm):
             user.save()
 
         return user
-
+'''
 
 
 def createSampleData(request):
