@@ -84,6 +84,12 @@ def googlemap(request):
     context = {'post_list': latest_post_list}
     return render(request, 'umbrella/googlemap.html',context)
 
+def contact(request):
+    return render(request, 'umbrella/contact.html')
+
+def about(request):
+    return render(request, 'umbrella/about.html')
+
 def createNewPost(request):
     postLatitude = request.POST['newPostLat']
     potsLongitude = request.POST['newPostLong']
