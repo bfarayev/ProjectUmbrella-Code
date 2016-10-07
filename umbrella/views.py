@@ -1,10 +1,25 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.admin import User
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
 from .models import *
+
+# procedure to handle updating the information in the user model
+def updateUserProfile(request):
+    return render(request, 'umbrella/updateUserProfile.html')
+
+#variables to capture the new values of the fields
+
+
+from django.views.generic.detail import SingleObjectMixin
+from django.views.generic import UpdateView
+from django.utils.decorators import method_decorator
+
+from umbrella.models import User
+
 
 
 # TODO: Log out
@@ -91,7 +106,7 @@ def createNewPost(request):
     content = request.POST['newPostContent']
     description = 'Placeholder Description'
     _location_ = Location(latitude=float(postLatitude), longitude=float(potsLongitude))
-    _location_.save()
+    _location_.save() # what does .save() do?
     _category_ = Category(title=title, description=description)
     _category_.save()
     _user_ = request.user

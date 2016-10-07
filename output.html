@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+<h1 id="contents">Contents</h1>
+<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+<ul>
+<li><a href="#contents">Contents</a></li>
+<li><a href="#administration">Administration</a>
+<ul>
+<li><a href="#steps-to-get-started">Steps to get started:</a></li>
+<li><a href="#register-a-superuser-account">Register a 'Superuser' account</a></li>
+</ul></li>
+<li><a href="#umbrella-application">Umbrella application</a>
+<ul>
+<li><a href="#node-package-manager-npm">Node Package Manager (npm)</a>
+<ul>
+<li><a href="#dependencies-packagesjson">Dependencies &amp; <code>packages.json</code></a></li>
+</ul></li>
+<li><a href="#bootstrap">Bootstrap</a></li>
+<li><a href="#integrating-postgresql">Integrating Postgresql</a></li>
+<li><a href="#postgis-installation">PostGIS installation</a>
+<ul>
+<li><a href="#mac-instructions">Mac instructions</a></li>
+<li><a href="#ubuntu-instructions">Ubuntu instructions</a></li>
+</ul></li>
+<li><a href="#geodjango-tutorials">GeoDjango Tutorials</a></li>
+<li><a href="#git-team-workflow">Git Team Workflow</a>
+<ul>
+<li><a href="#reviewing-a-pr">Reviewing a PR</a></li>
+</ul></li>
+</ul></li>
+</ul>
+<!-- /TOC -->
+<h1 id="administration">Administration</h1>
+<h2 id="steps-to-get-started">Steps to get started:</h2>
+<ol style="list-style-type: decimal">
+<li>Navigate to the <code>ProjectUmbrella-Code</code> root directory</li>
+<li>Run a local server via <code>python manage.py runserver</code></li>
+</ol>
+<ul>
+<li>Note 1: On Ubuntu you may have to specify python3 explicitly: <code>python3 manage.py runserver</code></li>
+<li>Note 2: You can tell the server to run on a port different to the default (which is Port 8000) by using: <code>python manage.py runserver 8080</code></li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>If you get errors, make sure your Postgresql database has been set up correctly as per <a href="#postgresql-set-up">here</a></li>
+<li>Current valid views include:</li>
+</ol>
+<ul>
+<li><code>localhost:8000/</code>
+<ul>
+<li><code>localhost:8000/admin/</code></li>
+</ul></li>
+<li><code>localhost:8000/googlemaps/</code> - has a locate current location feature</li>
+<li><code>localhost:8000/signin/</code></li>
+</ul>
+<h2 id="register-a-superuser-account">Register a 'Superuser' account</h2>
+<p>You will probably need a superuser account on the django admin panel at some point so: 1. Run <code>python manage.py createsuperuser</code> to create super user. 2. Follow the prompts.</p>
+<h1 id="umbrella-application">Umbrella application</h1>
+<p>Currently the Umbrella app points to the root of the webserver e.g. on localhost it is <code>127.0.0.1:8000</code>. You should be greeted by the index page (index.html duh).</p>
+<h2 id="node-package-manager-npm">Node Package Manager (npm)</h2>
+<p>We'll be using npm to manage packages and dependencies e.g. Bootstrap - hich is what we will use to style our HTML with. It uses a <code>packages.json</code> file to keep track of package versions used, much the same as the <code>requirements.txt</code> file that is used by Python to keep track of package versioning to ensure consistency (<a href="https://pip.readthedocs.io/en/1.1/requirements.html">more info here</a>).</p>
+<p>To download <code>npm</code> on Ubuntu:</p>
+<pre><code>sudo apt-get install npm</code></pre>
+<p>On Mac: <a href="http://blog.teamtreehouse.com/install-node-js-npm-mac">Visit this article</a></p>
+<p>Navigate to the <code>ProjectUmbrella-Code</code> root directory and run <code>npm install</code> and npm will install the dependencies from the <code>packages.json</code> file.</p>
+<h3 id="dependencies-packages.json">Dependencies &amp; <code>packages.json</code></h3>
+<p>Not going to re-invent the wheel, here is the npm documentation on <a href="https://docs.npmjs.com/getting-started/using-a-package.json">getting started with <code>package.json</code></a> and more detailed stuff on specifying dependencies <a href="https://docs.npmjs.com/files/package.json">here</a></p>
+<h2 id="bootstrap">Bootstrap</h2>
+<p>Make sure you installed Bootstap at this stage. In root folder run <code>npm install</code> if you haven't done it already. B</p>
+<p>ootstrap has some really good demos/examples that can be found <a href="http://getbootstrap.com/css/">in this link</a></p>
+<h2 id="integrating-postgresql">Integrating Postgresql</h2>
+<p>Please have a look at this before you start:</p>
+<ul>
+<li><a href="http://www.marinamele.com/taskbuster-django-tutorial/install-and-configure-posgresql-for-django#create-database">Tutorial for Mac Users</a></li>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04">Tutorial for Ubuntu Users</a></li>
+</ul>
+<p>Summary of what steps explained above (for Mac Users):</p>
+<ol style="list-style-type: decimal">
+<li>Create a Postgres database in PgAdmin3. We need three fields for the next step: <code>database-name</code>, <code>username</code>, <code>password</code> of Postgresql. <code>username</code> is the <em>owner</em> and <code>password</code> is the <em>owner</em>'s passowrd. You may want to keep it simple and use <code>postgres/ postgres</code> for that.</li>
+<li>In your root folder, do <code>$ vi $VIRTUAL_ENV/bin/postactivate</code> and add this:</li>
+</ol>
+<pre><code>export DATABASE_NAME=&#39;database-name&#39;
+export DATABASE_USER=&#39;username&#39;
+export DATABASE_PASSWORD=&#39;password&#39;</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Now do <code>$ vi $VIRTUAL_ENV/bin/predeactivate</code> and add:</li>
+</ol>
+<pre><code>unset DATABASE_NAME
+unset DATABASE_USER
+unset DATABASE_PASSWORD</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li><p>Restart (reactivate) your virtual env by <code>deactivate</code> and <code>workon</code> commands.</p></li>
+<li><p>To see the Postgres integration, do:</p></li>
+</ol>
+<p><code>python3 manage.py check</code> and then <code>python3 manage.py migrate</code></p>
+<ol start="6" style="list-style-type: decimal">
+<li>You will most likely have gotten an error in step 5, if the stack trace mentions <code>postgis</code> then complete the next section and then retry step 5. Remember if you need help, ask for it.</li>
+</ol>
+<h3 id="cleaning-up-your-postgresql-db">Cleaning up your Postgresql DB</h3>
+<p>Sometimes you might run into database errors, e.g. when a certain column in a table doesn't exist and <code>python3 manage.py migrate</code> doesn't seem to fix it.</p>
+<p>What you can try is to drop your database:</p>
+<pre><code>sudo -u postgres psql
+drop database &lt;your_database_name&gt;;
+create database &lt;your_database_name&gt; with owner &lt;user_you_use_in_django&gt;;
+\q</code></pre>
+<p>and run <code>python3 manage.py migrate</code> &amp; <code>python3 manage.py runserver</code> again.</p>
+<h2 id="postgis-installation">PostGIS installation</h2>
+<h3 id="mac-instructions">Mac instructions</h3>
+<ol style="list-style-type: decimal">
+<li><p>Install <code>postgis v2.2</code> in following the instructions in <a href="http://postgis.net/install/">this link</a></p></li>
+<li><p>Following the suggestion in the postgis install page, run <code>psql</code> as psql superuser in terminal, run following code:</p>
+<pre><code>CREATE EXTENSION postgis;
+CREATE EXTENSION postgis_topology;
+CREATE EXTENSION fuzzystrmatch;
+CREATE EXTENSION postgis_tiger_geocoder;
+ALTER EXTENSION postgis
+ UPDATE TO &quot;2.2.2&quot;;
+ALTER EXTENSION postgis_topology
+ UPDATE TO &quot;2.2.2&quot;;
+ALTER EXTENSION postgis_tiger_geocoder
+ UPDATE TO &quot;2.2.2&quot;;</code></pre></li>
+<li><p>Try to <code>brew</code> following</p>
+<pre><code>$ brew install gdal
+$ brew install libgeoip</code></pre></li>
+<li><p>Done</p></li>
+</ol>
+<h3 id="ubuntu-instructions">Ubuntu instructions</h3>
+<ol style="list-style-type: decimal">
+<li>Install <code>postgis</code> via: <code>sudo apt-get install postgresql-9.5-postgis-2.2</code></li>
+<li><p>Run <code>sudo -u postgres psql</code> and copy the following:</p>
+<pre><code>CREATE EXTENSION postgis;
+CREATE EXTENSION postgis_topology;
+CREATE EXTENSION fuzzystrmatch;
+CREATE EXTENSION postgis_tiger_geocoder;</code></pre></li>
+<li><p>Done</p></li>
+</ol>
+<h2 id="geodjango-tutorials">GeoDjango Tutorials</h2>
+<p>Some GeoDjango links here that might be helpful:</p>
+<ul>
+<li><a href="http://invisibleroads.com/tutorials/geodjango-googlemaps-build.html">Tutorial 1</a></li>
+<li><a href="https://docs.djangoproject.com/en/1.10/ref/contrib/gis/tutorial/">Tutorial 2</a></li>
+</ul>
+<h2 id="git-team-workflow">Git Team Workflow</h2>
+<p>When working as a team, following a common workflow is essential. <a href="https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow/">Feature-branch-workflow</a> is a very powerful method where team members work on their feature branches, create pull requests and let others review their code before it's pushed to production.</p>
+<p>Rules of thumb:</p>
+<ul>
+<li>Merge often. Take small feature to work on. It's not easy to review 1000 lines of code.</li>
+<li>Choose informative branch names like <code>feature/PostGIS-Integration</code>,<code>fix/Database-Error</code>, <code>fix/Unit-Tests</code> etc.</li>
+<li>Don't merge your own PR (Pull Request). Let others review yours.</li>
+<li>Add useful descriptions to your PRs. Make others work easy by doing this. Time is important. If you find something, add it to your PR description.</li>
+<li><code>develop</code> branch is our default base branch.</li>
+</ul>
+<p>Simple example on how this workflow should look like in practice:</p>
+<ul>
+<li>Bob wants to integrate PostGIS.</li>
+<li>He does <code>git checkout -b {branch_name}</code> which is the same as
+<ul>
+<li><code>git branch {branch_name}</code> - Creates new branch called &quot;branch_name&quot;</li>
+<li><code>git checkout {branch_name}</code> - Checkout branch named &quot;branch_name&quot;</li>
+</ul></li>
+<li>He does his work, and thinks it’s in a good shape to push to remote and create a PR and let others review it. So, <code>git push origin {branch_name}</code></li>
+<li>Then he opens GitHub -&gt; Clicks <code>New pull request</code> -&gt; (Base should be and will be <code>develop</code> by default. Compare should be your <code>{branch_name}</code>) -&gt; Adds some description and submits it.</li>
+<li>Now all team members can review and merge his code.</li>
+</ul>
+<h3 id="reviewing-a-pr">Reviewing a PR</h3>
+<p>Sometimes you might want to fix something in someone else's branch. You should use <code>git fetch</code> command to copy the remote branch to your local and work on it.</p>
+<p>It should look like <code>git fetch origin branch-name:branch-name</code> &amp; <code>git checkout branch-name</code></p>
+</body>
+</html>
