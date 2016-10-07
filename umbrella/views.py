@@ -4,11 +4,28 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from registration.forms import RegistrationForm
 
 from .models import *
 
+
+#def updateUserP(request):
+
 # procedure to handle updating the information in the user model
 def updateUserProfile(request):
+    args = {}
+
+    if request.method == 'POST':
+        form = UpdateProfile(request.POST, instance=request.user)
+        form.actual_user = request.user
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('update_profile_success'))
+    else:
+        form = UpdateProfile()
+
+    args['form'] = form
+
     return render(request, 'umbrella/updateUserProfile.html')
 
 #variables to capture the new values of the fields
@@ -120,6 +137,38 @@ def createNewPost(request):
     newPost.save()
 
     return HttpResponseRedirect(reverse('umbrella:googlemap'))
+
+from django import forms
+
+
+class UpdateProfile(forms.ModelForm):
+    username = forms.CharField(required=True)
+    email = forms.EmailField(required=True)
+    first_name = forms.CharField(required=False)
+    last_name = forms.CharField(required=False)
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'first_name', 'last_name')
+
+    def clean_email(self):
+        username = self.cleaned_data.get('username')
+        email = self.cleaned_data.get('email')
+
+        #if email and User.objects.filter(email=email).exclude(username=username).count():
+        #    raise forms.ValidationError('This email address is already in use. Please supply a different email address.')
+        return email
+
+    def save(self, commit=True):
+        user = super(RegistrationForm, self).save(commit=False)
+        user.email = self.cleaned_data['email']
+
+        if commit:
+            user.save()
+
+        return user
+
+
 
 def createSampleData(request):
     # TODO: Add a few sample user accounts that author some sample posts
