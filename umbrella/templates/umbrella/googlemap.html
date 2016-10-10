@@ -4,6 +4,26 @@
     <!-- Custom styles for this template -->
     <link href="{% static "css/splitview.css" %}" rel="stylesheet">
     <link href="{% static "css/bubble.css" %}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+           $('#SubmitForm').submit(function () {
+               # Uncomment below line for debugging
+            alert($(this).serialize());
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'umbrella:createNewPost' %}",
+                data: $(this).serialize(),
+                success: function (data) {
+                    alert(" success "); // for debugging
+                    location.reload()
+            }
+            });
+            e.preventDefault();
+            return false;
+            });
+        })
+    </script>
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-9" style="padding: 0" id="left">
@@ -121,7 +141,7 @@
                     </div>
                     {% if user.is_authenticated %}
                     <div class="row">
-                        <form action= "{% url 'umbrella:createNewPost' %}" method="POST" name="CreatePostForm">
+                        <form id="SubmitForm" name="CreatePostForm">
                             <div class="form-group">
                                 {% csrf_token %}
                                 <br>
@@ -129,7 +149,7 @@
                                 <br>
                                 <input id="latitude" type="hidden" name="newPostLat" value="-33.8886">
                                 <input id="longitude" type="hidden" name="newPostLong" value="151.1873">
-                                <button type="submit" class="btn btn-default pull-right">Submit</button>
+                                <button type="submit" id="SubmitPost" class="btn btn-default pull-right">Submit</button>
                             </div>
                         </form>
                     </div>
