@@ -21,14 +21,18 @@ def updateUserProfile(request):
         #    return HttpResponseRedirect(reverse('update_profile_success'))
         new_user_email = request.POST['email']
         new_user_pass = request.POST['password']
-        actual_user = request.user
-        actual_user.email = new_user_email
-        actual_user.save()
-        print("about to redirect to view prof")
-        return HttpResponseRedirect('index')
-    else:
-        print(request.method)
 
+        actual_user          = request.user
+        actual_user.username = request.POST['display_name']
+        actual_user.set_password(new_user_pass)
+        actual_user.email    = new_user_email
+        actual_user.save()
+
+        #TODO: once the profile has been updated, return the user to the voiew profile page
+        return HttpResponseRedirect(reverse('umbrella:index'))
+        #render(request, 'umbrella/viewProfile.html')
+    else:
+        print("this has to be here to work I do not know why = might be my logic")
     return render(request, 'umbrella/updateUserProfile.html')
 
 #variables to capture the new values of the fields
@@ -144,6 +148,7 @@ def createNewPost(request):
 from django import forms
 
 '''
+# Form model that could have been used to edit the User fields
 class UpdateProfile(forms.ModelForm):
     username = forms.CharField(required=True)
     email = forms.EmailField(required=True)
