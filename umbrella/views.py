@@ -1,10 +1,43 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.admin import User
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
 from .models import *
+
+
+
+def updateUserPassword(request):
+    if request.method == 'POST':
+        actual_user = request.user
+        actual_user.set_password(request.POST['new_password'])
+        actual_user.save()
+
+        #TODO: once the profile has been updated, return the user to the voiew profile page
+        pass
+        return HttpResponseRedirect(reverse('umbrella:index'))
+    else:
+        print("this has to be here to work I do not know why = might be my logic")
+    return render(request, 'umbrella/updateUserProfile.html')
+
+
+
+# procedure to handle updating the information in the user model
+def updateUserProfile(request):
+    if request.method == 'POST':
+        actual_user = request.user
+        actual_user.username = request.POST['display_name']
+        actual_user.email = request.POST['email']
+        actual_user.save()
+
+        #TODO: once the profile has been updated, return the user to the voiew profile page
+        pass
+        return HttpResponseRedirect(reverse('umbrella:index'))
+    else:
+        print("this has to be here to work I do not know why = might be my logic")
+    return render(request, 'umbrella/updateUserProfile.html')
 
 
 # TODO: Log out
@@ -91,7 +124,7 @@ def createNewPost(request):
     content = request.POST['newPostContent']
     description = 'Placeholder Description'
     _location_ = Location(latitude=float(postLatitude), longitude=float(potsLongitude))
-    _location_.save()
+    _location_.save() # what does .save() do?
     _category_ = Category(title=title, description=description)
     _category_.save()
     _user_ = request.user
@@ -105,6 +138,7 @@ def createNewPost(request):
     newPost.save()
 
     return HttpResponseRedirect(reverse('umbrella:googlemap'))
+
 
 def createSampleData(request):
     # TODO: Add a few sample user accounts that author some sample posts
