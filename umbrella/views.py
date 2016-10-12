@@ -8,7 +8,21 @@ from django.urls import reverse
 from .models import *
 
 
-# updateUserP(request):
+
+def updateUserPassword(request):
+    if request.method == 'POST':
+        actual_user = request.user
+        actual_user.set_password(request.POST['password'])
+        actual_user.save()
+
+        #TODO: once the profile has been updated, return the user to the voiew profile page
+        pass
+        return HttpResponseRedirect(reverse('umbrella:index'))
+    else:
+        print("this has to be here to work I do not know why = might be my logic")
+    return render(request, 'umbrella/updateUserProfile.html')
+
+
 
 # procedure to handle updating the information in the user model
 def updateUserProfile(request):
@@ -19,8 +33,8 @@ def updateUserProfile(request):
         actual_user.save()
 
         #TODO: once the profile has been updated, return the user to the voiew profile page
+        pass
         return HttpResponseRedirect(reverse('umbrella:index'))
-        #render(request, 'umbrella/viewProfile.html')
     else:
         print("this has to be here to work I do not know why = might be my logic")
     return render(request, 'umbrella/updateUserProfile.html')

@@ -17,5 +17,5 @@ urlpatterns = [
     url(r'^authenticateUser/', views.authenticateUser, name='authenticateUser'),
     url(r'^logout/', views.logoutView, name='logout'),
     url(r'^updateUserProfile/', views.updateUserProfile, name='updateUserProfile'),
-
+    url(r'^updateUserPassword/', views.updateUserPassword, name='updateUserPassword'),
 ]
