@@ -13,19 +13,26 @@
                                 <img src="{% static 'images/profile-img.png' %}" alt="" class="img-rounded img-responsive" />
                             </div>
                             <div class="col-md-6">
-                                <h2 id="change_username">{{ user.username }}</h2>
-                                <br>
-                                <h4 id="change_email"><span class="glyphicon glyphicon-envelope"></span> {{ user.email }}</h4>
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                                <div class="col-md-offset-8">
-{#                                    <button id="changebutton">Try it</button>#}
-                                    <a href="#" id="changebutton"><span class="glyphicon glyphicon-pencil"></span>Editing</a>
-{#                                    <a href="#" data-toggle="modal" data-target="#updateUserProfile"><span class="glyphicon glyphicon-pencil"></span>Editing</a>#}
+                                <form role="form" action="{% url 'umbrella:updateUserProfile' %}" method="POST" id="form1" name="SubmitForm">
+                                    {% csrf_token %}
+                                    <h2 id="change_username">{{ user.username }}</h2>
+                                    <input id="replaced_username" type="text" name="display_name" style="font-size: 25px;font-weight: bold;" value="{{ user.username}}" class="form-control input-group-lg">
+                                    <br>
+                                    <h4 id="change_email"><span class="glyphicon glyphicon-envelope"></span> {{ user.email }}</h4>
+                                    <input id="replaced_email" type="email" name="email" style="font-size: 18px;font-weight: bold;" value="{{ user.email }}" class="form-control input-group-lg">
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                </form>
+                                <div class="col-md-offset-6">
+                                    {#                                    <button id="changebutton">Try it</button>#}
+                                    <a href="#" id="changebutton" onclick="enableEdit()"><span class="glyphicon glyphicon-pencil"></span>Editing</a>
+                                    <button id="cancel_button" onclick="cancelEdit()" type="button" class="btn btn-default">Cancel</button>
+                                    <button id="save_button"type="submit" form="form1" class="btn btn-primary">Save</button>
+                                    {#                                    <a href="#" data-toggle="modal" data-target="#updateUserProfile"><span class="glyphicon glyphicon-pencil"></span>Editing</a>#}
                                 </div>
                             </div>
                         </div>
@@ -43,14 +50,39 @@
     </div>
     </div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+{#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>#}
     <script>
-        $(document).ready(function(){
-            $('#changebutton').click(function(){
-                $('#change_username').replaceWith('<br><div class="input-group input-group-lg"><input type="email" name="user_email" style="font-size: 25px;font-weight: bold;" id="user_email" value="{{ user.username}}" class="form-control input-group-lg"><span class="input-group-addon"><span class="glyphicon glyphicon-edit"></span></span></div> ');
-                $('#change_email').replaceWith('<br><div class="input-group input-group-lg"><input type="email" name="user_email" style="font-size: 18px;font-weight: bold;" id="user_email" value="{{ user.email }}" class="form-control input-group-lg"><span class="input-group-addon"><span class="glyphicon glyphicon-edit"></span></span></div> ');
-            });
-        });
+        document.getElementById("replaced_username").style.display = "none";
+        document.getElementById("replaced_email").style.display = "none";
+        document.getElementById("cancel_button").style.display = "none";
+        document.getElementById("save_button").style.display = "none";
+        function enableEdit() {
+            document.getElementById("change_username").style.display = "none";
+            document.getElementById("change_email").style.display = "none";
+            document.getElementById("changebutton").style.display = "none";
+            document.getElementById("replaced_username").style.display = "block";
+            document.getElementById("replaced_email").style.display = "block";
+            document.getElementById("cancel_button").style.display = "inline";
+            document.getElementById("save_button").style.display = "inline";
+        }
+        function cancelEdit() {
+            document.getElementById("replaced_username").style.display = "none";
+            document.getElementById("replaced_email").style.display = "none";
+            document.getElementById("cancel_button").style.display = "none";
+            document.getElementById("save_button").style.display = "none";
+            document.getElementById("change_username").style.display = "block";
+            document.getElementById("change_email").style.display = "block";
+            document.getElementById("changebutton").style.display = "block";
+
+        }
+        {#            $('#changebutton').click(function(){#}
+        {#                $('#change_username').replaceWith('<input id="replaced_username" type="email" name="user_email" style="font-size: 25px;font-weight: bold;" id="user_email" value="{{ user.username}}" class="form-control input-group-lg">');#}
+        {#                $('#change_email').replaceWith('<input id="replaced_email" type="email" name="user_email" style="font-size: 18px;font-weight: bold;" id="user_email" value="{{ user.email }}" class="form-control input-group-lg">');#}
+        {#                $('#changebutton').replaceWith('<button id="replace_cancel_button" type="button" class="btn btn-default">Cancel</button><button type="button" class="btn btn-primary">Save</button>');#}
+        {#            });#}
+        {#            $('#replace_cancel_button').click(function(){#}
+        {#                $('#replaced_username').replaceWith('<h2 id="change_username">{{ user.username }}</h2>');#}
+        {#                $('#replaced_email').replaceWith('<h4 id="change_email"><span class="glyphicon glyphicon-envelope"></span>{{ user.email }}</h4>');#}
+        {#            });#}
     </script>
-    {% include 'umbrella/updateUserProfile.html' %}
 {% endblock %}

@@ -12,20 +12,10 @@ from .models import *
 
 # procedure to handle updating the information in the user model
 def updateUserProfile(request):
-
     if request.method == 'POST':
-        #form = UpdateProfile(request.POST, instance=request.user)
-        #form.actual_user = request.user
-        #if form.is_valid():
-        #    form.save()
-        #    return HttpResponseRedirect(reverse('update_profile_success'))
-        new_user_email = request.POST['email']
-        new_user_pass = request.POST['password']
-
-        actual_user          = request.user
+        actual_user = request.user
         actual_user.username = request.POST['display_name']
-        actual_user.set_password(new_user_pass)
-        actual_user.email    = new_user_email
+        actual_user.email = request.POST['email']
         actual_user.save()
 
         #TODO: once the profile has been updated, return the user to the voiew profile page
