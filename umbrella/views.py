@@ -8,7 +8,7 @@ from django.urls import reverse
 from .models import *
 
 
-#def updateUserP(request):
+# updateUserP(request):
 
 # procedure to handle updating the information in the user model
 def updateUserProfile(request):
@@ -34,16 +34,6 @@ def updateUserProfile(request):
     else:
         print("this has to be here to work I do not know why = might be my logic")
     return render(request, 'umbrella/updateUserProfile.html')
-
-#variables to capture the new values of the fields
-
-
-from django.views.generic.detail import SingleObjectMixin
-from django.views.generic import UpdateView
-from django.utils.decorators import method_decorator
-
-from umbrella.models import User
-
 
 
 # TODO: Log out
@@ -144,38 +134,6 @@ def createNewPost(request):
     newPost.save()
 
     return HttpResponseRedirect(reverse('umbrella:googlemap'))
-
-from django import forms
-
-'''
-# Form model that could have been used to edit the User fields
-class UpdateProfile(forms.ModelForm):
-    username = forms.CharField(required=True)
-    email = forms.EmailField(required=True)
-    first_name = forms.CharField(required=False)
-    last_name = forms.CharField(required=False)
-
-    class Meta:
-        model = User
-        fields = ('username', 'email', 'first_name', 'last_name')
-
-    def clean_email(self):
-        username = self.cleaned_data.get('username')
-        email = self.cleaned_data.get('email')
-
-        #if email and User.objects.filter(email=email).exclude(username=username).count():
-        #    raise forms.ValidationError('This email address is already in use. Please supply a different email address.')
-        return email
-
-    def save(self, commit=True):
-        user = super(RegistrationForm, self).save(commit=False)
-        user.email = self.cleaned_data['email']
-
-        if commit:
-            user.save()
-
-        return user
-'''
 
 
 def createSampleData(request):
