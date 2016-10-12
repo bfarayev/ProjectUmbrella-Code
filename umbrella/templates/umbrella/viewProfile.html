@@ -23,7 +23,7 @@
                                         <h2>{{ user.username }}</h2>
                                     </div>
                                     <div id="replaced_username">
-                                        <small>Edit Username:</small>
+                                        <label class="control-label">User Name:</label>
                                         <input type="text" name="display_name" style="font-size: 25px;font-weight: bold;" value="{{ user.username}}" class="form-control input-group-lg">
                                     </div>
                                     <br>
@@ -31,7 +31,7 @@
                                         <h4><span class="glyphicon glyphicon-envelope"></span> {{ user.email }}</h4>
                                     </div>
                                     <div id="replaced_email">
-                                        <small>Edit Email Address:</small>
+                                        <label class="control-label">Email Address:</label>
                                         <input type="email" name="email" style="font-size: 18px;font-weight: bold;" value="{{ user.email }}" class="form-control input-group-lg">
                                     </div>
                                     <br>

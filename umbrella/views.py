@@ -12,7 +12,7 @@ from .models import *
 def updateUserPassword(request):
     if request.method == 'POST':
         actual_user = request.user
-        actual_user.set_password(request.POST['password'])
+        actual_user.set_password(request.POST['new_password'])
         actual_user.save()
 
         #TODO: once the profile has been updated, return the user to the voiew profile page
