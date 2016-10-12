@@ -91,28 +91,28 @@ def about(request):
     return render(request, 'umbrella/about.html')
 
 def createNewPost(request):
-    if request.method == 'POST' and request.is_ajax():
+    #if request.method == 'POST' and request.is_ajax():
 
-        postLatitude = request.POST['newPostLat']
-        potsLongitude = request.POST['newPostLong']
-        title = 'Placeholder Title'
-        content = request.POST['newPostContent']
-        description = 'Placeholder Description'
-        _location_ = Location(latitude=float(postLatitude), longitude=float(potsLongitude))
-        _location_.save()
-        _category_ = Category(title=title, description=description)
-        _category_.save()
-        _user_ = request.user
+    postLatitude = request.POST['newPostLat']
+    potsLongitude = request.POST['newPostLong']
+    title = 'Placeholder Title'
+    content = request.POST['newPostContent']
+    description = 'Placeholder Description'
+    _location_ = Location(latitude=float(postLatitude), longitude=float(potsLongitude))
+    _location_.save()
+    _category_ = Category(title=title, description=description)
+    _category_.save()
+    _user_ = request.user
 
-        newPost = Post()
-        newPost.content = content
-        newPost.save()
-        newPost.location = _location_
-        newPost.user = _user_
-        newPost.category.add(_category_)
-        newPost.save()
+    newPost = Post()
+    newPost.content = content
+    newPost.save()
+    newPost.location = _location_
+    newPost.user = _user_
+    newPost.category.add(_category_)
+    newPost.save()
 
-        return HttpResponseRedirect(reverse('umbrella:googlemap'))
+    return HttpResponseRedirect(reverse('umbrella:googlemap'))
 
 def createSampleData(request):
     # TODO: Add a few sample user accounts that author some sample posts
