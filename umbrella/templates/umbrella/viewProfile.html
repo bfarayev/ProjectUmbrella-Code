@@ -1,16 +1,21 @@
 {% load static %}
 {% block content %}
-    <div id="viewProfile" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="viewProfileLabel"
-         xmlns="http://www.w3.org/1999/html">
+
+    <!-- Modal -->
+    <div id="viewProfile" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="viewProfileLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <!-- custom styles for this template -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h3 class="modal-title">Update Profile:</h3>
+                </div>
+
                 <div class="modal-body">
-                    {% if user.is_authenticated %}
+                    <div class="container-fluid">
+                        {% if user.is_authenticated %}
                         <div class="row">
                             <div class="col-md-6">
-                                <img src="{% static 'images/profile-img.png' %}" alt="" class="img-rounded img-responsive" />
+                                <img class="img-circle center-block" src="{% static "images/profile-img.png" %}" alt="Generic placeholder image" width="128" height="128">
                             </div>
                             <div class="col-md-6">
                                 <form role="form" action="{% url 'umbrella:updateUserProfile' %}" method="POST" id="form1" name="SubmitForm">
@@ -27,29 +32,29 @@
                                     <br>
                                     <br>
                                 </form>
-                                <div class="col-md-offset-6">
-                                    {#                                    <button id="changebutton">Try it</button>#}
+                                <div>
+                                    {# <button id="changebutton">Try it</button>#}
                                     <a href="#" id="changebutton" onclick="enableEdit()"><span class="glyphicon glyphicon-pencil"></span>Editing</a>
                                     <button id="cancel_button" onclick="cancelEdit()" type="button" class="btn btn-default">Cancel</button>
                                     <button id="save_button"type="submit" form="form1" class="btn btn-primary">Save</button>
-                                    {#                                    <a href="#" data-toggle="modal" data-target="#updateUserProfile"><span class="glyphicon glyphicon-pencil"></span>Editing</a>#}
+                                    {# <a href="#" data-toggle="modal" data-target="#updateUserProfile"><span class="glyphicon glyphicon-pencil"></span>Editing</a>#}
                                 </div>
                             </div>
                         </div>
-                        <!-- is the else logic below really needed? the case never seems to be that the user can  -->
-                        <!-- access the page without being logged in-->
-                        <!-- Need!! if someone typing localhost:8000/register in the url, it can reach there -->
+                    </div>
+                    <!-- is the else logic below really needed? the case never seems to be that the user can  -->
+                    <!-- access the page without being logged in-->
+                    <!-- Need!! if someone typing localhost:8000/register in the url, it can reach there -->
                     {% else %}
-                        <h1>error: you are not logged in</h1>
-                        <h2>please log in before viewing dashboard</h2>
+                        <h1>Error: you are not logged in</h1>
+                        <h2>Please log in before viewing dashboard</h2>
                     {% endif %}
                 </div>
+                <!-- /container -->
             </div>
         </div>
-    </div> <!-- /container -->
     </div>
-    </div>
-    </div>
+
 {#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>#}
     <script>
         document.getElementById("replaced_username").style.display = "none";

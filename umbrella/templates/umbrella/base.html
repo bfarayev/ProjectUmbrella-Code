@@ -53,7 +53,7 @@
                 {% if user.is_authenticated %}
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="/admin/"><span class="glyphicon glyphicon-wrench"></span> Admin</a></li>
-                        <li><a href="#" data-toggle="modal" data-target="#viewProfile"><span class="glyphicon glyphicon-user"></span> ViewProfile</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#viewProfile"><span class="glyphicon glyphicon-user"></span> View Profile</a></li>
                         <li><a href="{% url 'umbrella:logout' %}"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
                     </ul>
                 {% else %}
