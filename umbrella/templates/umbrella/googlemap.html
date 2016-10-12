@@ -8,9 +8,10 @@
     <script>
         $(document).ready(function() {
            $('#SubmitForm').submit(function () {
-            alert($(this).serialize());
+            // uncomment below line for debugging purposes
+            // alert($(this).serialize());
             $.ajax({
-                type: 'POST',
+                type: "POST",
                 url: "{% url 'umbrella:createNewPost' %}",
                 data: $(this).serialize(),
                 success: function (data) {
