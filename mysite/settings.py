@@ -30,7 +30,7 @@ SECRET_KEY = '#lbsn&l-w+vrm=_(rv7yv_rgd6p$e0n^&p_h#+2)8agxi-98b)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = [*]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
