@@ -17,22 +17,29 @@
                                 <img class="img-circle center-block" src="{% static "images/profile-img.png" %}" alt="Generic placeholder image" width="128" height="128">
                             </div>
                             <div class="col-md-6">
-                                <form role="form" action="{% url 'umbrella:updateUserProfile' %}" method="POST" id="form1" name="SubmitForm">
+                                <form role="form" action="{% url 'umbrella:updateUserProfile' %}" method="POST" id="form1"
+                                      name="SubmitForm" data-toggle="validator">
                                     {% csrf_token %}
                                     <div id="change_username">
                                         <h2>{{ user.username }}</h2>
                                     </div>
-                                    <div id="replaced_username">
+                                    <div class="form-group" id="replaced_username">
                                         <label class="control-label">User Name:</label>
-                                        <input type="text" name="display_name" style="font-size: 25px;font-weight: bold;" value="{{ user.username}}" class="form-control input-group-lg">
+                                        <input type="text" name="display_name" style="font-size: 25px;font-weight: bold;"
+                                               value="{{ user.username}}" data-error="At least entering SOMETHING!"
+                                               class="form-control input-group-lg" required>
+                                        <div class="help-block with-errors"></div>
                                     </div>
                                     <br>
                                     <div id="change_email">
                                         <h4><span class="glyphicon glyphicon-envelope"></span> {{ user.email }}</h4>
                                     </div>
-                                    <div id="replaced_email">
+                                    <div class="form-group" id="replaced_email">
                                         <label class="control-label">Email Address:</label>
-                                        <input type="email" name="email" style="font-size: 18px;font-weight: bold;" value="{{ user.email }}" class="form-control input-group-lg">
+                                        <input type="email" name="email" style="font-size: 18px;font-weight: bold;"
+                                               value="{{ user.email }}" class="form-control input-group-lg"
+                                               data-error="Bruh, that email address is invalid" required>
+                                        <div class="help-block with-errors"></div>
                                     </div>
                                     <br>
                                     <button id="change_password_button" type="button" class="btn btn-primary" data-toggle="modal" data-target="#password_small_window">Change Password</button>
