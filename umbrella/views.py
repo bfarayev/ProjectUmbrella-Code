@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.admin import User
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
 
@@ -146,7 +147,10 @@ def createNewPost(request):
         newPost.category.add(_category_)
         newPost.save()
 
-        return HttpResponseRedirect(reverse('umbrella:googlemap'))
+        # Resource created
+        return HttpResponse(status=201)
+
+        # return HttpResponseRedirect(reverse('umbrella:googlemap'))
 
 def createSampleData(request):
     # TODO: Add a few sample user accounts that author some sample posts
