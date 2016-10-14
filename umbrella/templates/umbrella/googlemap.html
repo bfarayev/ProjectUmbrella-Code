@@ -48,7 +48,7 @@
                                     '<div id="bodyContent"  style="word-wrap: break-word";>'+
                                     '<img class="img-circle" src="{% static "images/profile-img.png" %}" alt="Generic placeholder image" width="28" height="28">'+
                                     '<strong>{{ post.user.username }}</strong><br/><span class="text-muted" data-toggle="tooltip" data-placement="top" title="Posted at {{ post.timestamp|date:"P jS N"}}">commented {{ post.timestamp|timesince }} ago</span>'+
-                                    '<p class="well well-sm">{{ post.content}}</p>'+
+                                    '<div class="well well-sm">{{ post.content|escape|linebreaks}}</div>'+
                                     '</div>';
                             addMarker(post_location, image, postContent);
                         {% endfor %}
