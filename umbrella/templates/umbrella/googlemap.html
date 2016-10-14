@@ -48,7 +48,7 @@
                                     '<div id="bodyContent"  style="word-wrap: break-word";>'+
                                     '<img class="img-circle" src="{% static "images/profile-img.png" %}" alt="Generic placeholder image" width="28" height="28">'+
                                     '<strong>{{ post.user.username }}</strong><br/><span class="text-muted" data-toggle="tooltip" data-placement="top" title="Posted at {{ post.timestamp|date:"P jS N"}}">commented {{ post.timestamp|timesince }} ago</span>'+
-                                    '<div class="well well-sm">{{ post.content|escape|linebreaks}}</div>'+
+                                    '<div class="well well-sm">{{ post.content|linebreaks|escapejs}}</div>'+
                                     '</div>';
                             addMarker(post_location, image, postContent);
                         {% endfor %}
@@ -121,11 +121,12 @@
                     </div>
                     {% if user.is_authenticated %}
                     <div class="row">
-                        <form action= "{% url 'umbrella:createNewPost' %}" method="POST" name="CreatePostForm">
+                        <form action= "{% url 'umbrella:createNewPost' %}" method="POST" name="CreatePostForm" data-toggle="validator">
                             <div class="form-group">
                                 {% csrf_token %}
                                 <br>
-                                <textarea class="form-control" name="newPostContent" rows="3" placeholder="What's on your mind? Tell the world!"></textarea>
+                                <textarea class="form-control" name="newPostContent" rows="3" placeholder="What's on your mind? Tell the world!" required></textarea>
+                                <div class="help-block with-errors"></div>
                                 <br>
                                 <input id="latitude" type="hidden" name="newPostLat" value="-33.8886">
                                 <input id="longitude" type="hidden" name="newPostLong" value="151.1873">
