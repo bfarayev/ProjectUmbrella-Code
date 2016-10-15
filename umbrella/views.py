@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.admin import User
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
 
@@ -124,27 +125,32 @@ def about(request):
     return render(request, 'umbrella/about.html')
 
 def createNewPost(request):
-    postLatitude = request.POST['newPostLat']
-    potsLongitude = request.POST['newPostLong']
-    title = 'Placeholder Title'
-    content = request.POST['newPostContent']
-    description = 'Placeholder Description'
-    _location_ = Location(latitude=float(postLatitude), longitude=float(potsLongitude))
-    _location_.save() # what does .save() do?
-    _category_ = Category(title=title, description=description)
-    _category_.save()
-    _user_ = request.user
+    # To make sure it's a POST request and it is an AJAX
+    if request.method == 'POST' and request.is_ajax():
 
-    newPost = Post()
-    newPost.content = content
-    newPost.save()
-    newPost.location = _location_
-    newPost.user = _user_
-    newPost.category.add(_category_)
-    newPost.save()
+        postLatitude = request.POST['newPostLat']
+        potsLongitude = request.POST['newPostLong']
+        title = 'Placeholder Title'
+        content = request.POST['newPostContent']
+        description = 'Placeholder Description'
+        _location_ = Location(latitude=float(postLatitude), longitude=float(potsLongitude))
+        _location_.save()
+        _category_ = Category(title=title, description=description)
+        _category_.save()
+        _user_ = request.user
 
-    return HttpResponseRedirect(reverse('umbrella:googlemap'))
+        newPost = Post()
+        newPost.content = content
+        newPost.save()
+        newPost.location = _location_
+        newPost.user = _user_
+        newPost.category.add(_category_)
+        newPost.save()
 
+        # Resource created
+        return HttpResponse(status=201)
+
+        # return HttpResponseRedirect(reverse('umbrella:googlemap'))
 
 def createSampleData(request):
     # TODO: Add a few sample user accounts that author some sample posts

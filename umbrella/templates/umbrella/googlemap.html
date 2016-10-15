@@ -8,13 +8,12 @@
         <div class="row">
             <div class="col-md-9" style="padding: 0" id="left">
                 <div id="map"></div>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
                 <script>
                     // Note: This example requires that you consent to location sharing when
                     // prompted by your browser. If you see the error "The Geolocation service
                     // failed.", it means you probably did not give permission for the browser to
                     // locate you.
-                    var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-                    var labelIndex = 0;
                     var map;// set map as global variable.
                     function initMap() {
                         map = new google.maps.Map(document.getElementById('map'), {
@@ -58,7 +57,6 @@
                         // from the array of alphabetical characters.
                         var marker = new google.maps.Marker({
                             position: location,
-                            label: labels[labelIndex++ % labels.length],
                             map: map,
                             icon: image
                         });
@@ -103,12 +101,45 @@
                                 'Error: Your browser doesn\'t support geolocation.');
                     }
 
+                    $(document).ready(function() {
+                        $('#SubmitForm').submit(function (e) {
+                            e.preventDefault();
+                            $.ajax({
+                                type: "POST",
+                                url: "{% url 'umbrella:createNewPost' %}",
+                                data: $(this).serialize(),
+                                success: function () {
+                                    var location_lat = $('#latitude').val();
+                                    var location_log = $('#longitude').val();
+                                    var post_content = $('#post-content').val();
+                                    var post_content_limit = post_content.substring(0,117)+'...';
+                                    var current_user = '{{ user.username }}';
+                                    var sidebarpost='<a href="javascript:sidebarClick('+location_lat+','+location_log+')" class="list-group-item"><div class="row"><div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"><div><img class="img-circle center-block" src="{% static "images/profile-img.png" %}" alt="Generic placeholder image" width="48" height="48"></div></div><div class="col-xs-9 col-sm-9 col-md-9 col-lg-9"><div class="bubble"><div class=""><strong>'+current_user+' </strong><span class="text-muted" data-toggle="tooltip" data-placement="top" title="Posted at 1">commented<br>0 minutes ago</span></div><div class="">'+post_content_limit+'</div><!-- /panel-body --></div><!-- /panel panel-default --></div></div></a>'
+                                    $('#sidebar-list').prepend(sidebarpost);
+                                    var post_location= { lat: parseFloat(location_lat), lng: parseFloat(location_log) };
+                                    var post_content_marker = post_content.replace(/(?:\r\n|\r|\n)/g, '<br />');
+                                    var postContent = '<div id="content">'+
+                                            '<div id="bodyContent"  style="word-wrap: break-word";>'+
+                                            '<img class="img-circle" src="{% static "images/profile-img.png" %}" alt="Generic placeholder image" width="28" height="28">'+
+                                            '<strong>'+current_user+'</strong><br/><span class="text-muted" data-toggle="tooltip" data-placement="top" title="Posted at now">commented 0 minutes ago</span>'+
+                                            '<div class="well well-sm">'+post_content_marker+'</div>'+
+                                            '</div>';
+                                    var image = "{% static 'images/map-pin-silhouette32x32.png' %}";
+                                    addMarker(post_location, image, postContent);
+                                },
+                                error: function(data){
+                                    alert("Humm.. something strange happened.. try again or contact admin"); // for debugging
+                                }
+                            });
+                            return false;
+                        });
+                    })
+
                 </script>
                 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgPN0ssQZLlxZn8dFofDfWR-_hzxFAXVk&signed_in=true&callback=initMap"
                         async defer>
                 </script>
             </div>
-
             <div class="col-md-3" id="right">
                 <div class="container-fluid">
                     <div class="row">
@@ -121,23 +152,23 @@
                     </div>
                     {% if user.is_authenticated %}
                     <div class="row">
-                        <form action= "{% url 'umbrella:createNewPost' %}" method="POST" name="CreatePostForm" data-toggle="validator">
+                        <form id="SubmitForm" action= "{% url 'umbrella:createNewPost' %}" method="POST" name="CreatePostForm" data-toggle="validator">
                             <div class="form-group">
                                 {% csrf_token %}
                                 <br>
-                                <textarea class="form-control" name="newPostContent" rows="3" placeholder="What's on your mind? Tell the world!" required></textarea>
+                                <textarea id="post-content" class="form-control" name="newPostContent" rows="3" placeholder="What's on your mind? Tell the world!" required></textarea>
                                 <div class="help-block with-errors"></div>
                                 <br>
                                 <input id="latitude" type="hidden" name="newPostLat" value="-33.8886">
                                 <input id="longitude" type="hidden" name="newPostLong" value="151.1873">
-                                <button type="submit" class="btn btn-default pull-right">Submit</button>
+                                <button type="submit" id="SubmitPost" class="btn btn-default pull-right">Submit</button>
                             </div>
                         </form>
                     </div>
                     {% endif %}
                     <div class="row">
                         <h2>Around you</h2>
-                        <div class="list-group">
+                        <div class="list-group" id="sidebar-list">
                             {% for post in post_list %}
                                 <a href="javascript:sidebarClick({{ post.location.latitude }},
 {{ post.location.longitude }})" class="list-group-item">
