@@ -8,22 +8,23 @@
     <script>
         $(document).ready(function() {
            $('#SubmitForm').submit(function (e) {
+               e.preventDefault();
             $.ajax({
                 type: "POST",
                 url: "{% url 'umbrella:createNewPost' %}",
                 data: $(this).serialize(),
-                success: function (data) {
+                success: function ($this) {
+{#                    var sidebarpost='<a href="javascript:sidebarClick({{ post.location.latitude }},{{ post.location.longitude }})" class="list-group-item"><div class="row"><div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"><div><img class="img-circle center-block" src="{% static "images/profile-img.png" %}" alt="Generic placeholder image" width="48" height="48"></div></div><div class="col-xs-9 col-sm-9 col-md-9 col-lg-9"><div class="bubble"><div class=""><strong>{{ post.user.username }}</strong><span class="text-muted" data-toggle="tooltip" data-placement="top" title="Posted at {{ post.timestamp|date:"P jS N"}}">commented {{ post.timestamp|timesince }} ago</span></div><div class="">{{ post.content|truncatechars:120 }}</div><!-- /panel-body --></div><!-- /panel panel-default --></div></div></a>'#}
+                    var sidebarpost='<a href="javascript:sidebarClick(-33.8886,151.1873)" class="list-group-item"><div class="row"><div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"><div><img class="img-circle center-block" src="{% static "images/profile-img.png" %}" alt="Generic placeholder image" width="48" height="48"></div></div><div class="col-xs-9 col-sm-9 col-md-9 col-lg-9"><div class="bubble"><div class=""><strong>jingkaimeng</strong><span class="text-muted" data-toggle="tooltip" data-placement="top" title="Posted at 1">commented 1 ago</span></div><div class="">something</div><!-- /panel-body --></div><!-- /panel panel-default --></div></div></a>'
+                    $('#sidebar-list').prepend(sidebarpost);
                     // uncomment line below for debugging
-                    // alert(" success ");
-                    // initMap(); // this is to reload only map
-                    location.reload(); // reload the whole page including sidebar
-                    },error: function(data){
+                },
+                error: function(data){
                     alert("error"); // for debugging
                 }
             });
-            e.preventDefault();
-            return false;
-            });
+               return false;
+           });
         })
     </script>
     <div class="container-fluid">
@@ -158,7 +159,7 @@
                     {% endif %}
                     <div class="row">
                         <h2>Around you</h2>
-                        <div class="list-group">
+                        <div class="list-group" id="sidebar-list">
                             {% for post in post_list %}
                                 <a href="javascript:sidebarClick({{ post.location.latitude }},
 {{ post.location.longitude }})" class="list-group-item">
