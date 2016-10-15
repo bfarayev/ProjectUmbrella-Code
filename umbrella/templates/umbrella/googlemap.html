@@ -4,6 +4,28 @@
     <!-- Custom styles for this template -->
     <link href="{% static "css/splitview.css" %}" rel="stylesheet">
     <link href="{% static "css/bubble.css" %}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+           $('#SubmitForm').submit(function (e) {
+            $.ajax({
+                type: "POST",
+                url: "{% url 'umbrella:createNewPost' %}",
+                data: $(this).serialize(),
+                success: function (data) {
+                    // uncomment line below for debugging
+                    // alert(" success ");
+                    // initMap(); // this is to reload only map
+                    location.reload(); // reload the whole page including sidebar
+                    },error: function(data){
+                    alert("error"); // for debugging
+                }
+            });
+            e.preventDefault();
+            return false;
+            });
+        })
+    </script>
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-9" style="padding: 0" id="left">
