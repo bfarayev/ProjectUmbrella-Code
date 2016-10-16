@@ -10,6 +10,7 @@ class UmbrellaTestCases(unittest.TestCase):
     @staticmethod
     def createUser(username, password, email):
         """Create a user"""
+
         user = User.objects.create_user(username, email, password)
         user.save()
 
@@ -26,6 +27,7 @@ class UmbrellaTestCases(unittest.TestCase):
 
     def test_index(self):
         """Simplest test: Check if homepage is up"""
+
         c = Client()
         response = c.get('/')
         self.assertEqual(response.status_code, 200)

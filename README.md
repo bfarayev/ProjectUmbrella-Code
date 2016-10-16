@@ -191,7 +191,19 @@ Sometimes you might want to fix something in someone else's branch. You should u
 
 It should look like `git fetch origin branch-name:branch-name` & `git checkout branch-name`
 
-# Deployment!
+### Fixing conflicts
+
+Sometimes you need to fix code conflicts when two people change the same lines by accident. The simplest way to do this is to use `git mergetool` with one of the merging tools like `opendiff`, `vimdiff`, `gvimdiff`. You can use `git merge develop` or `git rebase develop` when you're in the feature branch. If there's a conflict, you'll end up in some intermediate state and you'll be asked to fix the conflicts. At this point:
+
+- `git mergetool` then select `opendiff` or any other.
+- choose which part of the code you need to keep. (left, right, both or custom..)
+- save the file with Ctrl-S or Cmd-S
+- `git rebase --continue` to continue
+- `git rebase --abort` to roll back the changes 
+- commit your changes and push to remote
+- For detailed explanation please read [this tutorial](https://gist.github.com/karenyyng/f19ff75c60f18b4b8149)
+  
+# Deployment
 
 Here are a bunch of notes about how our EC2 instance is configured, and the docs I used while setting it up. If anyone has any questions or wants me to go through anything with them, let me know! It was lots of fun, and I'd be happy to talk about it.
 
@@ -203,11 +215,11 @@ Postgres databases are stored on clusters: these are the structure which postgre
 
 If I were doing this again, I would **not** use an EBS volume for the database, but rather an RDS instance. Setting up a postgres cluster was a pain, in the sense that it requires some understanding of how postgres is working behind the scenes. Avoid if you can!
 
-### So... guides?
+<!--### So... guides?
 
-There weren't any guides for this kind of thing. I basically muddled through with the official docs for postgres, and figured it out as I went along. I made a royal mess of it the first time, which was why I started the second instance of the server... I think this was probably a unavoidable part of the learning process. :P
+There weren't any guides for this kind of thing. I basically muddled through with the official docs for postgres, and figured it out as I went along. I made a royal mess of it the first time, which was why I started the second instance of the server... I think this was probably a unavoidable part of the learning process. :P-->
 
-## uwsgi+nginx
+## uwsgi + nginx
 ### Foreword: Caution!
 
 The first lesson I learnt in setting this all up was *USE THE OFFICIAL DOCS!*
@@ -258,6 +270,6 @@ Access and error logs for nginx are kept at `/var/log/nginx/` by default, but th
 
 In the `deployment` branch, we have two config files for nginx: one for http, and one for https. We are symlinking to these files from the `/etc/nginx/sites-enabled/` directory, where nginx goes to look for site config files, so that we can keep them in one place under version control. We are currently linking to the http config file while we wait for ssl to be set up.
 
-### sock??
+### sockets
 
 `umbrella.sock` is the unix socket which nginx is using to connect to uwsgi. This was not necessary — it worked just as well routing traffic to `localhost:8080`, which I originally had uwsgi running on.
