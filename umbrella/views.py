@@ -18,7 +18,7 @@ def updateUserPassword(request):
 
         #TODO: once the profile has been updated, return the user to the voiew profile page
         pass
-        return HttpResponseRedirect(reverse('umbrella:index'))
+        return HttpResponseRedirect(reverse('umbrella:googlemap'))
     else:
         print("this has to be here to work I do not know why = might be my logic")
     return render(request, 'umbrella/updateUserProfile.html')
@@ -35,7 +35,7 @@ def updateUserProfile(request):
 
         #TODO: once the profile has been updated, return the user to the voiew profile page
         pass
-        return HttpResponseRedirect(reverse('umbrella:index'))
+        return HttpResponseRedirect(reverse('umbrella:googlemap'))
     else:
         print("this has to be here to work I do not know why = might be my logic")
     return render(request, 'umbrella/updateUserProfile.html')
@@ -44,7 +44,7 @@ def updateUserProfile(request):
 # TODO: Log out
 def logoutView(request):
     logout(request)
-    return HttpResponseRedirect(reverse('umbrella:index'))
+    return HttpResponseRedirect(reverse('umbrella:googlemap'))
 
 
 # TODO: Authenticating users
@@ -73,7 +73,7 @@ def authenticateUser(request):
     if user is not None:
         login(request, user)
         # Redirect to userProfile for testing
-        return HttpResponseRedirect(reverse('umbrella:index'))
+        return HttpResponseRedirect(reverse('umbrella:googlemap'))
     else:
         # Redirect to signin.html
         return HttpResponseRedirect(reverse('umbrella:signin'))
@@ -96,13 +96,13 @@ def createUser(request):
                              userPass
                              )
     user.save()
-    return HttpResponseRedirect(reverse('umbrella:index'))
+    return HttpResponseRedirect(reverse('umbrella:googlemap'))
 
 
 def index(request):
     latest_post_list = Post.objects.all()
     context = {'post_list': latest_post_list}
-    return render(request, 'umbrella/index.html', context)
+    return render(request, 'umbrella/googlemap.html', context)
 
 
 def signin(request):
@@ -266,5 +266,5 @@ def createSampleData(request):
     post_5.user = user_5
     post_5.save()
 
-    return render(request, 'umbrella/index.html')
+    return render(request, 'umbrella/googlemap.html')
 
