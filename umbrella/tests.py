@@ -7,11 +7,13 @@ from umbrella.models import User
 
 
 class UmbrellaTestCases(unittest.TestCase):
+    @staticmethod
     def createUser(self, username, passwd, email):
         """Create a user"""
         user = User.objects.create_user(username, email, passwd)
         user.save()
 
+    @staticmethod
     def createLocation(self, lat, lon):
         """Create a location"""
 
@@ -33,23 +35,23 @@ class UmbrellaTestCases(unittest.TestCase):
         self.assertIsNotNone(User.objects.get(username='test'))
 
     def testCreateUserWithInvalidParams(self):
-        isFailed = False
+        is_failed = False
         try:
             self.createUser("", "Pwd1", "me@test1.com")
         except ValueError:
-            isFailed = True
+            is_failed = True
 
-        self.assertTrue(isFailed)
+        self.assertTrue(is_failed)
 
     def testCreateLocation(self):
         self.createLocation(100, 50)
         self.assertIsNotNone(Location.objects.get(latitude=100))
 
     def testCreateLocationWithInvalidValues(self):
-        isFailed = False
+        is_failed = False
         try:
             self.createLocation(500, 1000)  # boundary overflow
         except ValueError:
-            isFailed = True
+            is_failed = True
 
-        self.assertTrue(isFailed)
+        self.assertTrue(is_failed)
