@@ -1,13 +1,10 @@
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.admin import User
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
 from .models import *
-
 
 
 def updateUserPassword(request):
@@ -16,13 +13,11 @@ def updateUserPassword(request):
         actual_user.set_password(request.POST['new_password'])
         actual_user.save()
 
-        #TODO: once the profile has been updated, return the user to the voiew profile page
         pass
         return HttpResponseRedirect(reverse('umbrella:googlemap'))
     else:
-        print("this has to be here to work I do not know why = might be my logic")
+        print("This is not a POST request. Can't update password now..")
     return render(request, 'umbrella/updateUserProfile.html')
-
 
 
 # procedure to handle updating the information in the user model
@@ -33,21 +28,18 @@ def updateUserProfile(request):
         actual_user.email = request.POST['email']
         actual_user.save()
 
-        #TODO: once the profile has been updated, return the user to the voiew profile page
         pass
         return HttpResponseRedirect(reverse('umbrella:googlemap'))
     else:
-        print("this has to be here to work I do not know why = might be my logic")
+        print("This is not a POST request. Can't update user profile now..")
     return render(request, 'umbrella/updateUserProfile.html')
 
 
-# TODO: Log out
 def logoutView(request):
     logout(request)
     return HttpResponseRedirect(reverse('umbrella:googlemap'))
 
 
-# TODO: Authenticating users
 def _is_valid_email(email):
     from django.core.validators import validate_email
     from django.core.exceptions import ValidationError
@@ -87,14 +79,14 @@ def createUser(request):
     userName = request.POST['display_name']
     userPass = request.POST['password']
     userMail = request.POST['email']
-    # TODO: add first_name and last_name into User
-    userFirstName = request.POST['first_name']
-    userLastName= request.POST['last_name']
+    # FIXME: These two fields below are never used
+    # userFirstName = request.POST['first_name']
+    # userLastName = request.POST['last_name']
 
     user = User.objects.create_user(userName,
-                             userMail,
-                             userPass
-                             )
+                                    userMail,
+                                    userPass
+                                    )
     user.save()
     return HttpResponseRedirect(reverse('umbrella:googlemap'))
 
@@ -116,18 +108,20 @@ def register(request):
 def googlemap(request):
     latest_post_list = Post.objects.all().order_by('-timestamp')
     context = {'post_list': latest_post_list}
-    return render(request, 'umbrella/googlemap.html',context)
+    return render(request, 'umbrella/googlemap.html', context)
+
 
 def contact(request):
     return render(request, 'umbrella/contact.html')
 
+
 def about(request):
     return render(request, 'umbrella/about.html')
+
 
 def createNewPost(request):
     # To make sure it's a POST request and it is an AJAX
     if request.method == 'POST' and request.is_ajax():
-
         postLatitude = request.POST['newPostLat']
         potsLongitude = request.POST['newPostLong']
         title = 'Placeholder Title'
@@ -152,10 +146,14 @@ def createNewPost(request):
 
         # return HttpResponseRedirect(reverse('umbrella:googlemap'))
 
+
 def createSampleData(request):
-    # TODO: Add a few sample user accounts that author some sample posts
-    # This function populates the database with some sample data
-    # This comes in handy for demonstrations as well as for manual debugging
+    """ Add a few sample user accounts that author some sample posts
+    This function populates the database with some sample data
+    This comes in handy for demonstrations as well as for manual debugging
+    :param request:
+    :return: 5 sample Users / Posts
+    """
     position_1 = [-33.890136, 151.193109]
     title_1 = 'Category A'
     content_1 = "I'm in the PNR building, does anyone have a spare umbrella?"
@@ -267,4 +265,3 @@ def createSampleData(request):
     post_5.save()
 
     return render(request, 'umbrella/googlemap.html')
-

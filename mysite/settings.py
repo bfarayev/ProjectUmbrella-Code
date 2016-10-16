@@ -9,11 +9,14 @@ https://docs.djangoproject.com/en/1.10/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.10/ref/settings/
 """
-from django.core.exceptions import ImproperlyConfigured
 import os
 import time
+
+from django.core.exceptions import ImproperlyConfigured
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 
 def get_env_variable(var_name):
     try:
@@ -21,6 +24,8 @@ def get_env_variable(var_name):
     except KeyError:
         error_msg = "Set the %s environment variable" % var_name
         raise ImproperlyConfigured(error_msg)
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
@@ -31,7 +36,6 @@ SECRET_KEY = '#lbsn&l-w+vrm=_(rv7yv_rgd6p$e0n^&p_h#+2)8agxi-98b)'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -75,7 +79,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
@@ -124,7 +127,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
@@ -144,7 +146,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
@@ -152,6 +153,7 @@ STATIC_URL = '/static/'
 
 # Extra places for collect static to find static files
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "node_modules"), # Add node_modules folder
-    os.path.join(BASE_DIR, "staticfiles") # Add 'staticfiles' folder which contains static files such as css/js and images
+    os.path.join(BASE_DIR, "node_modules"),  # Add node_modules folder
+    os.path.join(BASE_DIR, "staticfiles")
+    # Add 'staticfiles' folder which contains static files such as css/js and images
 ]

@@ -1,7 +1,5 @@
-from django.db import connection
 from django import template
-from django import db
-
+from django.db import connection
 
 register = template.Library()
 
@@ -9,5 +7,3 @@ register = template.Library()
 @register.simple_tag()
 def get_db_info():
     return connection.vendor
-
-
