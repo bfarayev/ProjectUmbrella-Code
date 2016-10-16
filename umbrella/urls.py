@@ -7,10 +7,10 @@ app_name = "umbrella"
 
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
+    # url(r'^$', views.index, name='index'),
+    url(r'^$',views.googlemap, name='googlemap'),
     url(r'^signin/', views.signin, name='signin'),
     url(r'^register/', views.register, name='register'),
-    url(r'^googlemap/',views.googlemap, name='googlemap'),
     url(r'^createSample', views.createSampleData, name='createSampleData'),
     url(r'^createNewPost/', views.createNewPost, name='createNewPost'),
     url(r'^createUser/', views.createUser, name='createUser'),
