@@ -133,12 +133,12 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'en-us'
 
 
-def localTzname():
-    offsetHour = time.timezone / 3600
-    return 'Etc/GMT%+d' % offsetHour
+def local_tz_name():
+    offset_hour = time.timezone / 3600
+    return 'Etc/GMT%+d' % offset_hour
 
 
-TIME_ZONE = localTzname()
+TIME_ZONE = local_tz_name()
 
 USE_I18N = True
 

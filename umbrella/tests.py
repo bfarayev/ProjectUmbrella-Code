@@ -8,13 +8,13 @@ from umbrella.models import User
 
 class UmbrellaTestCases(unittest.TestCase):
     @staticmethod
-    def createUser(self, username, passwd, email):
+    def createUser(username, password, email):
         """Create a user"""
-        user = User.objects.create_user(username, email, passwd)
+        user = User.objects.create_user(username, email, password)
         user.save()
 
     @staticmethod
-    def createLocation(self, lat, lon):
+    def createLocation(lat, lon):
         """Create a location"""
 
         # validation
@@ -50,7 +50,7 @@ class UmbrellaTestCases(unittest.TestCase):
     def testCreateLocationWithInvalidValues(self):
         is_failed = False
         try:
-            self.createLocation(500, 1000)  # boundary overflow
+            self.createLocation(500, 1000)
         except ValueError:
             is_failed = True
 
