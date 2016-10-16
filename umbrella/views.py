@@ -102,7 +102,7 @@ def createUser(request):
 def index(request):
     latest_post_list = Post.objects.all()
     context = {'post_list': latest_post_list}
-    return render(request, 'umbrella/googlemap.html', context)
+    return render(request, 'umbrella/index.html', context)
 
 
 def signin(request):
