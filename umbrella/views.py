@@ -1,13 +1,22 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.admin import User
 from django.contrib.auth.decorators import login_required
+from django.http import Http404
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
+from django.http import JsonResponse
 
 from .models import *
 
+def updateMarker(request):
+    latest_post_list = Post.objects.all().order_by('-timestamp')
+    context = {'newlist': latest_post_list}
+    if request.is_ajax():
+        return render(request, 'umbrella/googlemap.html', context)
+    else:
+        return Http404
 
 
 def updateUserPassword(request):
@@ -24,8 +33,6 @@ def updateUserPassword(request):
     return render(request, 'umbrella/updateUserProfile.html')
 
 
-
-# procedure to handle updating the information in the user model
 def updateUserProfile(request):
     if request.method == 'POST':
         actual_user = request.user
@@ -41,13 +48,11 @@ def updateUserProfile(request):
     return render(request, 'umbrella/updateUserProfile.html')
 
 
-# TODO: Log out
 def logoutView(request):
     logout(request)
     return HttpResponseRedirect(reverse('umbrella:googlemap'))
 
 
-# TODO: Authenticating users
 def _is_valid_email(email):
     from django.core.validators import validate_email
     from django.core.exceptions import ValidationError
@@ -116,13 +121,20 @@ def register(request):
 def googlemap(request):
     latest_post_list = Post.objects.all().order_by('-timestamp')
     context = {'post_list': latest_post_list}
-    return render(request, 'umbrella/googlemap.html',context)
+    # if request.method == 'GET' and request.is_ajax():
+    #     print("hey! im in")
+    #     return JsonResponse(context)
+    # else:
+    return render(request, 'umbrella/googlemap.html', context)
+
 
 def contact(request):
     return render(request, 'umbrella/contact.html')
 
+
 def about(request):
     return render(request, 'umbrella/about.html')
+
 
 def createNewPost(request):
     # To make sure it's a POST request and it is an AJAX
@@ -149,7 +161,8 @@ def createNewPost(request):
 
         # Resource created
         return HttpResponse(status=201)
-
+    else:
+        raise Http404
         # return HttpResponseRedirect(reverse('umbrella:googlemap'))
 
 def createSampleData(request):

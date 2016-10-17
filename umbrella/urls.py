@@ -8,7 +8,7 @@ app_name = "umbrella"
 
 urlpatterns = [
     url(r'^index/', views.index, name='index'),
-    url(r'^$',views.googlemap, name='googlemap'),
+    url(r'^$',views.googlemap, name='googlemap',),
     url(r'^signin/', views.signin, name='signin'),
     url(r'^register/', views.register, name='register'),
     url(r'^createSample', views.createSampleData, name='createSampleData'),
@@ -22,5 +22,6 @@ urlpatterns = [
     url(r'^updateUserProfile/', views.updateUserProfile, name='updateUserProfile'),
     url(r'^updateUserPassword/', views.updateUserPassword, name='updateUserPassword'),
     url(r'^robots.txt', lambda x: HttpResponse("User-Agent: *\nDisallow:", content_type="text/plain"), name="robots_file"),
-    url(r'^9E356E0335967BC6D12CE4F970AF8C2B.txt', lambda x: HttpResponse("8EE3F2F74363112249C5DC008D51D06828C71503\ncomodoca.com", content_type="text/plain"), name="sslcert")
+    url(r'^9E356E0335967BC6D12CE4F970AF8C2B.txt', lambda x: HttpResponse("8EE3F2F74363112249C5DC008D51D06828C71503\ncomodoca.com", content_type="text/plain"), name="sslcert"),
+    url(r'^updateMarker/', views.updateMarker, name='updateMarker')
 ]
