@@ -10,7 +10,7 @@
                 <div id="map">
                 <!-- FIXME: Should we need to add line 12 into this html, do we have such library in local?-->
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-                <script>
+                <script id="googlemap-javascript-api">
                     // Note: This example requires that you consent to location sharing when
                     // prompted by your browser. If you see the error "The Geolocation service
                     // failed.", it means you probably did not give permission for the browser to
@@ -150,9 +150,6 @@
                             $('#sidebar-list').load(' #sidebar-list', function(){
                                 $(this).children().unwrap();
                             });
-{#                            $.get('{% url "umbrella:updateMarker" %}').done(function(data) {#}
-{#                                addAllMakers();#}
-{#                            });#}
 {#                                console.log(data);#}
 {#                                var image = "{% static 'images/map-pin-silhouette32x32.png' %}";#}
 {#                                {% for post in post_list%}#}
@@ -174,7 +171,13 @@
 {#                                    }#}
 {#                                {% endfor %}#}
 {#                            })#}
-                        }, 1000)
+                        }, 1000);
+                        $.get("{% url 'umbrella:updateMarker' %}").done(function(data){
+                            var txt;
+                            console.log(data);
+                            txt = data.getElementsByTagName('pk')[0].childNodes[0].nodeValue;
+                            console.log(txt);
+                        });
                     })
                 </script>
                 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgPN0ssQZLlxZn8dFofDfWR-_hzxFAXVk&signed_in=true&callback=initMap"

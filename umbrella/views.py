@@ -6,15 +6,17 @@ from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
+from django.core import serializers
 from django.http import JsonResponse
 
 from .models import *
 
 def updateMarker(request):
     latest_post_list = Post.objects.all().order_by('-timestamp')
-    context = {'newlist': latest_post_list}
+    alllist = Post.objects.all().order_by('-timestamp')+Location.objects.all().order_by('')
     if request.is_ajax():
-        return render(request, 'umbrella/googlemap.html', context)
+        data = serializers.serialize('xml', latest_post_list)
+        return JsonResponse(data,safe=False)
     else:
         return Http404
 
