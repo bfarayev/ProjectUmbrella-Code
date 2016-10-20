@@ -22,7 +22,7 @@
 ================================================== -->
 
 <body>
-    <nav class="navbar navbar-inverse navbar-default navbar-fixed-top" style="margin-bottom: 0px;">
+    <nav class="navbar navbar-inverse navbar-default navbar-fixed-top" style="margin-bottom: 0;">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -40,18 +40,18 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="/googlemap/">Map View</a></li>
+                    <li><a href="/">Map View</a></li>
                     <li><a href="/about/">About</a></li>
                     <li><a href="/contact/">Contact</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Get Started <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li class="dropdown-header">Messages</li>
-                            <li><a href="/googlemap/">View Map</a></li>
-                            <li><a href="#">Do something</a></li>
-                            <li><a href="#">Do more things</a></li>
-                        </ul>
-                    </li>
+{#                    <li class="dropdown">#}
+{#                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Get Started <span class="caret"></span></a>#}
+{#                        <ul class="dropdown-menu">#}
+{#                            <li class="dropdown-header">Messages</li>#}
+{#                            <li><a href="/">View Map</a></li>#}
+{#                            <li><a href="#">Do something</a></li>#}
+{#                            <li><a href="#">Do more things</a></li>#}
+{#                        </ul>#}
+{#                    </li>#}
                 </ul>
                 {% if user.is_authenticated %}
                     <ul class="nav navbar-nav navbar-right">
