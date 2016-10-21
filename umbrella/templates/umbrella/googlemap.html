@@ -169,7 +169,18 @@
                         <div class="list-group" id="sidebar-list">
                             {% for post in post_list %}
                                 <a href="javascript:sidebarClick({{ post.location.latitude }},
-{{ post.location.longitude }})" class="list-group-item">
+{{ post.location.longitude }});addMarker('{{ post.location.latitude }}', '{{ post.location.longitude }}',
+                                                    '{% static "images/map-pin-silhouette32x32.png" %}','{% static "images/profile-img.png" %}','{{ post.content|linebreaks|escapejs }}',
+                                                    '{{ post.timestamp|date:"P jS N"}}', '{{ post.timestamp|timesince }}','{{ post.user.username }}',
+                                                    '{{ post.pk }}');" class="list-group-item">
+{#                                    <script>#}
+{#                                        $('#post').ready(function () {#}
+{#                                            addMarker('{{ post.location.latitude }}', '{{ post.location.longitude }}',#}
+{#                                                    '{% static "images/map-pin-silhouette32x32.png" %}','{% static "images/profile-img.png" %}','{{ post.content|linebreaks|escapejs }}',#}
+{#                                                    '{{ post.timestamp|date:"P jS N"}}', '{{ post.timestamp|timesince }}','{{ post.user.username }}',#}
+{#                                                    '{{ post.pk }}');#}
+{#                                        })#}
+{#                                    </script>#}
                                     <div class="row" id="post">
                                         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                                             <div>
@@ -191,14 +202,6 @@
                                         </div>
                                     </div>
                                 </a>
-{#                                <script>#}
-{#                                    setTimeout(function (){#}
-{#                                        addMarker('{{ post.location.latitude }}', '{{ post.location.longitude }}',#}
-{#                                                '{% static "images/map-pin-silhouette32x32.png" %}','{% static "images/profile-img.png" %}','{{ post.content|linebreaks|escapejs }}',#}
-{#                                                '{{ post.timestamp|date:"P jS N"}}', '{{ post.timestamp|timesince }}','{{ post.user.username }}',#}
-{#                                                '{{ post.pk }}');#}
-{#                                    }, 1000);#}
-{#                                </script>#}
                             {% endfor %}
                         </div>
                     </div>
