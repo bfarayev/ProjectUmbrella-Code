@@ -50,7 +50,7 @@ def is_valid_email(email):
     except ValidationError:
         return False
 
-
+from django.contrib import messages
 def authenticate_user(request):
     user_email = request.POST['inputEmail']
     user_pass = request.POST['inputPassword']
@@ -67,8 +67,8 @@ def authenticate_user(request):
         login(request, user)
         return HttpResponseRedirect(reverse('umbrella:googlemap'))
     else:
-        # Redirect to signin.html
-        return HttpResponseRedirect(reverse('umbrella:signin'))
+        messages.add_message(request, messages.INFO, 'We don\'t know the username or you mistyped the password - Try again, mate!')
+        return HttpResponseRedirect(reverse('umbrella:googlemap'))
 
 
 def view_profile(request):

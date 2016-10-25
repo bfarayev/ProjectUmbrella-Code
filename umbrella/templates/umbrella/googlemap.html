@@ -4,6 +4,20 @@
     <!-- Custom styles for this template -->
     <link href="{% static "css/splitview.css" %}" rel="stylesheet">
     <link href="{% static "css/bubble.css" %}" rel="stylesheet">
+    {% if messages %}
+
+        <div class="alert alert-danger" role="alert">
+
+
+            <strong>Oh snap! </strong> <a href="#" data-toggle="modal" data-target="#signin" class="alert-link"
+
+                {% for message in messages %}
+                    {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}
+                {% endfor %}
+        </a>
+        </div>
+
+    {% endif %}
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-9" style="padding: 0" id="left">
