@@ -5,7 +5,7 @@
     <link href="{% static "css/splitview.css" %}" rel="stylesheet">
     <link href="{% static "css/bubble.css" %}" rel="stylesheet">
     {% if messages %}
-
+{#        TODO: un-hardcode this by coming up with a message tag code that is indicative of the errors to be displayed on the page #}
         <div class="alert alert-danger" role="alert">
 
 
@@ -15,6 +15,7 @@
                     {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}
                 {% endfor %}
         </a>
+        Or <a href="#" data-toggle="modal" data-target="#register" class="alert-link">Sign up to if you're not a user yet!</a>
         </div>
 
     {% endif %}
