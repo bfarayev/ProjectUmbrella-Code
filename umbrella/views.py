@@ -129,6 +129,7 @@ def create_new_post(request):
         pots_longitude = request.POST['newPostLong']
         title = 'Placeholder Title'
         content = request.POST['newPostContent']
+        icon = request.POST['icons_selection']
         description = 'Placeholder Description'
         location_ = Location(latitude=float(post_latitude), longitude=float(pots_longitude))
         location_.save()
@@ -137,6 +138,7 @@ def create_new_post(request):
         user = request.user
 
         new_post = Post()
+        new_post.icons = icon
         new_post.content = content
         new_post.save()
         new_post.location = location_

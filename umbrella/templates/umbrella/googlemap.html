@@ -115,6 +115,7 @@
                                     var location_lat = $('#latitude').val();
                                     var location_log = $('#longitude').val();
                                     var post_content = $('#post-content').val();
+                                    var image = $('#icons_selection').val();
                                     var post_content_limit = post_content.substring(0,117)+'...';
                                     var current_user = '{{ user.username }}';
                                     var sidebarpost='<a href="javascript:sidebarClick('+location_lat+','+location_log+')" class="list-group-item"><div class="row"><div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"><div><img class="img-circle center-block" src="{% static "images/profile-img.png" %}" alt="Generic placeholder image" width="48" height="48"></div></div><div class="col-xs-9 col-sm-9 col-md-9 col-lg-9"><div class="bubble"><div class=""><strong>'+current_user+' </strong><span class="text-muted" data-toggle="tooltip" data-placement="top" title="Posted at 1">commented<br>0 minutes ago</span></div><div class="">'+post_content_limit+'</div><!-- /panel-body --></div><!-- /panel panel-default --></div></div></a>';
@@ -127,7 +128,6 @@
                                             '<strong>'+current_user+'</strong><br/><span class="text-muted" data-toggle="tooltip" data-placement="top" title="Posted at now">commented 0 minutes ago</span>'+
                                             '<div class="well well-sm">'+post_content_marker+'</div>'+
                                             '</div>';
-                                    var image = "{% static 'images/map-pin-silhouette32x32.png' %}";
                                     addMarker(post_location, image, postContent);
                                 },
                                 error: function(data){
@@ -165,6 +165,12 @@
                                 <input id="latitude" type="hidden" name="newPostLat" value="-33.8886">
                                 <input id="longitude" type="hidden" name="newPostLong" value="151.1873">
                                 <button type="submit" id="SubmitPost" class="btn btn-default pull-right">Submit</button>
+                                <fieldset>
+                                    <label for="icons_selection">Select a Person:</label>
+                                    <select name="icons_selection" id="icons_selection">
+                                        <option value='static/images/icons/icon_acadamic.ico'>John Resig</option>
+                                    </select>
+                                </fieldset>
                             </div>
                         </form>
                     </div>
