@@ -1,0 +1,103 @@
+{% load static %}
+{% block content %}
+
+    <!-- Modal -->
+    <div id="viewProfile" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="viewProfileLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h3 class="modal-title">Update Profile:</h3>
+                </div>
+
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <img class="img-circle center-block" src="{% static "images/profile-img.png" %}" alt="Generic placeholder image" width="128" height="128">
+                            </div>
+                            <div class="col-md-6">
+                                <form role="form" action="{% url 'umbrella:updateUserProfile' %}" method="POST" id="form1"
+                                      name="SubmitForm" data-toggle="validator">
+                                    {% csrf_token %}
+                                    <div id="change_username">
+                                        <h2>{{ user.username }}</h2>
+                                    </div>
+                                    <div class="form-group" id="replaced_username">
+                                        <label class="control-label">User Name:</label>
+                                        <input type="text" name="display_name" style="font-size: 25px;font-weight: bold;"
+                                               value="{{ user.username}}" data-error="At least enter SOMETHING!"
+                                               class="form-control input-group-lg" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                    <br>
+                                    <div id="change_email">
+                                        <h4><span class="glyphicon glyphicon-envelope"></span> {{ user.email }}</h4>
+                                    </div>
+                                    <div class="form-group" id="replaced_email">
+                                        <label class="control-label">Email Address:</label>
+                                        <input type="email" name="email" style="font-size: 18px;font-weight: bold;"
+                                               value="{{ user.email }}" class="form-control input-group-lg"
+                                               data-error="Bruh, that email address is invalid" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                    <br>
+                                    <button id="change_password_button" type="button" class="btn btn-primary" data-toggle="modal" data-target="#password_small_window">Change Password</button>
+                                    <br>
+                                    <br>
+                                </form>
+                                <div class="modal-footer text-right">
+                                    {# <button id="changebutton">Try it</button>#}
+                                    <button class="btn btn-primary" id="changebutton" onclick="enableEdit()"><span class="glyphicon glyphicon-pencil"></span> Edit User Details</button>
+                                    <button id="save_button" type="submit" form="form1" class="btn btn-primary">Save</button>
+                                    <button id="cancel_button" onclick="cancelEdit()" type="button" class="btn btn-default">Cancel</button>
+                                    {# <a href="#" data-toggle="modal" data-target="#updateUserProfile"><span class="glyphicon glyphicon-pencil"></span>Editing</a>#}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /container -->
+            </div>
+        </div>
+    </div>
+    <!-- /model -->
+    {% include 'umbrella/viewProfileEditing/editingPassword.html' %}
+    {#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>#}
+    <script>
+        document.getElementById("replaced_username").style.display = "none";
+        document.getElementById("replaced_email").style.display = "none";
+        document.getElementById("cancel_button").style.display = "none";
+        document.getElementById("save_button").style.display = "none";
+        document.getElementById("change_password_button").style.display = "none";
+        function enableEdit() {
+            document.getElementById("change_username").style.display = "none";
+            document.getElementById("change_email").style.display = "none";
+            document.getElementById("changebutton").style.display = "none";
+            document.getElementById("replaced_username").style.display = "block";
+            document.getElementById("replaced_email").style.display = "block";
+            document.getElementById("cancel_button").style.display = "inline";
+            document.getElementById("save_button").style.display = "inline";
+            document.getElementById("change_password_button").style.display = "inline";
+        }
+        function cancelEdit() {
+            document.getElementById("replaced_username").style.display = "none";
+            document.getElementById("replaced_email").style.display = "none";
+            document.getElementById("cancel_button").style.display = "none";
+            document.getElementById("save_button").style.display = "none";
+            document.getElementById("change_password_button").style.display = "none";
+            document.getElementById("change_username").style.display = "block";
+            document.getElementById("change_email").style.display = "block";
+            document.getElementById("changebutton").style.display = "inline";
+        }
+        {#            $('#changebutton').click(function(){#}
+        {#                $('#change_username').replaceWith('<input id="replaced_username" type="email" name="user_email" style="font-size: 25px;font-weight: bold;" id="user_email" value="{{ user.username}}" class="form-control input-group-lg">');#}
+        {#                $('#change_email').replaceWith('<input id="replaced_email" type="email" name="user_email" style="font-size: 18px;font-weight: bold;" id="user_email" value="{{ user.email }}" class="form-control input-group-lg">');#}
+        {#                $('#changebutton').replaceWith('<button id="replace_cancel_button" type="button" class="btn btn-default">Cancel</button><button type="button" class="btn btn-primary">Save</button>');#}
+        {#            });#}
+        {#            $('#replace_cancel_button').click(function(){#}
+        {#                $('#replaced_username').replaceWith('<h2 id="change_username">{{ user.username }}</h2>');#}
+        {#                $('#replaced_email').replaceWith('<h4 id="change_email"><span class="glyphicon glyphicon-envelope"></span>{{ user.email }}</h4>');#}
+        {#            });#}
+    </script>
+{% endblock %}

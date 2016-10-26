@@ -1,0 +1,67 @@
+body, html {
+    margin: 0;
+    overflow: hidden;
+    height:100%;
+    /*padding-top: 65px;*/
+}
+
+@media (min-width: 768px){
+    #left {
+        /*position: absolute;*/
+        /*top: 50px;*/
+        /*bottom: 0;*/
+        left: 0;
+        width: 75%;
+        /*overflow-y: scroll;*/
+    }
+
+    #right {
+        /*position: absolute;*/
+        top: 20px;
+        bottom: 0;
+        right: 0;
+        overflow-y: scroll;
+        width: 25%;
+        word-wrap: break-word;
+        height:100%;
+    }
+
+    #map {
+        /*Below code sets height accounting for the 50px deep navbar*/
+        height: calc(100% - 50px);
+    }
+}
+
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 480px) {
+    /* Styles */
+    #left {
+        height: 40%;
+        /*top: 50px;*/
+    }
+
+    #right {
+        height: 60%;
+        top: 20px;
+        overflow-y: scroll;
+        word-wrap: break-word;
+    }
+
+    #map {
+        height: 100%;
+    }
+}
+
+#left {
+    /*background-color: #FC6E51;*/
+    /*text-align: center;*/
+    /*height:100%;*/
+}
+
+#right {
+    /*background-color: #4FC1E9;*/
+    /*text-align: center;*/
+    padding-bottom: 60px;
+}

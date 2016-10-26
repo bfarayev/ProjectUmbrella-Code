@@ -15,9 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from . import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^', include('umbrella.urls')) # Runs the umbrella app from the root web directory
+    url(r'^', include('umbrella.urls'))  # Runs the umbrella app from the root web directory
 ]

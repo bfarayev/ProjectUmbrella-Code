@@ -11,12 +11,25 @@
 		- [Dependencies & `packages.json`](#dependencies-packagesjson)
 	- [Bootstrap](#bootstrap)
 	- [Integrating Postgresql](#integrating-postgresql)
+		- [Cleaning up your Postgresql DB](#cleaning-up-your-postgresql-db)
 	- [PostGIS installation](#postgis-installation)
 		- [Mac instructions](#mac-instructions)
 		- [Ubuntu instructions](#ubuntu-instructions)
 	- [GeoDjango Tutorials](#geodjango-tutorials)
 	- [Git Team Workflow](#git-team-workflow)
 		- [Reviewing a PR](#reviewing-a-pr)
+- [Deployment!](#deployment)
+	- [postgres](#postgres)
+		- [So... guides?](#so-guides)
+	- [uwsgi+nginx](#uwsginginx)
+		- [Foreword: Caution!](#foreword-caution)
+		- [uwsgi docs](#uwsgi-docs)
+		- [nginx docs](#nginx-docs)
+	- [How are we set up?](#how-are-we-set-up)
+		- [django](#django)
+		- [uwsgi](#uwsgi)
+		- [nginx](#nginx)
+		- [sock??](#sock)
 
 <!-- /TOC -->
 
@@ -97,6 +110,17 @@ unset DATABASE_PASSWORD
 
 6. You will most likely have gotten an error in step 5, if the stack trace mentions `postgis` then complete the next section and then retry step 5. Remember if you need help, ask for it.
 
+### Cleaning up your Postgresql DB
+Sometimes you might run into database errors, e.g. when a certain column in a table doesn't exist and `python3 manage.py migrate` doesn't seem to fix it.
+
+What you can try is to drop your database:
+```
+sudo -u postgres psql
+drop database <your_database_name>;
+create database <your_database_name> with owner <user_you_use_in_django>;
+\q
+```
+and run `python3 manage.py migrate` & `python3 manage.py runserver` again.
 
 ## PostGIS installation
 ### Mac instructions
@@ -166,3 +190,86 @@ Simple example on how this workflow should look like in practice:
 Sometimes you might want to fix something in someone else's branch. You should use `git fetch` command to copy the remote branch to your local and work on it.
 
 It should look like `git fetch origin branch-name:branch-name` & `git checkout branch-name`
+
+### Fixing conflicts
+
+Sometimes you need to fix code conflicts when two people change the same lines by accident. The simplest way to do this is to use `git mergetool` with one of the merging tools like `opendiff`, `vimdiff`, `gvimdiff`. You can use `git merge develop` or `git rebase develop` when you're in the feature branch. If there's a conflict, you'll end up in some intermediate state and you'll be asked to fix the conflicts. At this point:
+
+- `git mergetool` then select `opendiff` or any other.
+- choose which part of the code you need to keep. (left, right, both or custom..)
+- save the file with Ctrl-S or Cmd-S
+- `git rebase --continue` to continue
+- `git rebase --abort` to roll back the changes 
+- commit your changes and push to remote
+- For detailed explanation please read [this tutorial](https://gist.github.com/karenyyng/f19ff75c60f18b4b8149)
+  
+# Deployment
+
+Here are a bunch of notes about how our EC2 instance is configured, and the docs I used while setting it up. If anyone has any questions or wants me to go through anything with them, let me know! It was lots of fun, and I'd be happy to talk about it.
+
+## postgres
+
+Postgres databases are stored on clusters: these are the structure which postgres uses to write the data to disk, and once they're set up you can basically forget they exist. On umbrellabox, we are using a database cluster I created in `/db/pgsql/data`, and the original default cluster which postgres created has been destroyed.
+
+`/db` is the mount point I used for the EBS volume which I set up to separate the database from the system. Setting up an EBS volume was pretty easy... you just ask the AWS console for a new one, then partition and mount it in the OS like you would any other disk.
+
+If I were doing this again, I would **not** use an EBS volume for the database, but rather an RDS instance. Setting up a postgres cluster was a pain, in the sense that it requires some understanding of how postgres is working behind the scenes. Avoid if you can!
+
+<!--### So... guides?
+
+There weren't any guides for this kind of thing. I basically muddled through with the official docs for postgres, and figured it out as I went along. I made a royal mess of it the first time, which was why I started the second instance of the server... I think this was probably a unavoidable part of the learning process. :P-->
+
+## uwsgi + nginx
+### Foreword: Caution!
+
+The first lesson I learnt in setting this all up was *USE THE OFFICIAL DOCS!*
+
+### uwsgi docs
+
+This was generally the best source I found for getting everything running together. That said, I had a few problems setting this up by directly following the guide — in those cases, I found the best thing to do was to look up what all of the values in the config were doing.
+
+[uwsgi-docs: Django and nginx](https://uwsgi-docs.readthedocs.io/en/latest/tutorials/Django_and_nginx.html)
+
+[uwsgi-docs: nginx](https://uwsgi-docs.readthedocs.io/en/latest/Nginx.html)
+
+I read the following to check what was good practice for configuring uwsgi once it was working, but most of it didn't apply for our purposes:
+
+[uwsgi-docs: things to know](https://uwsgi-docs.readthedocs.io/en/latest/ThingsToKnow.html)
+
+Regarding the number of worker threads: this is currently defaulting to one — I don't see any reason to have it any higher for our purposes, but it's very easy to do.
+
+### nginx docs
+
+This is the official nginx guide for setting it up with uwsgi. Generally the guide in the uwsgi docs was better for being slightly more comprehensive, but this made for a good introduction to nginx:
+
+[nginx: using nginx with uwsgi and django](https://www.nginx.com/resources/admin-guide/gateway-uwsgi-django/)
+
+This is the list of nginx directives used in .conf files — it got me out of a couple of binds!
+
+[nginx: index of directives](https://nginx.org/en/docs/dirindex.html)
+
+## How are we set up?
+
+### django
+
+Okay, so the django server is running as you would normally, with one difference: we are bundling all static files into one big directory in `$HOME/staticroot`. This is so that nginx can find them all in one place and not bother anyone else about it. Django does this for us — to find out how, read: [djangoproject: static files - deployment](https://docs.djangoproject.com/en/1.10/howto/static-files/#deployment)
+
+Note that in the `deployment` branch, there are a few other changes to `settings.py`. Debug mode is set to false, so that django doesn't generate stack traces etc. when things go wrong. Also, once debug mode is disabled, django defaults to only respond to hosts specified in `allowed_hosts` — this is a whitelist, that can be used to allow only particular subnets and therefore enforce the use of load balancers and what-have-you. Currently we have this set to allow `'*'` — a wildcard, allowing any hosts to connect.
+
+### uwsgi
+
+uwsgi is a python package, so you install it with pip. It basically loads the virtual environment and runs the django project, but can spawn bazillions of worker processes which it then uses to serve the site. On umbrellabox, uwsgi is running from within the virtual environment in a tmux session. This is not necessary — I could just as easily have set up uwsgi in the global pip. This way I get to have nice screens of logs which I can easily start and stop.
+
+Currently we have uwsgi set up to have only a single worker thread, but we could very easily scale this up in the config file if we wanted to run a more powerful instance.
+
+### nginx
+
+All nginx does is takes the incoming traffic on port 80 (http) and redirects it either to nginx for non-static routes, or directly to the file (in `$HOME/staticroot`) for any images/css/what-have-you. It just does this really, really quickly and efficiently, while slow old python has bigger things on its mind.
+
+Access and error logs for nginx are kept at `/var/log/nginx/` by default, but this can be modified in the config file.
+
+In the `deployment` branch, we have two config files for nginx: one for http, and one for https. We are symlinking to these files from the `/etc/nginx/sites-enabled/` directory, where nginx goes to look for site config files, so that we can keep them in one place under version control. We are currently linking to the http config file while we wait for ssl to be set up.
+
+### sockets
+
+`umbrella.sock` is the unix socket which nginx is using to connect to uwsgi. This was not necessary — it worked just as well routing traffic to `localhost:8080`, which I originally had uwsgi running on.

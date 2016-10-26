@@ -1,4 +1,10 @@
 {% load static %}
+{% include 'umbrella/signin.html' %}
+{% include 'umbrella/register.html' %}
+{% if user.is_authenticated %}
+    {% include 'umbrella/viewProfile.html' %}
+{% endif %}
+
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -16,8 +22,7 @@
 ================================================== -->
 
 <body>
-    <div id="navbar"></div>
-    <nav class="navbar navbar-inverse navbar-default navbar-static-top" style="margin-bottom: 0px;">
+    <nav class="navbar navbar-inverse navbar-default navbar-fixed-top" style="margin-bottom: 0;">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -35,26 +40,35 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Get Started <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li class="dropdown-header">Messages</li>
-                            <li><a href="/googlemap/">View Map</a></li>
-                            <li><a href="#">Do something</a></li>
-                            <li><a href="#">Do more things</a></li>
-                        </ul>
-                    </li>
+                    <li><a href="/">Map View</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/contact/">Contact</a></li>
+{#                    <li class="dropdown">#}
+{#                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Get Started <span class="caret"></span></a>#}
+{#                        <ul class="dropdown-menu">#}
+{#                            <li class="dropdown-header">Messages</li>#}
+{#                            <li><a href="/">View Map</a></li>#}
+{#                            <li><a href="#">Do something</a></li>#}
+{#                            <li><a href="#">Do more things</a></li>#}
+{#                        </ul>#}
+{#                    </li>#}
                 </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/register/"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                    <li><a href="/signin/"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                </ul>
-            </div>
+                {% if user.is_authenticated %}
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/admin/"><span class="glyphicon glyphicon-wrench"></span> Admin</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#viewProfile"><span class="glyphicon glyphicon-user"></span> View Profile</a></li>
+                        <li><a href="{% url 'umbrella:logout' %}"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+                    </ul>
+                {% else %}
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#" data-toggle="modal" data-target="#register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#signin"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    </ul>
+                {% endif %}
+            </div> <!--/.nav-collapse -->
         </div>
     </nav>
+    <div style="padding-top: 10px;"></div>
     {% block content %}{% endblock %}
 
     <!-- Bootstrap core JavaScript
@@ -63,6 +77,7 @@
     <!-- jQuery Version 3.1.0 -->
     <script src="{% static 'jquery/dist/jquery.min.js' %}"></script>
     <script src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'bootstrap-validator/dist/validator.min.js' %}"></script>
 </body>
 
 </html>

@@ -1,99 +1,202 @@
 {% extends 'umbrella/base.html' %}
 {% load static %}
 {% block content %}
-
+    <!-- Custom styles for this template -->
+    <link href="{% static "css/splitview.css" %}" rel="stylesheet">
+    <link href="{% static "css/bubble.css" %}" rel="stylesheet">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-9" style="padding: 0">
-                <style>
-                    html, body {
-                        height: 100%;
-                        margin: 0;
-                        padding: 0;
-                    }
-                    #map {
-                    {#  Below code sets height accounting for the 50px deep navbar #}
-                        height: calc(100% - 50px);
-                    }
-                </style>
+            <div class="col-md-9" style="padding: 0" id="left">
                 <div id="map"></div>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
                 <script>
                     // Note: This example requires that you consent to location sharing when
                     // prompted by your browser. If you see the error "The Geolocation service
                     // failed.", it means you probably did not give permission for the browser to
                     // locate you.
-                    var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-                    var labelIndex = 0;
+                    var map;// set map as global variable.
                     function initMap() {
-                        var map = new google.maps.Map(document.getElementById('map'), {
+                        map = new google.maps.Map(document.getElementById('map'), {
                             center: {lat: -33.8886, lng: 151.1873},
-                            zoom: 4
+                            zoom: 14
                         });
                         var infoWindow = new google.maps.InfoWindow({map: map});
-                        // Try HTML5 geolocation.
+                        // Try HTML5 geolocation. NOTE: Requires HTTPS to work.
                         if (navigator.geolocation) {
                             navigator.geolocation.getCurrentPosition(function(position) {
                                 var pos = {
                                     lat: position.coords.latitude,
                                     lng: position.coords.longitude
                                 };
-
                                 infoWindow.setPosition(pos);
-                                infoWindow.setContent('Location found.');
-                                map.setCenter(pos);
+                                infoWindow.setContent('You are currently here!');
+                                // map.setCenter(pos);
+                                document.getElementById('latitude').value = pos.lat;
+                                document.getElementById('longitude').value = pos.lng;
                             }, function() {
                                 handleLocationError(true, infoWindow, map.getCenter());
                             });
                         } else {
                             // Browser doesn't support Geolocation
                             handleLocationError(false, infoWindow, map.getCenter());
-                        };
-                        var image = "{% static 'images/favicon.ico' %}";
+                        }
+                        var image = "{% static 'images/map-pin-silhouette32x32.png' %}";
                         {% for post in post_list%}
                             var post_location= { lat: {{ post.location.latitude }}, lng: {{ post.location.longitude }} };
-                            var postContent = '{{ post.content }}';
-                            addMarker(post_location, map, image, postContent);
+                            var postContent = '<div id="content">'+
+                                    '<div id="bodyContent"  style="word-wrap: break-word";>'+
+                                    '<img class="img-circle" src="{% static "images/profile-img.png" %}" alt="Generic placeholder image" width="28" height="28">'+
+                                    '<strong>{{ post.user.username }}</strong><br/><span class="text-muted" data-toggle="tooltip" data-placement="top" title="Posted at {{ post.timestamp|date:"P jS N"}}">commented {{ post.timestamp|timesince }} ago</span>'+
+                                    '<div class="well well-sm">{{ post.content|linebreaks|escapejs}}</div>'+
+                                    '</div>';
+                            addMarker(post_location, image, postContent);
                         {% endfor %}
                     }
-                    function addMarker(location, map, image, postContent) {
+                    function addMarker(location, image, postContent) {
                         // Add the marker at the clicked location, and add the next-available label
                         // from the array of alphabetical characters.
                         var marker = new google.maps.Marker({
                             position: location,
-                            label: labels[labelIndex++ % labels.length],
                             map: map,
                             icon: image
                         });
-                        attachPostContent(marker, postContent);
+                        attachPostContent(marker, postContent); //attached the content with post
                     }
                     function attachPostContent(marker, postContent) {
+                        // Add post content into icon
+                        // Set counter to monitor click times: In order to improving UX
                         var infowindow = new google.maps.InfoWindow({
-                            content: postContent
+                            content: postContent,
+                            maxWidth: 200
                         });
-
+                        var counter = 0;
                         marker.addListener('click', function() {
-                            infowindow.open(marker.get('map'), marker);
+                            // Double click icon can close the content
+                            if (counter == 0) {
+                                map.setCenter(marker.getPosition());
+                                infowindow.open(marker.get('map'), marker);
+                                counter=+1;
+                            } else {
+                                counter = 0;
+                                infowindow.close(marker.get('map'), marker);
+                            }
                         });
                     }
-
+                    function sidebarClick(lat,lng) {
+                        // Once click the sidebar, it will Center and Zoom to that location
+                        // However, this method need to set the `map` as global variable
+                        var pos = {
+                            lat: lat,
+                            lng: lng
+                        };
+                        map.setCenter(pos);
+                        map.setZoom(18);
+                    }
                     // Data for the markers consisting of a name, a LatLng and a zIndex for the
                     // order in which these markers should display on top of each other.
-                   function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+                    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
                         infoWindow.setPosition(pos);
                         infoWindow.setContent(browserHasGeolocation ?
                                 'Error: The Geolocation service failed.' :
                                 'Error: Your browser doesn\'t support geolocation.');
                     }
 
+                    $(document).ready(function() {
+                        $('#SubmitForm').submit(function (e) {
+                            e.preventDefault();
+                            $.ajax({
+                                type: "POST",
+                                url: "{% url 'umbrella:createNewPost' %}",
+                                data: $(this).serialize(),
+                                success: function () {
+                                    var location_lat = $('#latitude').val();
+                                    var location_log = $('#longitude').val();
+                                    var post_content = $('#post-content').val();
+                                    var post_content_limit = post_content.substring(0,117)+'...';
+                                    var current_user = '{{ user.username }}';
+                                    var sidebarpost='<a href="javascript:sidebarClick('+location_lat+','+location_log+')" class="list-group-item"><div class="row"><div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"><div><img class="img-circle center-block" src="{% static "images/profile-img.png" %}" alt="Generic placeholder image" width="48" height="48"></div></div><div class="col-xs-9 col-sm-9 col-md-9 col-lg-9"><div class="bubble"><div class=""><strong>'+current_user+' </strong><span class="text-muted" data-toggle="tooltip" data-placement="top" title="Posted at 1">commented<br>0 minutes ago</span></div><div class="">'+post_content_limit+'</div><!-- /panel-body --></div><!-- /panel panel-default --></div></div></a>';
+                                    $('#sidebar-list').prepend(sidebarpost);
+                                    var post_location= { lat: parseFloat(location_lat), lng: parseFloat(location_log) };
+                                    var post_content_marker = post_content.replace(/(?:\r\n|\r|\n)/g, '<br />');
+                                    var postContent = '<div id="content">'+
+                                            '<div id="bodyContent"  style="word-wrap: break-word";>'+
+                                            '<img class="img-circle" src="{% static "images/profile-img.png" %}" alt="Generic placeholder image" width="28" height="28">'+
+                                            '<strong>'+current_user+'</strong><br/><span class="text-muted" data-toggle="tooltip" data-placement="top" title="Posted at now">commented 0 minutes ago</span>'+
+                                            '<div class="well well-sm">'+post_content_marker+'</div>'+
+                                            '</div>';
+                                    var image = "{% static 'images/map-pin-silhouette32x32.png' %}";
+                                    addMarker(post_location, image, postContent);
+                                },
+                                error: function(data){
+                                    alert("Humm.. something strange happened.. try again or contact admin"); // for debugging
+                                }
+                            });
+                            return false;
+                        });
+                    })
+
                 </script>
                 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgPN0ssQZLlxZn8dFofDfWR-_hzxFAXVk&signed_in=true&callback=initMap"
                         async defer>
                 </script>
             </div>
-            <div class="col-md-3">
-                <h1>Example Sidebar</h1>
-                <p>This sidebar is currently static for simplicity. A cool bonus (wishlist) could be to have a sliding sidebar :)</p>
-                <p>This sidebar will most likely be where we post &amp; update the messages.</p>
+            <div class="col-md-3" id="right">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search for...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">Go!</button>
+                            </span>
+                        </div>
+                    </div>
+                    {% if user.is_authenticated %}
+                    <div class="row">
+                        <form id="SubmitForm" action= "{% url 'umbrella:createNewPost' %}" method="POST" name="CreatePostForm" data-toggle="validator">
+                            <div class="form-group">
+                                {% csrf_token %}
+                                <br>
+                                <textarea id="post-content" class="form-control" name="newPostContent" rows="3" placeholder="What's on your mind? Tell the world!" required></textarea>
+                                <div class="help-block with-errors"></div>
+                                <br>
+                                <input id="latitude" type="hidden" name="newPostLat" value="-33.8886">
+                                <input id="longitude" type="hidden" name="newPostLong" value="151.1873">
+                                <button type="submit" id="SubmitPost" class="btn btn-default pull-right">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                    {% endif %}
+                    <div class="row">
+                        <h2>Around you</h2>
+                        <div class="list-group" id="sidebar-list">
+                            {% for post in post_list %}
+                                <a href="javascript:sidebarClick({{ post.location.latitude }},
+{{ post.location.longitude }})" class="list-group-item">
+                                <div class="row">
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                        <div>
+                                            <img class="img-circle center-block" src="{% static "images/profile-img.png" %}" alt="Generic placeholder image" width="48" height="48">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                        <div class="bubble">
+                                            <div class="">
+                                                <strong>{{ post.user.username }}</strong>
+                                                <span class="text-muted" data-toggle="tooltip" data-placement="top" title="Posted at {{ post.timestamp|date:"P jS N"}}">commented {{ post.timestamp|timesince }} ago</span>
+                                            </div>
+                                            <div class="">
+                                                {{ post.content|truncatechars:120 }}
+                                            </div>
+                                            <!-- /panel-body -->
+                                        </div>
+                                        <!-- /panel panel-default -->
+                                    </div>
+                                </div>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
