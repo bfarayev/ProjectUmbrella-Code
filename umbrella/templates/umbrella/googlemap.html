@@ -40,8 +40,11 @@
                             // Browser doesn't support Geolocation
                             handleLocationError(false, infoWindow, map.getCenter());
                         }
-                        var image = "{% static 'images/map-pin-silhouette32x32.png' %}";
                         {% for post in post_list%}
+{#                            var image = 'static/images/icons/'+'{{ post.icons }}'+'.icon';#}
+{#                            var testing = {% static 'images/icons/icon_acadamic.ico' %};#}
+                            var image = '{{ post.icons.url }}';
+                            console.log(image);
                             var post_location= { lat: {{ post.location.latitude }}, lng: {{ post.location.longitude }} };
                             var postContent = '<div id="content">'+
                                     '<div id="bodyContent"  style="word-wrap: break-word";>'+
