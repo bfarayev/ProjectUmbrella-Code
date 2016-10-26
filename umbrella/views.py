@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-
+from django.contrib import messages
 from .models import *
 
 
@@ -50,7 +50,7 @@ def is_valid_email(email):
     except ValidationError:
         return False
 
-from django.contrib import messages
+
 def authenticate_user(request):
     user_email = request.POST['inputEmail']
     user_pass = request.POST['inputPassword']
@@ -67,7 +67,7 @@ def authenticate_user(request):
         login(request, user)
         return HttpResponseRedirect(reverse('umbrella:googlemap'))
     else:
-        messages.add_message(request, messages.INFO, 'We don\'t know the username or you mistyped the password - Try again, mate!')
+        messages.add_message(request, messages.ERROR, 'We don\'t know the username or you mistyped the password - Try again, mate!', "signin")
         return HttpResponseRedirect(reverse('umbrella:googlemap'))
 
 
@@ -80,12 +80,22 @@ def create_user(request):
     user_pass = request.POST['password']
     user_mail = request.POST['email']
 
+    if User.objects.filter(email=user_mail).exists():
+        messages.add_message(request, messages.ERROR, "That email address is taken already! Try something else.", "create")
+        return HttpResponseRedirect(reverse('umbrella:googlemap'))
+
     user = User.objects.create_user(user_name,
                                     user_mail,
                                     user_pass
                                     )
     user.save()
+
+    kwargs = {'username': user_name, 'password': user_pass}
+    user = authenticate(**kwargs)
+    login(request, user)
+
     return HttpResponseRedirect(reverse('umbrella:googlemap'))
+
 
 
 def index(request):
