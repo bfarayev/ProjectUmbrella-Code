@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-
+from django.contrib import messages
 from .models import *
 
 
@@ -12,8 +12,23 @@ def update_user_profile(request):
 
     if request.method == 'POST':
         actual_user = request.user
+
+        old_username = actual_user.username
+        old_email    = actual_user.email
+
         actual_user.username = request.POST['display_name']
         actual_user.email = request.POST['email']
+
+        if User.objects.filter(username=actual_user.username).exists() and actual_user.username != old_username:
+            messages.add_message(request, messages.ERROR, "That display name is taken already! Try something else.",
+                                 "edit")
+            return HttpResponseRedirect(reverse('umbrella:googlemap'))
+
+        if User.objects.filter(email=actual_user.email).exists()and actual_user.email != old_email:
+            messages.add_message(request, messages.ERROR, "That email address is taken already! Try something else.",
+                                 "edit")
+            return HttpResponseRedirect(reverse('umbrella:googlemap'))
+
         actual_user.save()
 
         pass
@@ -67,8 +82,8 @@ def authenticate_user(request):
         login(request, user)
         return HttpResponseRedirect(reverse('umbrella:googlemap'))
     else:
-        # Redirect to signin.html
-        return HttpResponseRedirect(reverse('umbrella:signin'))
+        messages.add_message(request, messages.ERROR, 'We don\'t know the username or you mistyped the password - Try again, mate!', "signin")
+        return HttpResponseRedirect(reverse('umbrella:googlemap'))
 
 
 def view_profile(request):
@@ -80,12 +95,26 @@ def create_user(request):
     user_pass = request.POST['password']
     user_mail = request.POST['email']
 
+    if User.objects.filter(username=user_name).exists():
+        messages.add_message(request, messages.ERROR, "That display name is taken already! Try something else.", "create")
+        return HttpResponseRedirect(reverse('umbrella:googlemap'))
+
+    if User.objects.filter(email=user_mail).exists():
+        messages.add_message(request, messages.ERROR, "That email address is taken already! Try something else.", "create")
+        return HttpResponseRedirect(reverse('umbrella:googlemap'))
+
     user = User.objects.create_user(user_name,
                                     user_mail,
                                     user_pass
                                     )
     user.save()
+
+    kwargs = {'username': user_name, 'password': user_pass}
+    user = authenticate(**kwargs)
+    login(request, user)
+
     return HttpResponseRedirect(reverse('umbrella:googlemap'))
+
 
 
 def index(request):
