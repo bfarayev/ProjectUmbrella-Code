@@ -7,6 +7,37 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-9" style="padding: 0" id="left">
+                {% if messages %}
+                    <div class="alert alert-danger" role="alert">
+                        {% for message in messages %}
+                            {% if "signin" in message.tags %}
+                                <strong>Oh snap! </strong>
+                                <a href="#" data-toggle="modal" data-target="#signin" class="alert-link">{{ message }}
+                                </a>
+                                Or
+                                <a href="#" data-toggle="modal" data-target="#register" class="alert-link">Sign up to if
+                                    you're not a user yet!</a>
+                                {#                        <script>#}
+                                {#                            jQuery(function () {#}
+                                {#                                jQuery("#register").click();#}
+                                {#                            });#}
+                                {#                        </script>#}
+                                {#                        TODO: Automatically popup the modals#}
+                            {% endif %}
+                            {% if "create" in message.tags %}
+                                <strong>Oh snap! </strong>
+                                <a href="#" data-toggle="modal" data-target="#register" class="alert-link">{{ message }}
+                                </a>
+                            {% endif %}
+                            {% if "edit" in message.tags %}
+                                <strong>Oh snap! </strong>
+                                <a href="#" data-toggle="modal" data-target="#viewProfile" class="alert-link">{{ message }}
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                {% endif %}
                 <div id="map"></div>
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
                 <script>
