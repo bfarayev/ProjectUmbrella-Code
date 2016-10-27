@@ -140,13 +140,13 @@ def create_new_post(request):
 
         # Interpret image value to path
         if icon_name == 'yellow':
-            icon = 'static/images/icons/icon_yellow.png'
+            icon = 'static/images/icons/yellow-map-pin-silhouette32x32.png'
         elif icon_name == 'green':
-            icon = 'static/images/icons/icon_green.png'
+            icon = 'static/images/icons/green-map-pin-silhouette32x32.png'
         elif icon_name == 'purple':
-            icon = 'static/images/icons/icon_purple.png'
+            icon = 'static/images/icons/purple-map-pin-silhouette32x32.png'
         elif icon_name == 'blue':
-            icon = 'static/images/icons/icon_blue.png'
+            icon = 'static/images/icons/blue-map-pin-silhouette32x32.png'
         else:
             icon = 'static/images/icons/map-pin-silhouette32x32.png'
 
