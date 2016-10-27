@@ -12,8 +12,23 @@ def update_user_profile(request):
 
     if request.method == 'POST':
         actual_user = request.user
+
+        old_username = actual_user.username
+        old_email    = actual_user.email
+
         actual_user.username = request.POST['display_name']
         actual_user.email = request.POST['email']
+
+        if User.objects.filter(username=actual_user.username).exists() and actual_user.username != old_username:
+            messages.add_message(request, messages.ERROR, "That display name is taken already! Try something else.",
+                                 "edit")
+            return HttpResponseRedirect(reverse('umbrella:googlemap'))
+
+        if User.objects.filter(email=actual_user.email).exists()and actual_user.email != old_email:
+            messages.add_message(request, messages.ERROR, "That email address is taken already! Try something else.",
+                                 "edit")
+            return HttpResponseRedirect(reverse('umbrella:googlemap'))
+
         actual_user.save()
 
         pass
@@ -79,6 +94,10 @@ def create_user(request):
     user_name = request.POST['display_name']
     user_pass = request.POST['password']
     user_mail = request.POST['email']
+
+    if User.objects.filter(username=user_name).exists():
+        messages.add_message(request, messages.ERROR, "That display name is taken already! Try something else.", "create")
+        return HttpResponseRedirect(reverse('umbrella:googlemap'))
 
     if User.objects.filter(email=user_mail).exists():
         messages.add_message(request, messages.ERROR, "That email address is taken already! Try something else.", "create")

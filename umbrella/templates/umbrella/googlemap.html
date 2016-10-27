@@ -29,6 +29,11 @@
                                 <a href="#" data-toggle="modal" data-target="#register" class="alert-link">{{ message }}
                                 </a>
                             {% endif %}
+                            {% if "edit" in message.tags %}
+                                <strong>Oh snap! </strong>
+                                <a href="#" data-toggle="modal" data-target="#viewProfile" class="alert-link">{{ message }}
+                                </a>
+                            {% endif %}
                         {% endfor %}
                     </div>
 
