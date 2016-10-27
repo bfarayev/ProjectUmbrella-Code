@@ -173,7 +173,7 @@ def create_sample_data(request):
     title_1 = 'Category A'
     content_1 = "I'm in the PNR building, does anyone have a spare umbrella?"
     description_1 = 'This is Category A'
-    icon_1 = 'static/images/icons/icon_heart.ico'
+    icon_1 = 'static/images/icons/blue-map-pin-silhouette32x32.png'
     location_1 = Location(latitude=position_1[0], longitude=position_1[1])
     location_1.save()
     category_1 = Category(title=title_1, description=description_1)
@@ -188,7 +188,7 @@ def create_sample_data(request):
     title_2 = "Category B"
     content_2 = "Anyone keen for a drink at the bar? That super awesome band everyone likes is playing tonight as well"
     description_2 = 'This is Category B'
-    icon_2 = 'static/images/icons/icon_coffee.ico'
+    icon_2 = 'static/images/icons/green-map-pin-silhouette32x32.png'
     location_2 = Location(latitude=position_2[0], longitude=position_2[1])
     location_2.save()
     category_2 = Category(title=title_2, description=description_2)
@@ -203,7 +203,7 @@ def create_sample_data(request):
     title_3 = "Category C"
     content_3 = "Pool competition at 12, meet us at the International Student Lounge!! :)"
     description_3 = 'This is Category C'
-    icon_3 = 'static/images/icons/icon_human.ico'
+    icon_3 = 'static/images/icons/yellow-map-pin-silhouette32x32.png'
     location_3 = Location(latitude=position_3[0], longitude=position_3[1])
     location_3.save()
     category_3 = Category(title=title_3, description=description_3)
@@ -218,7 +218,7 @@ def create_sample_data(request):
     title_4 = "Category D"
     content_4 = "Come have a kick around with the USyd Social Football Club, 12pm at the park"
     description_4 = "This is Category D"
-    icon_4 = 'static/images/icons/icon_star.ico'
+    icon_4 = 'static/images/icons/purple-map-pin-silhouette32x32.png'
     location_4 = Location(latitude=position_4[0], longitude=position_4[1])
     location_4.save()
     category_4 = Category(title=title_4, description=description_4)
@@ -234,7 +234,7 @@ def create_sample_data(request):
     content_5 = "A fun-filled night of entertainment awaits - Catch the Law Revue this Saturday night at the Seymour " \
                 "Centre"
     description_5 = "This is Category E"
-    icon_5 = 'static/images/icons/icon_car.ico'
+    icon_5 = 'static/images/icons/map-pin-silhouette32x32.png'
     location_5 = Location(latitude=position_5[0], longitude=position_5[1])
     location_5.save()
     category_5 = Category(title=title_5, description=description_5)
