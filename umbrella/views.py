@@ -4,6 +4,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib import messages
+import json
+
 from .models import *
 
 
@@ -116,7 +118,6 @@ def create_user(request):
     return HttpResponseRedirect(reverse('umbrella:googlemap'))
 
 
-
 def index(request):
     """Returning index.html"""
 
@@ -164,8 +165,22 @@ def create_new_post(request):
         category_ = Category(title=title, description=description)
         category_.save()
         user = request.user
+        icon_name = request.POST['icons_selection']
+
+        # Interpret image value to path
+        if icon_name == 'yellow':
+            icon = 'static/images/icons/yellow-map-pin-silhouette32x32.png'
+        elif icon_name == 'green':
+            icon = 'static/images/icons/green-map-pin-silhouette32x32.png'
+        elif icon_name == 'purple':
+            icon = 'static/images/icons/purple-map-pin-silhouette32x32.png'
+        elif icon_name == 'blue':
+            icon = 'static/images/icons/blue-map-pin-silhouette32x32.png'
+        else:
+            icon = 'static/images/icons/map-pin-silhouette32x32.png'
 
         new_post = Post()
+        new_post.icons = icon
         new_post.content = content
         new_post.save()
         new_post.location = location_
@@ -174,7 +189,7 @@ def create_new_post(request):
         new_post.save()
 
         # Resource created
-        return HttpResponse(status=201)
+        return HttpResponse(json.dumps({'icon': icon}), content_type="application/json")
 
 
 def create_sample_data(request):
@@ -187,6 +202,7 @@ def create_sample_data(request):
     title_1 = 'Category A'
     content_1 = "I'm in the PNR building, does anyone have a spare umbrella?"
     description_1 = 'This is Category A'
+    icon_1 = 'static/images/icons/blue-map-pin-silhouette32x32.png'
     location_1 = Location(latitude=position_1[0], longitude=position_1[1])
     location_1.save()
     category_1 = Category(title=title_1, description=description_1)
@@ -201,6 +217,7 @@ def create_sample_data(request):
     title_2 = "Category B"
     content_2 = "Anyone keen for a drink at the bar? That super awesome band everyone likes is playing tonight as well"
     description_2 = 'This is Category B'
+    icon_2 = 'static/images/icons/green-map-pin-silhouette32x32.png'
     location_2 = Location(latitude=position_2[0], longitude=position_2[1])
     location_2.save()
     category_2 = Category(title=title_2, description=description_2)
@@ -215,6 +232,7 @@ def create_sample_data(request):
     title_3 = "Category C"
     content_3 = "Pool competition at 12, meet us at the International Student Lounge!! :)"
     description_3 = 'This is Category C'
+    icon_3 = 'static/images/icons/yellow-map-pin-silhouette32x32.png'
     location_3 = Location(latitude=position_3[0], longitude=position_3[1])
     location_3.save()
     category_3 = Category(title=title_3, description=description_3)
@@ -229,6 +247,7 @@ def create_sample_data(request):
     title_4 = "Category D"
     content_4 = "Come have a kick around with the USyd Social Football Club, 12pm at the park"
     description_4 = "This is Category D"
+    icon_4 = 'static/images/icons/purple-map-pin-silhouette32x32.png'
     location_4 = Location(latitude=position_4[0], longitude=position_4[1])
     location_4.save()
     category_4 = Category(title=title_4, description=description_4)
@@ -244,6 +263,7 @@ def create_sample_data(request):
     content_5 = "A fun-filled night of entertainment awaits - Catch the Law Revue this Saturday night at the Seymour " \
                 "Centre"
     description_5 = "This is Category E"
+    icon_5 = 'static/images/icons/map-pin-silhouette32x32.png'
     location_5 = Location(latitude=position_5[0], longitude=position_5[1])
     location_5.save()
     category_5 = Category(title=title_5, description=description_5)
@@ -260,6 +280,7 @@ def create_sample_data(request):
     post_1.location = location_1
     post_1.category.add(category_1)
     post_1.user = user_1
+    post_1.icons = icon_1
     post_1.save()
 
     post_2 = Post()
@@ -268,6 +289,7 @@ def create_sample_data(request):
     post_2.location = location_2
     post_2.category.add(category_2)
     post_2.user = user_2
+    post_2.icons = icon_2
     post_2.save()
 
     post_3 = Post()
@@ -276,6 +298,7 @@ def create_sample_data(request):
     post_3.location = location_3
     post_3.category.add(category_3)
     post_3.user = user_3
+    post_3.icons = icon_3
     post_3.save()
 
     post_4 = Post()
@@ -284,6 +307,7 @@ def create_sample_data(request):
     post_4.location = location_4
     post_4.category.add(category_4)
     post_4.user = user_4
+    post_4.icons = icon_4
     post_4.save()
 
     post_5 = Post()
@@ -292,6 +316,7 @@ def create_sample_data(request):
     post_5.location = location_5
     post_5.category.add(category_5)
     post_5.user = user_5
+    post_5.icons = icon_5
     post_5.save()
 
     return render(request, 'umbrella/googlemap.html')

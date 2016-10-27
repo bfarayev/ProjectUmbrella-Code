@@ -71,8 +71,8 @@
                             // Browser doesn't support Geolocation
                             handleLocationError(false, infoWindow, map.getCenter());
                         }
-                        var image = "{% static 'images/map-pin-silhouette32x32.png' %}";
                         {% for post in post_list%}
+                            var image = '{{ post.icons.url }}';
                             var post_location= { lat: {{ post.location.latitude }}, lng: {{ post.location.longitude }} };
                             var postContent = '<div id="content">'+
                                     '<div id="bodyContent"  style="word-wrap: break-word";>'+
@@ -139,10 +139,11 @@
                                 type: "POST",
                                 url: "{% url 'umbrella:createNewPost' %}",
                                 data: $(this).serialize(),
-                                success: function () {
+                                success: function (data) {
                                     var location_lat = $('#latitude').val();
                                     var location_log = $('#longitude').val();
                                     var post_content = $('#post-content').val();
+                                    var image = data.icon;
                                     var post_content_limit = post_content.substring(0,117)+'...';
                                     var current_user = '{{ user.username }}';
                                     var sidebarpost='<a href="javascript:sidebarClick('+location_lat+','+location_log+')" class="list-group-item"><div class="row"><div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"><div><img class="img-circle center-block" src="{% static "images/profile-img.png" %}" alt="Generic placeholder image" width="48" height="48"></div></div><div class="col-xs-9 col-sm-9 col-md-9 col-lg-9"><div class="bubble"><div class=""><strong>'+current_user+' </strong><span class="text-muted" data-toggle="tooltip" data-placement="top" title="Posted at 1">commented<br>0 minutes ago</span></div><div class="">'+post_content_limit+'</div><!-- /panel-body --></div><!-- /panel panel-default --></div></div></a>';
@@ -155,7 +156,6 @@
                                             '<strong>'+current_user+'</strong><br/><span class="text-muted" data-toggle="tooltip" data-placement="top" title="Posted at now">commented 0 minutes ago</span>'+
                                             '<div class="well well-sm">'+post_content_marker+'</div>'+
                                             '</div>';
-                                    var image = "{% static 'images/map-pin-silhouette32x32.png' %}";
                                     addMarker(post_location, image, postContent);
                                 },
                                 error: function(data){
@@ -165,7 +165,6 @@
                             return false;
                         });
                     })
-
                 </script>
                 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgPN0ssQZLlxZn8dFofDfWR-_hzxFAXVk&signed_in=true&callback=initMap"
                         async defer>
@@ -193,6 +192,17 @@
                                 <input id="latitude" type="hidden" name="newPostLat" value="-33.8886">
                                 <input id="longitude" type="hidden" name="newPostLong" value="151.1873">
                                 <button type="submit" id="SubmitPost" class="btn btn-default pull-right">Submit</button>
+{#                                TODO: Make selector can display images#}
+                                <div class="form-group">
+                                    <label for="icons_selection">Select a Color:</label>
+                                    <select class="btn btn-default" name="icons_selection" id="icons_selection">
+                                        <option value='black'>Black</option>
+                                        <option value='yellow'>Yellow</option>
+                                        <option value='green'>Green</option>
+                                        <option value='purple'>Purple</option>
+                                        <option value='blue'>Blue</option>
+                                    </select>
+                                </div>
                             </div>
                         </form>
                     </div>

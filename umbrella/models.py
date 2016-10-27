@@ -55,6 +55,8 @@ class Location(models.Model):
 # Create the Posts class
 class Post(models.Model):
     content = models.TextField(max_length=200)
+    icons = models.ImageField(upload_to='static/images/icons',
+                              default='static/images/icons/map-pin-silhouette32x32.png')
     category = models.ManyToManyField(Category, blank=True)
     location = models.ForeignKey(Location, null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True, blank=True, null=True)
