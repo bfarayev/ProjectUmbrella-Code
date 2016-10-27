@@ -139,14 +139,14 @@ def create_new_post(request):
         icon_name = request.POST['icons_selection']
 
         # Interpret image value to path
-        if icon_name == 'Academic':
-            icon = 'static/images/icons/icon_acadamic.ico'
-        elif icon_name == 'Heart':
-            icon = 'static/images/icons/icon_heart.ico'
-        elif icon_name == 'Star':
-            icon = 'static/images/icons/icon_star.ico'
-        elif icon_name == 'Correct':
-            icon = 'static/images/icons/icon_correct.ico'
+        if icon_name == 'yellow':
+            icon = 'static/images/icons/icon_yellow.png'
+        elif icon_name == 'green':
+            icon = 'static/images/icons/icon_green.png'
+        elif icon_name == 'purple':
+            icon = 'static/images/icons/icon_purple.png'
+        elif icon_name == 'blue':
+            icon = 'static/images/icons/icon_blue.png'
         else:
             icon = 'static/images/icons/map-pin-silhouette32x32.png'
 

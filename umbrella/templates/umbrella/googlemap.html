@@ -134,7 +134,6 @@
                             return false;
                         });
                     })
-
                 </script>
                 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgPN0ssQZLlxZn8dFofDfWR-_hzxFAXVk&signed_in=true&callback=initMap"
                         async defer>
@@ -165,11 +164,12 @@
 {#                                TODO: Make selector can display images#}
                                 <div class="form-group">
                                     <label for="icons_selection">Select a category:</label>
-                                    <select class="btn btn-default dropdown-toggle" name="icons_selection" id="icons_selection">
-                                        <option value='Academic'>Academic</option>
-                                        <option value='Heart'>Heart</option>
-                                        <option value='Star'>Star</option>
-                                        <option value='Correct'>Correct</option>
+                                    <select class="selectpicker" name="icons_selection" id="icons_selection">
+                                        <option value='black'>Black</option>
+                                        <option value='yellow'>Yellow</option>
+                                        <option value='green'>Green</option>
+                                        <option value='purple'>Purple</option>
+                                        <option value='blue'>Blue</option>
                                     </select>
                                 </div>
                             </div>
