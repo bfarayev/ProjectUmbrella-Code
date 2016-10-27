@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+import json
 
 from .models import *
 
@@ -129,13 +130,25 @@ def create_new_post(request):
         pots_longitude = request.POST['newPostLong']
         title = 'Placeholder Title'
         content = request.POST['newPostContent']
-        icon = request.POST['icons_selection']
         description = 'Placeholder Description'
         location_ = Location(latitude=float(post_latitude), longitude=float(pots_longitude))
         location_.save()
         category_ = Category(title=title, description=description)
         category_.save()
         user = request.user
+        icon_name = request.POST['icons_selection']
+
+        # Interpret image value to path
+        if icon_name == 'Academic':
+            icon = 'static/images/icons/icon_acadamic.ico'
+        elif icon_name == 'Heart':
+            icon = 'static/images/icons/icon_heart.ico'
+        elif icon_name == 'Star':
+            icon = 'static/images/icons/icon_star.ico'
+        elif icon_name == 'Correct':
+            icon = 'static/images/icons/icon_correct.ico'
+        else:
+            icon = 'static/images/icons/map-pin-silhouette32x32.png'
 
         new_post = Post()
         new_post.icons = icon
@@ -147,7 +160,7 @@ def create_new_post(request):
         new_post.save()
 
         # Resource created
-        return HttpResponse(status=201)
+        return HttpResponse(json.dumps({'icon': icon}), content_type="application/json")
 
 
 def create_sample_data(request):
