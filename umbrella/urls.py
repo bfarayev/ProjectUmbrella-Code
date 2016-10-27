@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^contact/', views.contact, name='contact'),
     url(r'^updateUserProfile/', views.update_user_profile, name='updateUserProfile'),
     url(r'^updateUserPassword/', views.update_user_password, name='updateUserPassword'),
+    url(r'^autoRefresh/', views.auto_refresh, name='autoRefresh'),
     url(r'^robots.txt', lambda x: HttpResponse("User-Agent: *\nDisallow:", content_type="text/plain"),
         name="robots_file"),
     url(r'^9E356E0335967BC6D12CE4F970AF8C2B.txt',

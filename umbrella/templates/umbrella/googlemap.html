@@ -15,6 +15,7 @@
                     // failed.", it means you probably did not give permission for the browser to
                     // locate you.
                     var map;// set map as global variable.
+                    var post_pk = [];
                     function initMap() {
                         map = new google.maps.Map(document.getElementById('map'), {
                             center: {lat: -33.8886, lng: 151.1873},
@@ -40,27 +41,33 @@
                             // Browser doesn't support Geolocation
                             handleLocationError(false, infoWindow, map.getCenter());
                         }
-                        {% for post in post_list%}
-                            var image = '{{ post.icons.url }}';
-                            var post_location= { lat: {{ post.location.latitude }}, lng: {{ post.location.longitude }} };
-                            var postContent = '<div id="content">'+
-                                    '<div id="bodyContent"  style="word-wrap: break-word";>'+
-                                    '<img class="img-circle" src="{% static "images/profile-img.png" %}" alt="Generic placeholder image" width="28" height="28">'+
-                                    '<strong>{{ post.user.username }}</strong><br/><span class="text-muted" data-toggle="tooltip" data-placement="top" title="Posted at {{ post.timestamp|date:"P jS N"}}">commented {{ post.timestamp|timesince }} ago</span>'+
-                                    '<div class="well well-sm">{{ post.content|linebreaks|escapejs}}</div>'+
-                                    '</div>';
-                            addMarker(post_location, image, postContent);
-                        {% endfor %}
+{#                        {% for post in post_list%}#}
+{#                            addMarker('{{ post.location.latitude }}', '{{ post.location.longitude }}',#}
+{#                                    '{{ post.icons.url }}','{% static "images/profile-img.png" %}','{{ post.content|linebreaks|escapejs }}',#}
+{#                                    '{{ post.timestamp|date:"P jS N"}}', '{{ post.timestamp|timesince }}','{{ post.user.username }}',#}
+{#                                    '{{ post.pk }}');#}
+{#                        {% endfor %}#}
                     }
-                    function addMarker(location, image, postContent) {
+                    function addMarker(location_lat, location_lng, image_icon,
+                                       image_profile, postcontent, posttimestamp, posttimesince, postuser ,pk) {
                         // Add the marker at the clicked location, and add the next-available label
                         // from the array of alphabetical characters.
-                        var marker = new google.maps.Marker({
-                            position: location,
-                            map: map,
-                            icon: image
-                        });
-                        attachPostContent(marker, postContent); //attached the content with post
+                        if (!post_pk[pk]){
+                            post_pk[pk] = true;
+                            var content = '<div id="content">'+
+                                    '<div id="bodyContent"  style="word-wrap: break-word";>'+
+                                    '<img class="img-circle" src="'+image_profile+'" alt="Generic placeholder image" width="28" height="28">'+
+                                    '<strong>'+postuser+'</strong><br/><span class="text-muted" data-toggle="tooltip" data-placement="top" title="Posted at '+posttimestamp+'">commented '+posttimesince+' ago</span>'+
+                                    '<div class="well well-sm">'+postcontent+'</div>'+
+                                    '</div>';
+                            var marker = new google.maps.Marker({
+                                position: {lat:parseFloat(location_lat), lng:parseFloat(location_lng)},
+                                map: map,
+                                icon: image_icon,
+                                animation: google.maps.Animation.DROP,
+                            });
+                            attachPostContent(marker, content); //attached the content with post
+                        }
                     }
                     function attachPostContent(marker, postContent) {
                         // Add post content into icon
@@ -109,23 +116,30 @@
                                 url: "{% url 'umbrella:createNewPost' %}",
                                 data: $(this).serialize(),
                                 success: function (data) {
-                                    var location_lat = $('#latitude').val();
-                                    var location_log = $('#longitude').val();
-                                    var post_content = $('#post-content').val();
-                                    var image = data.icon;
-                                    var post_content_limit = post_content.substring(0,117)+'...';
-                                    var current_user = '{{ user.username }}';
-                                    var sidebarpost='<a href="javascript:sidebarClick('+location_lat+','+location_log+')" class="list-group-item"><div class="row"><div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"><div><img class="img-circle center-block" src="{% static "images/profile-img.png" %}" alt="Generic placeholder image" width="48" height="48"></div></div><div class="col-xs-9 col-sm-9 col-md-9 col-lg-9"><div class="bubble"><div class=""><strong>'+current_user+' </strong><span class="text-muted" data-toggle="tooltip" data-placement="top" title="Posted at 1">commented<br>0 minutes ago</span></div><div class="">'+post_content_limit+'</div><!-- /panel-body --></div><!-- /panel panel-default --></div></div></a>';
-                                    $('#sidebar-list').prepend(sidebarpost);
-                                    var post_location= { lat: parseFloat(location_lat), lng: parseFloat(location_log) };
-                                    var post_content_marker = post_content.replace(/(?:\r\n|\r|\n)/g, '<br />');
-                                    var postContent = '<div id="content">'+
-                                            '<div id="bodyContent"  style="word-wrap: break-word";>'+
-                                            '<img class="img-circle" src="{% static "images/profile-img.png" %}" alt="Generic placeholder image" width="28" height="28">'+
-                                            '<strong>'+current_user+'</strong><br/><span class="text-muted" data-toggle="tooltip" data-placement="top" title="Posted at now">commented 0 minutes ago</span>'+
-                                            '<div class="well well-sm">'+post_content_marker+'</div>'+
-                                            '</div>';
-                                    addMarker(post_location, image, postContent);
+                                    $.ajax({
+                                        type: "GET",
+                                        url: "{% url 'umbrella:autoRefresh' %}",
+                                        success: function (data) {
+                                            for (var i =0;i<data.content.length;i++){
+                                                var content = data.content[i];
+                                                var username = data.user[i];
+                                                var image = data.image[i];
+                                                var lat = data.lat[i];
+                                                var lng = data.lng[i];
+                                                var pk = data.pk[i];
+                                                var timesince = data.time_since[i];
+                                                var time = data.time[i];
+                                                var image_profile = '{% static "images/profile-img.png" %}';
+                                                addMarker(lat,lng,image,image_profile,content,time,timesince,username,pk);
+                                            }
+                                        },
+                                        error: function () {
+                                            console.log('something wrong man!');
+                                        }
+                                    });
+                                    $('#sidebar-list').load(' #sidebar-list', function(){
+                                        $(this).children().unwrap();
+                                    });
                                 },
                                 error: function(data){
                                     alert("Humm.. something strange happened.. try again or contact admin"); // for debugging
@@ -133,6 +147,32 @@
                             });
                             return false;
                         });
+                        setInterval(function(){
+                            $('#sidebar-list').load(' #sidebar-list', function(){
+                                $(this).children().unwrap();
+                            });
+                            $.ajax({
+                                type: "GET",
+                                url: "{% url 'umbrella:autoRefresh' %}",
+                                success: function (data) {
+                                    for (var i =0;i<data.content.length;i++){
+                                        var content = data.content[i];
+                                        var username = data.user[i];
+                                        var image = data.image[i];
+                                        var lat = data.lat[i];
+                                        var lng = data.lng[i];
+                                        var pk = data.pk[i];
+                                        var timesince = data.time_since[i];
+                                        var time = data.time[i];
+                                        var image_profile = '{% static "images/profile-img.png" %}';
+                                        addMarker(lat,lng,image,image_profile,content,time,timesince,username,pk);
+                                    }
+                                },
+                                error: function () {
+                                    console.log('something wrong man!');
+                                }
+                            });
+                        }, 1000);
                     })
                 </script>
                 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgPN0ssQZLlxZn8dFofDfWR-_hzxFAXVk&signed_in=true&callback=initMap"

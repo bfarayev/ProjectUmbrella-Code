@@ -4,8 +4,29 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 import json
+from django.template import defaultfilters
 
 from .models import *
+
+
+def auto_refresh(request):
+    if request.method == 'GET' and request.is_ajax():
+        latest_post_list = Post.objects.all().order_by('-timestamp')
+        lat = [latest_post.location.latitude for latest_post in latest_post_list]
+        lng = [latest_post.location.longitude for latest_post in latest_post_list]
+        username = [latest_post.user.username for latest_post in latest_post_list]
+        content = [latest_post.content for latest_post in latest_post_list]
+        pk = [latest_post.pk for latest_post in latest_post_list]
+        image = [str(latest_post.icons) for latest_post in latest_post_list]
+        time = [defaultfilters.date(latest_post.timestamp, "P jS N") for latest_post in latest_post_list]
+        time_since = [defaultfilters.timesince(latest_post.timestamp) for latest_post in latest_post_list]
+
+        combine_data = json.dumps({'lat': lat, 'lng': lng, 'user': username, 'content': content,
+                                   'pk': pk, 'image': image, 'time': time, 'time_since': time_since})
+        return HttpResponse(combine_data
+                            , content_type="application/json")
+    else:
+        return render(request, 'umbrella/googlemap.html')
 
 
 def update_user_profile(request):
