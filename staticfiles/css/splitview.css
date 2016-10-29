@@ -5,7 +5,7 @@ body, html {
     /*padding-top: 65px;*/
 }
 
-@media (min-width: 768px){
+@media (min-width: 1200px){
     #left {
         /*position: absolute;*/
         /*top: 50px;*/
@@ -29,6 +29,53 @@ body, html {
     #map {
         /*Below code sets height accounting for the 50px deep navbar*/
         height: calc(100% - 50px);
+    }
+}
+
+@media (min-width: 992px)
+    and (max-width: 1200px){
+    #left {
+        /*position: absolute;*/
+        /*top: 50px;*/
+        /*bottom: 0;*/
+        left: 0;
+        width: 66%;
+        /*overflow-y: scroll;*/
+    }
+
+    #right {
+        /*position: absolute;*/
+        top: 20px;
+        bottom: 0;
+        right: 0;
+        overflow-y: scroll;
+        width: 34%;
+        word-wrap: break-word;
+        height:100%;
+    }
+
+    #map {
+        /*Below code sets height accounting for the 50px deep navbar*/
+        height: calc(100% - 50px);
+    }
+}
+
+@media (max-width: 992px){
+    /* Styles */
+    #left {
+        height: 40%;
+        /*top: 50px;*/
+    }
+
+    #right {
+        height: 60%;
+        top: 20px;
+        overflow-y: scroll;
+        word-wrap: break-word;
+    }
+
+    #map {
+        height: 100%;
     }
 }
 

@@ -157,3 +157,5 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "staticfiles")
     # Add 'staticfiles' folder which contains static files such as css/js and images
 ]
+
+SECURE_BROWSER_XSS_FILTER = True
